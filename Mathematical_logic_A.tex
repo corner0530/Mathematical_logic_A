@@ -1,0 +1,2368 @@
+\documentclass{ltjsarticle}
+
+\usepackage{bm}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{longtable}
+%\usepackage{mathcomp}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{wrapfig}
+\usepackage{amsthm}
+\usepackage{newtxtext,newtxmath}
+\usepackage{mathrsfs}
+%\renewcommand{\bf}{\bfseries\sffamily}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{physics}
+\usepackage{listings,jvlisting}
+\usepackage{bussproofs}
+\usepackage{comment}
+\usepackage[stable]{footmisc}
+
+\lstset{
+  %	\begin{lstlisting}[caption=hoge,label=fuga]
+  %		ソースコード
+  %	\end{lstlisting}
+  basicstyle={\ttfamily},
+  identifierstyle={\small},
+  commentstyle={\smallitshape},
+  keywordstyle={\small\bfseries},
+  ndkeywordstyle={\small},
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},
+  numbers=left,
+  xrightmargin=0zw,
+  xleftmargin=3zw,
+  numberstyle={\scriptsize},
+  stepnumber=1,
+  numbersep=1zw,
+  lineskip=-0.5ex
+}
+
+\newtheoremstyle{mystyle1}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnumber{#2}\thmnote{（#3）\\}}% Theorem head spec (can be left empty, meaning `normal^\prime )
+\theoremstyle{mystyle1}
+\newtheorem{dfn}{定義}[part]
+\newtheorem{thm}[dfn]{定理}
+\newtheorem{axi}[dfn]{公理}
+\newtheorem{cor}[dfn]{系}
+\newtheorem{prop}[dfn]{命題}
+\newtheorem{lem}[dfn]{補題}
+\newtheorem{exs}[dfn]{例題}
+
+\newtheoremstyle{mystyle2}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnote{（#3）\\}}% Theorem head spec (can be left empty, meaning `normal^\prime )
+\theoremstyle{mystyle2}
+\newtheorem{dfn*}{定義}
+\newtheorem{thm*}{定理}
+\newtheorem{ex}{例題}
+\newtheorem{example}{例}
+\newtheorem{qes}{問題}
+\newtheorem{rem}{注意}
+\newtheorem{ans}{解答}
+\newtheorem{note}{注}
+\newtheorem{lem*}{補題}
+\newtheorem{summary}{まとめ}
+\newtheorem{conclusion}{結論}
+\newtheorem{supple}{補足}
+
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+  \pushQED{\qed}%
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries\sffamily #1}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\renewcommand\proofname{\ensuremath{\because}}
+\renewcommand{\qedsymbol}{\ensuremath{\square}}
+\makeatother
+
+\newcommand{\uA}{\underline{A}}
+\newcommand{\uB}{\underline{B}}
+\newcommand{\uC}{\underline{C}}
+\newcommand{\uD}{\underline{D}}
+\newcommand{\uE}{\underline{E}}
+\newcommand{\bT}{\ensuremath{\mathbf{T}}}
+\newcommand{\bF}{\ensuremath{\mathbf{F}}}
+\newcommand{\bV}{\ensuremath{\mathbf{V}}}
+\newcommand{\bN}{\ensuremath{\mathbf{N}}}
+\newcommand{\bPro}{\ensuremath{\mathbf{Pro}}}
+\newcommand{\rT}{\ensuremath{\mathrm{T}}}
+\newcommand{\rF}{\ensuremath{\mathrm{F}}}
+\newcommand{\cF}{\ensuremath{\mathcal{F}}}
+\newcommand{\dequal}{\ensuremath{\stackrel{\rm{def}}{=}}}
+\newcommand{\dequiv}{\ensuremath{\stackrel{\rm{def}}{\equiv}}}
+\newcommand{\darrow}{\ensuremath{\stackrel{\rm{def}}{\Leftrightarrow}}}
+\newcommand{\lequiv}{\ensuremath{\models\!\mid}}
+\newcommand{\red}[1]{{\color{red} #1}}
+
+\begin{document}
+
+\title{数理論理学A メモ}
+\author{T.Sakuragawa}
+\date{\today 現在}
+\maketitle
+
+\setcounter{section}{-1}
+\section{数理論理学とは\footnote{本節の内容と各節の最初の部分は大まかな説明であり，其々に対応する細部の説明があれば参照すること． \red{赤}は強調部分或いは重要概念(の初出)である．}}
+以下の学問分野はある程度似た分野を意味する．
+\begin{enumerate}
+  \item 数理論理学(Mathematical Logic)
+  \item 数学基礎論(The Foundations of Mathematics)
+  \item 記号論理学(Symbolic Logic)
+  \item 形式論理学(Formal Logic)
+\end{enumerate}
+これらは記号を使って論理を厳密に定義し，それによって論理そのものあるいはそれを使って行う数学について研究する分野である．
+
+ただし研究の方向性はいくつかある．
+\begin{enumerate}
+  \item 論理そのものを記号化して研究するもの．必ずしもその中で数学を展開しない．
+  \item 記号化した論理が最初にあり，それの一部として数学が展開されるという立場のもの．
+  \item 記号化した論理とそれに纏わる数学を研究対象とし，数学の研究結果と方法を適用するもの．
+  \item 3のうち，対象を紙に書ける具体的な記号列のみで表せる論理とし，それらに対する有限的な推論のみを用いて無矛盾性を示すもの．
+\end{enumerate}
+数理論理学の教科書の多くは3の立場で書かれているし，この資料も同じである．ただしそれぞれ中身の一部が4の立場を取っている(説明している)場合がある．
+
+最後の名称:数学基礎論は数学の基礎に関する研究という意味だが，実際の中身は応用数学とも言える．Hilbertの計画からは正にそうと言える．
+\subsection{古典命題論理と古典一階述語論理を扱う}
+数理論理学が対象とする論理は多数ある．それらのうちこの資料では(古典)命題論理(propositional logic)，(古典)一階述語論理(first order predicate logic)それぞれの証明論，モデル論の土台である意味論(Semantics)，計算論の入り口を，特にコンピュータ(計算機)との関わりの部分について詳しめに解説する．\\
+ここでは用語の一部をざっと説明する．ただし後でもう少し詳しい説明を行う．\\
+\red{古典}とはlogicの文脈では\red{二値}とだいたい同じことを意味する場合が多い． 真か偽かどちらかであるような論理を意味する(詳しく言えばBoole代数であればよい)．\red{命題}とは一般に\red{真理(真偽)値}が定まる言明のことである． 命題論理では命題の中身は問わずに命題変数とし，それらを$\wedge$(and)や$\vee$(or)，$\neg$(not)などの論理結合子で結合してできる論理式の性質を考察する．\\
+\red{述語}とは引数(ひきすう)を取って 真理値が定まるもので，例えば$=$や$\in$がそうである．述語論理では$\forall$(全て)と$\exists$(存在)という\red{量化記号}を用いる．さらに現代の述語論理では定数記号・函数記号も用いる．述語論理では目的によって用いる定数記号と函数記号の集合が異なるため，それらの違いにより論理式達の言語$L$が異なってくるところが命題論理と異なる．\red{一階}，というのは変数の動く範囲が自然数全体の集合，集合全体などの基本的な数学的対象の集合あるいはクラスであり， 函数や集合の上を動く変数はないという意味である． 一階述語論理以外の論理には二階述語論理や高階論理がある．一階述語論理を用いるとその中で自然数論など，ある種の数学を展開できる(その中で全ての数学を展開できる集合論を一階述語論理で展開できるという意味では全ての数学を展開できる)．二階述語論理によりある種の解析学を展開できる．
+\subsection{論理式を数学的に扱う}
+形式言語理論での扱いとは異なるが，本質的に\red{形式的構文規則}(formal syntax)により論理式を定義する．論理式全体の集合(the set of logical formulas)を一意に定める．\\
+文法的に正しい論理式と，そうでない論理式を機械的に判定できる(これを指して\red{決定可能}と言う．論理式の候補を記号列として入力すると，必ず停止し，yes, noを正しく答えるプログラムを書けること．言い換えると誰が判定しても同じ結果になるということ)．\\
+数学的に厳密に定義する理由は，(1)数学的に厳密な議論を展開したいためと，(2)特に不可能性の証明のため．
+\subsection{数理論理学は主に4分野から成る}
+以下の4つの分野から成る．
+\begin{enumerate}
+  \item 証明論(Proof theory)
+  \item モデル論(Model theory)
+  \item 計算論(Theory of Computation)，再帰理論(Recurtion Theory)
+  \item 公理的集合論(Axiomatic Set Theory)
+\end{enumerate}
+それぞれある程度後述する．
+\subsubsection{証明論}
+正しい論理式を文字列として定義する．意味は(表面上)考えない(形式的)．\\
+条件なしで正しい論理式を\red{公理}(axiom)と呼ぶ． 公理全体の集合は通常は決定可能なものとして与える．大まかに言えば，他の正しい論理式達から他の正しい論理式を導く規則を\red{推論規則}(derivation rule)と呼ぶ．公理から推論規則の適用を有限回繰り返して得られる(正しい)論理式を\red{定理}(theorem)と呼ぶ．正しい論理式(定理)全体の集合は通常，全て機械的に生成できる(\red{再帰的可算}あるいは\red{半決定可能}．決定可能との違いは，判定するプログラムが止まらない場合も許した上で，論理式がその集合に入っている$\Leftrightarrow$論理式をプログラムの入力とすると停止してyesを返すとなること)ものとなる場合が多い．証明論的な正しさが定義される．一階述語論理の閉論理(自由変数が現れない論理式)の集合(理論と呼ぶ．通常の数学で言う公理に当たる)から推論規則を繰り返し適用して得られる定理を求めていくのが，数学の現場で行われていることの形式的なモデル化になっている(ただしこの部分は実際に全くそうであることを証明できるわけではない)．
+\subsubsection{意味論}
+他の数学的対象を用いて論理式に意味を与える．例えば集合論により各論理式に真偽値を与える(Tarski意味論，$L$構造と呼ぶ)．古典一階述語論理の場合，空でない集合$D$，定数・函数記号と述語記号の意味をそれぞれ具体的な$D$上の定数・函数，$D$の(いくつかの直積の)部分集合として与える．すると各(閉)論理式に対してそれが真か 偽かが数学的に定義される(決定可能とは限らない)．圏論(Category theory)を使って意味を与える方法もある(図論理(Categorical Logic))論理式の意味論的な正しさが定義される．\\
+証明論的な正しさと意味論的な正しさが一致する場合がある(完全性(completeness)と健全性(soundness)．古典命題論理，古典一階述語論理では一致する)ある理論$T$に対し，その元の論理式達を全て真にする$L$構造を$T$のモデルと呼ぶ．
+\subsubsection{計算論}
+計算(computation)とは何かと，計算可能(computable)函数を厳密に定義する．特性(charactaristic)函数が計算可能な(自然数の部分)集合を決定可能(decidable)集合と言う．計算不可能な函数の存在は集合論の濃度(cardinality)の概念によりすぐ分かる．Turingが対角線論法(diagoral argument)により具体的に構成した．決定可能性(decidability)，半決定可能性(semidecidability), 再帰(帰納)的可算(recursively enumerable)などが基本的な概念．誰が実行しても，計算機が実行しても結果は同じ．曖昧性がない．
+\subsubsection{公理的集合論}
+集合論を形式的に(記号論理により)取り扱う．記号論理を援用しないと厳密に議論しにくい(不可能性等の証明含む)．そもそも数理論理学の誕生の原因の一つが(素朴)集合論での多数のパラドックスの発見であった．
+
+\section{内容}
+キーワードを並べておく(本節は厳密でない)．
+\begin{enumerate}
+  \item (古典)命題論理\\命題論理式, メタと対象, 命題論理の意味論, 決定問題, 帰納的可算, 非決定性チューリング機械, 多項式時間帰着可能性, NP完全性, 論理的帰結, 論理的同値, 論理式の同値変形, CNF, DNF, 形式的体系, シーケント計算, (体系の)健全性, 完全性, Wangのアルゴリズム, Cut除去定理
+  \item (古典)一回述語論理については省略する．
+\end{enumerate}
+
+\subsection{命題論理式の例}
+古典\red{命題論理式}の例を示す(最初なので時々略さず括弧を書いている)．
+\[\left(\uA\wedge\uB\right)\to\uC\]
+ここで $\uA,\uB,\uC$を\red{命題変数}という．$\wedge,\to$などは\red{論理記号}という(他の呼び方もあり，後述)．
+\subsection{命題論理の意味論}
+\red{真理値}とは，正しさの程度を表す値であり，古典(二値)論理の場合には$\bT$即ち真(正しいこと)と$\bF$即ち偽(誤っていること)である．\red{真理値表}とは，論理式中の命題変数の真理値の組み合わせに対し，それぞれの場合の論理式の真理値を書き表したものである．例えば以下が上の論理式の真理値表である．
+\begin{center}
+  \begin{tabular}{|c|c|c||c|c|}\hline
+    $\uA$ & $\uB$ & $\uC$ & $\uA\wedge\uB$ & $\uA\wedge\uB\to\uC$ \\\hline\hline
+    $\bF$ & $\bF$ & $\bF$ & $\bF$          & $\bT$                \\\hline
+    $\bF$ & $\bF$ & $\bT$ & $\bF$          & $\bT$                \\\hline
+    $\bF$ & $\bT$ & $\bF$ & $\bF$          & $\bT$                \\\hline
+    $\bF$ & $\bT$ & $\bT$ & $\bF$          & $\bT$                \\\hline
+    $\bT$ & $\bF$ & $\bF$ & $\bF$          & $\bT$                \\\hline
+    $\bT$ & $\bF$ & $\bT$ & $\bF$          & $\bT$                \\\hline
+    $\bT$ & $\bT$ & $\bF$ & $\bT$          & $\bF$                \\\hline
+    $\bT$ & $\bT$ & $\bT$ & $\bT$          & $\bT$                \\\hline
+  \end{tabular}\\
+\end{center}
+真理値表の値が全て$\bT$となる論理式を\red{トートロジー}と呼ぶ．例えば，$\left(\uB\vee\uA\right)\to\left(\left(\uA\vee\uB\right)\vee\uC\right)$などはそうである．これは各命題変数の値に関わらず，常に真であるということであり，常に成り立つ式，つまり\red{恒真式}である．
+\subsection{証明図の例}
+シーケント計算LKでの証明図の例を示す．
+\begin{prooftree}
+  \AxiomC{$\uB\vdash\uB$}
+  \UnaryInfC{$\uB\vdash\uA\vee\uB$}
+  \AxiomC{$\uA\vdash\uA$}
+  \UnaryInfC{$\uA\vdash\uA\vee\uB$}
+  \BinaryInfC{$\uB\vee\uA\vdash\uA\vee\uB$}
+  \UnaryInfC{$\uB\vee\uA\vdash\qty(\uA\vee\uB)\vee\uC$}
+  \UnaryInfC{$\vdash\uB\vee\uA\to\qty(\uA\vee\uB)\vee\uC$}
+\end{prooftree}
+一方$\uA\wedge\uB\to\uC$の証明図は存在しない．論理式$E$が恒真式であることと$\vdash E$の証明図が存在することが同値であることを証明できる．同値であるという事実を指して\red{完全性}(あるいは概念を2つに分けて完全性と\red{健全性})と言う．
+\subsection{標準形の例}
+一般に論理式の標準形とは，元の論理式と同等で，ある一定の形になっているもののことを言う．多項式の展開が，多項式のある種の標準形を求めていると考え，それと同じようなことを論理式で行うと考えるとよい．例えば$\uA\wedge\uB\to\uC$のCNF(論理積標準形)とDNF(論理和標準形) は両方とも$\neg\uA\vee\neg\uB\vee\uC$である($\neg$は否定の記号．一般には2つの標準形は異なる)．
+\section{古典命題論理}
+この資料では，まず古典命題論理(以下では「古典」の部分や「命題」の部分を省略する場合がある)について紹介する．最初に命題論理式というものを定義する．論理式は帰納的に(必ずしも意味を持たない)記号列として定義される．数学的に厳密な定義である．これにより，論理式について成り立つ事柄を証明する時に，帰納法により証明することが可能となる．
+
+次にメタと対象の違いについて説明する．対象は，この場合研究対象となっている命題論理式達である．メタレベルでは，それらについて数学的議論を行う．この違いは重要であり，十分に理解しておかないと混乱する原因となる．
+
+次に命題論理式の意味を定める．これは個々の論理式を真理値に対する函数として表す方法である．真理値表により，それら函数を表現することについても説明する．また，技術的に便利でメタレベルの証明に利用するため付値を定義する．函数として見た時，あるいは真理値表で表した時に結果の真理値が常に真であるような命題論理式をトートロジーと呼ぶ．
+
+本稿ではその後，決定問題と決定可能性について説明することにする．後者は，必ず停止する計算機プログラムでyesかnoで答えられるということである．また授業の本筋から少し外れるが，SAT問題とNP完全性についてある程度説明する．
+
+NP完全性の部分については最初は飛ばしていただいても構わない．
+
+次に論理式の同値変形，標準形について説明し，真理値表からそれに対応する命題論理式を求める方法を説明する．
+
+命題論理の形式的体系についても説明する．これは記号列の操作として正しい論理式を求める方法であり，公理から推論を行なって正しい論理式(定理と呼ぶ)を導いてゆく．数学でいう証明に対応するものである(ただし実際の数学の証明を行うには，少なくとも一階述語論理が必要である．授業後半で扱う予定である)．形式的体系にはいろいろあるが，本稿ではシーケント計算の体系を扱う．このようにして論理式の正しさには，トートロジーであることと，定理であることという2つの正しさが定義される．古典命題論理の場合，結果的にはこれら2つの正しさは一致することを示す．
+
+予定している命題論理についての説明はとりあえず以上である．
+\subsection{論理式}
+古典命題論理(classical propositional logic)の論理式は以下のようにして定義される．ここでわざわざ古典と付けたのは古典的でない論理もあるからで，それらの場合には以下に出てくる以外の記号が入ってくる場合もある(以下で導入される演算子を用いて定義できない場合，それらは\red{様相演算子}(modal operator) と呼ばれる場合が多い)．ただし例えば\red{直観論理}(intuitionistic logic)は古典論理と異なる論理で論理式が表す意味も異なるが，利用される記号は以下の定義の場合とほぼ同じである．古典論理は歴史的に最も早く数学的に研究された論理であり，意味のつけ方も最も単純で，通常はこれを最初に学習する．
+\begin{dfn}\label{dfn:formula}
+  \textbf{命題論理式}\\$\bV$を可算無限集合(自然数全体の集合と要素達を一対一対応させられる集合)とするとき，命題論理の\red{論理式}(formula)の集合\textbf{Pro}を以下のように定義する．
+\end{dfn}
+\begin{enumerate}
+  \item $\bV\subseteq\bPro$である．
+  \item $X\in\bPro$のとき，$\neg X\in\bPro$である．
+  \item $X,Y\in\bPro$のとき，$X\wedge Y,X\vee Y,X\to Y\in\bPro$である．
+  \item 以上のようにしてできるもののみが$\bPro$の元である．
+\end{enumerate}
+ここで4は省略する場合がある．また，常に真，あるいは偽であることを表す論理定数$\bT,\bF$などを付け加える場合もある．$\bV$の元を\red{命題変数}(propositional variable) と呼ぶ．$|\bV|= \aleph_0$(アレフゼロと読む．自然数全体の集合の\red{濃度}(cardinal number)．この場合要するに変数の数が自然数と同じだけあるという意味である)としているのは，必要なだけいくらでも変数を用意することができるためである．しかしながら$\bPro$の各元，即ち各論理式にはそれぞれ有限個の命題変数しか現れないことに注意してほしい．命題変数以外の記号としては，後述するように補助的に用いる括弧以外には$\neg,\wedge,\vee,\to$のみである．これら4つの記号を\red{論理記号}(logical symbol)あるいは\red{論理演算子}(logical operator)，\red{論理結合子}(logical connective)などと呼ぶ．$\neg$は単項演算子，$\wedge,\vee,\to$は二項演算子である．
+
+ここでは$\bV = \{\uA, \uA_1, \ldots, \uB. \uB_1, \ldots\}$としておく． $\bV$を取り換えても数学的理論には変化がないからである．すると論理式の例は$\uA\wedge\uB, \left(\uA\wedge\uB\right) \to \left(A\vee\left(\neg \uD\right)\right)$などである．一方$\uA\neg\uB, \wedge, \uA\vee$などは使っている記号は同じだが論理式ではない．
+
+$X$と$\uA$は両方とも変数だが，両者の違いは，前者は数学的な議論を行うレベル(メタレベル)の変数であり，後者は数学的な議論の対象となるレベル(対象レベル)の記号のうち変数を表す記号であるということである．この違いは重要であり，詳しくは\ref{sec:meta-obj}で述べる．
+
+古典論理の場合，論理演算子としてさらに$\leftrightarrow$(同値) や$\veebar$(排他的論理和)などを加えてもよいし，逆に$\wedge$あるいは$\vee$を減らすことも可能である．後で出てくるように意味的にはド・モルガンの法則を用いて$\neg$と，$\vee$あるいは$\wedge$により$\wedge$あるいは$\vee$を表すことができるからである．同様に$\to$を減らす，あるいは逆にこれと$\neg$のみを用いる流儀もある．なお$\leftrightarrow$や$\veebar$は4つの論理演算子の一部を用いて表すことができる．Shoeferの棒記号\verb!|!という二項論理演算子を用いる方法もあり，ただ一つの演算子\verb!|!ですべての他の論理演算子を表すことができる．(論理回路についてご存知の方のみへの説明:)これは丁度，論理回路で2入力のNANDあるいはNORのみがあれば全ての論理回路を構成可能であることに対応している．
+
+論理式を以上のようにして帰納的に定義する理由は，こうすれば数学的に厳密に定義できるということに加えて，論理式について何かを証明するときに，\red{論理式の構成に関する帰納法，あるいは構造帰納法}(structual induction)を使うことができるためである．これは非常に重要なポイントなのでよく認識してほしい．
+
+例えば論理式についてのある性質$P\left(-\right)$がすべての論理式について成り立つことを示したいとする．そのためには，$P\left(X\right)$がすべての命題変数$X\in\bV$について成り立つことと(base case)， $P(X),P(Y)$が成り立つと仮定した場合に(帰納法の仮定)，$P(\neg X)$, $P(X\wedge Y)$,$P(X\vee Y)$, $P(X \to Y)$が成り立つことをすべての論理式$X,Y\in \bPro$に対して示せば(induction step)十分である．自然数を0と，\red{後者函数}(successor functions)により帰納的に定義することができ，その場合に自然数についての数学的帰納法が成り立つことと対比してみてほしい．
+
+記号として$\wedge$の代わりに$\&,\to$の代わりに$\Rightarrow$や$\supset$，$\neg$の代わりに$~$を使う場合がある\footnote{本稿では$\Rightarrow$や$\Leftrightarrow$はそれぞれメタレベル(\ref{sec:meta-obj}参照)の 「ならば」，「同値」(必要十分条件)として使用している．}．$\wedge$は「かつ」(and)，$\vee$は「または」(or)，$\neg$は「～でない」(not)，$\to$は「ならば」(implies)という風に読んでよいし，いずれそのような意味を与えることを想定してはいるが，ここでは意味を未だ考えず，論理式を単なる記号の列，あるいはそれらから作られる木(tree) として扱っていることに注意してほしい．
+
+つまり数学的考察の対象とする論理式は記号列あるいは木である．両者の間には，正確に言えば前者の記号列から(コンパイラなどの言語処理系のように)構文解析を行って木として表現したのが後者であるという違いと関係がある．しかしそれらの間の変換を比較的容易に行うことができるし，論理式についての証明中で，どちらかの形で表されていることを暗黙のうちに仮定して証明しても問題がない場合が多いため，どちらの形で表すことを仮定しているかを特に明記しない場合が多い．変換は，記号列や木の大きさの線形～二乗程度の作業量である．
+\begin{align}
+   & \uA\wedge\left(\uB\vee\neg\uC\to\uD\right),                           \\
+   & \uA\wedge\left(\left(\uB\vee\left(\neg\uC\right)\right)\to\uD\right),
+\end{align}
+\begin{center}
+  \begin{tikzpicture}
+    \node{$\wedge$}
+    child {node{$\uA$}}
+    child {node{$\to$}
+        child{node{$\vee$}
+            child{node{$\uB$}}
+            child{node{$\neg$}
+                child{node{$\uC$}}}}
+        child{node{$\uD$}}};
+  \end{tikzpicture}
+\end{center}
+
+
+ただし本稿に限らず紙面上に論理式を表記する場合には大部分の場合，記号列として表している．
+\paragraph{部分論理式}
+ある論理式$X\in \bPro$について，$X$と$Y$が等しい場合も含めて$Y\in\bPro$が$X$の一部となっている場合がある．つまり $X$を定義\ref{dfn:formula}に従って構成する途中で$Y$が現れている場合である．このような場合，$Y$を$X$の\red{部分論理式}(subformula)と呼ぶ．論理式$X$の大きさは有限なので，$X$の部分論理式全体も有限個である．命題変数$A$が論理式$X$の部分論理式である場合，$A$は$X$に\red{出現する}(occur)と言う．ある論理式に出現するすべての命題変数の集合も有限である．例えば上4つは一番下の式の部分論理式である．
+\begin{align}
+   & \uB,                                        \\
+   & \uB\vee\neg\uC\to\uD,                       \\
+   & \uB\vee\neg\uC,                             \\
+   & \uA\wedge\left(\uB\vee\neg\uC\to\uD\right), \\
+   & \uA\wedge\left(\uB\vee\neg\uC\to\uD\right),
+\end{align}
+しかし以下はその式の部分論理式ではない．
+\begin{align}
+   & \uE,                                        \\
+   & \uC\vee\neg\uB,                             \\
+   & \uA\wedge\left(\uC\vee\neg\uB\to\uD\right).
+\end{align}
+\paragraph{補助記号}
+論理式を記号列として表す場合には，括弧を付けて曖昧性をなくす必要がある．例えば$\uA\wedge\uB\vee\neg\uC\to\uD$は，$\uA\wedge\left(\left(\uB\vee\left(\neg\uC\right)\right)\to\uD\right)$，$\left(\uA\wedge\uB\right)\vee\left(\neg\left(\uC\to\uD\right)\right)$などの複数の可能性がある．
+
+本稿では，$\neg$が最も結合力が高く，$\wedge$と$\vee$がその次で，$\to$が一番低いとすることで，括弧の数を減らして表す．ただし今の例の場合には，このようにしても$\left(\uA\wedge\left(\uB\vee\left(\neg\uC\right)\right)\right)\to\uD$と$\left(\left(\uA\wedge\uB\right)\vee\left(\neg\uC\right)\right)\to\uD$の二通りの可能性があり，それぞれ括弧をできる限り省略した場合には$\uA\wedge\left(\uB\vee\neg\uC\right)\to\uD$と$\left(\uA\wedge\uB\right)\vee\neg\uC\to\uD$となる．論理演算子の結合力は文献によって異なる場合があるので注意すること．
+
+括弧なしで$\wedge,\vee,\to$がそれぞれ3つ以上連続して使われた場合にどう結合するか決めるのに，左右どちらに優先して結合するかを指定するのが一つの方法である．しかし本稿ではそうせず，括弧を付けて曖昧性をなくすこととする．ただし，後で見るように$\wedge$と$\vee$については意味上結合法則と交換法則が成り立つため，可換環の演算の$+$や$\cdot$のように括弧を付けずに表すこともある．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item 命題変数が5回以上出現する命題論理式を3つ以上示せ．
+  \item 使われている記号は命題論理式と同じだが，命題論理式ではない記号列を3つ以上示せ．
+\end{enumerate}
+\subsection{メタと対象}\label{sec:meta-obj}
+ここでメタ言語と対象言語について説明する．数理論理学のうち，古典命題論理の直接の数学的な研究対象は，$\bPro$という集合とその元である．このような記号列，あるいは木から成る研究対象の集合を\red{対象言語}(object language) と呼ぶ．一方，それらについて数学的な議論を行う際には自然言語である英語や日本語を用いる．これらの言語のことを\red{メタ言語}(meta language) と呼ぶ．メタ言語まで記号化・(1レベル上の)対象化することも可能だし，実際行う場合もあり，その場合にはそれについて議論を行うのはメタ・メタ言語ということになる．ここではそれについてはこれ以上触れない．
+
+数理論理学では対象言語とメタ言語をはっきり区別することが必要である．論理記号$\neg,\wedge,\vee,\to$や論理定数$\bT,\bF$，補助記号(,)は対象言語の記号である．
+
+特に同じ用語を双方に対して用いる場合に，慣れるまで混乱を招きやすいため，区別が重要となる．例えば\red{証明}(proof)という言葉は，メタ言語で書かれた数学的な証明を指すのに使われるし，対象言語である論理式の正しさを導き出すある種のデータのことを指すのにも使われる(後出)．後者は対象レベルの証明である(本稿では対象レベルについてなるべく\red{証明図}あるいは\red{証明木}という言葉を使うことにする)．また，\red{定理}(theorem)という言葉は，メタ言語で書かれた数学的な定理を指すのに使われるし，対象言語である論理式のうち，それの証明図が存在して正しいと確認できる論理式を指すのにも使われる(これも後出，文脈から問題ない時には本稿ではなるべく\red{定理スキーマ}などの言葉を使うことにする)．メタ言語で書かれた数学的な定理の証明はメタ言語で書かれるし，対象言語の定理(スキーマ)の証明図は対象レベルの言語(あるいは木)で記述される．
+
+また，記述中に現れる変数が，メタ変数なのか対象言語の変数なのかを区別することも重要である．例えば本稿では，命題論理で扱う命題変数は 対象言語の変数であり，$\uA,\uB_1$などというように 下線\underline{\ }を付けて表記している．これは対象言語の変数であることを明示するためである．ただし論理演算子$\neg,\wedge,\vee,\to$は対象記号だが，\underline{\ }を付けていない．それに対し，本文中の$X,Y,Z$などの変数記号はメタ変数であり，これらに入るのは対象言語の論理式である．他にも本稿では$\Sigma$を記号の集合を表すメタ変数として用いている．また$A$という記号を$\Sigma^\ast$の部分集合を表すメタ変数として用いている．これは$\uA$という対象言語の変数とは別物である．
+
+ただし，メタ変数と対象言語の変数の表記上の区別を常に厳密につけると煩わしい面もある．読者(ともちろん著者)の意識の中ではっきりと区別が付いていれば十分なので，読者の文脈を読み取る力を信用して同じ記号を用いている教科書もよくある．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[3.] ここまでに出現した，本文中の対象言語の変数とメタ変数を全て指摘せよ．
+\end{enumerate}
+\subsection{意味論}
+ここまでは論理式は単なる記号列に過ぎず，意味を持たなかった．今から論理式に意味を与えることを考える．一般に論理式などの記号列の意味についての数学的な理論を\red{意味論}(semantics)と呼ぶ．本稿ではまず，意味論で論理式の正しさを定義することになる．一方これまでの記号列としての理論を\red{構文論}(syntax)と呼ぶ．構文論的な正しさの定義をいずれ行い(こちらを先に行ってもよい)，両者が一致することを示すこととなる．
+
+古典命題論理の意味論の場合，各論理式や命題変数に以下の集合の元を与えることを考える．\footnote{$\bT\bV$という表記法を本稿では用いているが，これは一般的なものではない．}
+\[\bT\bV\dequal\{\bT,\bF\}\]
+$\bT\bV$の元を\red{真理値}(truth value)，あるいは\red{真偽値}と呼ぶ．$\bT$は真，$\bF$は偽を表している．$\bT,\bF$の代わりに$\top,\perp$あるいは\textbf{true},\textbf{false}，\textbf{1},\textbf{0}などと表記する場合もある．このように二値の真理値を使うため，その場合には古典論理は二値論理とも言われる．
+
+$\bT,\bF$と論理定数のT,Fは別物なので注意してほしい．前者は対象言語の外にある数学的対象だし，後者はそれぞれ対象言語中の記号である．古典論理の意味は$\bT\bV$を用いて与えるのが普通なので，それを強調する場合には二値論理という言い方をする．これは$\bT\bV$が2つの元から成るためである．$\bT\bV$を他のものに変えて意味を付けることも可能であり，例えば$\bT\bV$の代わりに一般の\red{ブール代数}(boolean algebra)を用いることも可能である．$\bT\bV$(に演算を入れたもの)は自明(一点集合)でない最も簡単なブール代数なのである．$\bT\bV$を用いて論理記号や論理式の意味を表すことを始めたのはイギリスの数学者Booleであり，この名前が付いている．ただし古典命題論理の場合には，$\bT\bV$を一般化しても目新しい結果を得られるわけではなく，$\bT\bV$のみを考えていても同じである．
+
+さらに，$\bT\bV$やブール代数ではなく，論理演算子$\neg,\wedge,\vee,\to$や，他の増やしたあるいは減らした論理演算子の意味を与えられるような別の代数を用いて論理式の意味を与えることも可能であり，そうすると一般には古典論理とは異なる別の論理となる．例えば\red{Heyting代数}を用いると\red{直観論理}と呼ばれる論理となる．直観論理で用いる論理演算子は定義2.1 と同じである．ただしこの場合には古典論理の場合と異なり，4つの論理演算子の一部を他のものを使って表すことはできない\footnote{$\neg$を$\to$と$\perp$で表すことは可能である．}．そういった論理では，一般に意味論で用いられる真偽値が3つ以上の値から成るために多値論理とも言う．
+\subsection{真理函数}\label{sec:truth-value function}
+まず，各論理演算子$\neg,\wedge,\vee,\to$の意味を函数として表すことを考える．これは以下のような論理式の意味を表すことと等価である:$\neg\uA,\uA\wedge\uB,\uA\vee\uB,\uA\to\uB$．右側に参考のため$\veebar$と$\leftrightarrow$を付け加えておいた．
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c||c|c|c|c||c|c|}\hline
+          &       & $f_\neg\qty(\uA)$ & $f_\wedge\qty(\uA,\uB)$ & $f_\vee\qty(\uA,\uB)$ & $f_\to\qty(\uA,\uB)$ &                 &                         \\
+    $\uA$ & $\uB$ & $\neg\uA$         & $\uA\wedge\uB$          & $\uA\vee\uB$          & $\uA\to\uB$          & $\uA\veebar\uB$ & $\uA\leftrightarrow\uB$ \\\hline\hline
+    $\bF$ & $\bF$ & $\bT$             & $\bF$                   & $\bF$                 & $\bT$                & $\bF$           & $\bT$                   \\\hline
+    $\bF$ & $\bT$ & $\bT$             & $\bF$                   & $\bT$                 & $\bT$                & $\bT$           & $\bF$                   \\\hline
+    $\bT$ & $\bF$ & $\bF$             & $\bF$                   & $\bT$                 & $\bF$                & $\bT$           & $\bF$                   \\\hline
+    $\bT$ & $\bT$ & $\bF$             & $\bT$                   & $\bT$                 & $\bT$                & $\bF$           & $\bT$                   \\\hline
+  \end{tabular}
+  \caption{論理演算子の真理値表}
+\end{table}
+例えば表の下から2行目は，$\uA$の値が$\bT$，$\uB$の値が$\bF$のとき，各論理式の値がどのようなものになるかを表している．ただし$\neg$は1引数だが表の数を減らすために手抜きをして他の演算子と同じ表に入れている．これが$\uB$の値に影響されないことを読み取ってほしい．このような表を\red{真理値表}(truth value table) と呼ぶ．
+
+基本的な4つの論理演算子の真理値表のうち，$\neg,\wedge,\vee$については比較的納得できるのではないだろうか\footnote{実は$\vee$については$\to$に次いで問題がある．}．しかし$\to$についてはいかがだろう．$\uA$が成り立っていない場合に常に$\bT$ということでよいのだろうか．たとえばこれは，$\uA$と$\uB$にまったく関係がない場合，(人によっては)違和感を生じる場合がある．例えば「1=2ならば，今日の天候は晴れである」の真偽値は，実際の天候に関わらずTとなる．そのようなことを言明して意味があるのだろうか，そのように「ならば」を使ってよいのだろうか，という感想を持つ人もいるだろう．つまり，上の真理値表の$\to$は，通常人間が使っている「ならば」とは異なるものかもしれない．しかし，条件から結論を導き出すときに正しい推論を行うという意味では実はこれで十分である．このことは後で示すことにする．また，論理式の真偽値として$\bT\bV$を用いる場合，これ以外に「ならば」として使えそうな真理函数があるかというと，調べてみるとわかるようにないのである．二値論理の$\to$はこのような特性を持った「ならば」であり，\red{実質含意}(material implication)と呼ばれる．実はもっと「ちゃんとした」ならばを実現しようという研究には様々なものがあるが，ここでは触れない．
+
+真理値表は，他の一般の論理式についても書くことができる．そのためには，上記の4つの論理演算子についての真理値表があれば十分である．なぜならそれらのみを用いて，定義2.1のようにしてできるもののみが論理式だからである．
+
+例えば$E\equiv\uA\wedge\uB\to\uC$という論理式の真理値表は以下のようなものとなる．
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|c||c|c|}\hline
+    $\uA$ & $\uB$ & $\uC$ & $\uA\wedge\uB$ & $\uA\wedge\uB\to\uC$ \\\hline\hline
+    $\bF$ & $\bF$ & $\bF$ & $\bF$          & $\bT$                \\\hline
+    $\bF$ & $\bF$ & $\bT$ & $\bF$          & $\bT$                \\\hline
+    $\bF$ & $\bT$ & $\bF$ & $\bF$          & $\bT$                \\\hline
+    $\bF$ & $\bT$ & $\bT$ & $\bF$          & $\bT$                \\\hline
+    $\bT$ & $\bF$ & $\bF$ & $\bF$          & $\bT$                \\\hline
+    $\bT$ & $\bF$ & $\bT$ & $\bF$          & $\bT$                \\\hline
+    $\bT$ & $\bT$ & $\bF$ & $\bT$          & $\bF$                \\\hline
+    $\bT$ & $\bT$ & $\bT$ & $\bT$          & $\bT$                \\\hline
+  \end{tabular}
+\end{table}
+ここで，論理式の構造に沿って帰納的に部分論理式の真理値が定まり，それによって段階的に一つ上のレベルの部分論理式の真理値が論理演算子の真理値表により定まることに注意してほしい．つまり\red{論理式の真理値は帰納的に定まる}．真理値表は，函数を定めていると考えることもできる．つまり今の例では函数$f_E:\bT\bV\times\bT\bV\times\bT\bV\to\bT\bV$を定めている．このような函数を\red{真理函数}(truth-value function)という．多値論理の場合には真理値表や真理函数もそれに応じたものとなる．真理値の数が有限個であれば有限の大きさの真理値表として真理函数を表せる．
+
+演算子に対する真理値表の各列の一番上の項目に，$\uA\wedge\uB$に重ねて$f_\wedge\left(\uA,\uB\right)$などと記している．これは各論理演算子の表す真理値上での函数に名前をつけて書き込んだものであり，厳密には\red{各論理演算子そのものが函数なのではなく，それに対応する真理函数が定義される}ということに対応している．
+
+上のようにして個々の論理式$X\in\bPro$には真理函数が対応する．論理式$X$に出現する命題変数全体の集合を$\mathrm{FV}\left(X\right)$で表すと，$f_X : \bT\bV^{|\textrm{FY}\left(X\right)|}\to\bT\bV$という函数となる．少し考えると分かるように，二値命題論理の場合，$|\bT\bV| = 2$なので$n$引数の真理函数は一般に$2^{2^n}$種類存在する．ここで一つ重要なことは，どのような真理函数であっても，それを4つの基本的な論理演算子を組み合わせて表現できるということである(論理式の標準形のところで説明する)．二値論理以外の場合にはこれは一般には成り立たない．
+
+例えば$\uA\leftrightarrow\uB$や$\uA\veebar\uB$は$\left(\uA\to\uB\right)\wedge\left(\uB\to\uA\right)$，$\left(\uA\wedge\uB\right)\vee\left(\neg\uA\wedge\neg\uB\right)$などとして表すことができる．
+
+また，$\neg\neg\uA$と$\uA$，$\neg\uA\wedge\neg\uB$と$\neg\left(\uA\vee\uB\right)$，$\uA\wedge\uB$と$\uB\wedge\uA$，$\uA\wedge\left(\uB\wedge\uC\right)$と$\left(\uA\wedge\uB\right)\wedge\uC$等の真理値表が等しいこと，$\uA\to\uA$と$\uA\wedge\neg\uA$の真理値が 常に$\bT$であること等を確認してほしい．なお，論理定数TとFの値はそれぞれ常に$\bT$と$\bF$である．
+\subsubsection*{演習問題}
+以下の論理式の真理値表を書け．
+\begin{enumerate}
+  \item[4.] $\neg\neg\uA$
+  \item[5.] $\uA$
+  \item[6.] $\neg\uA\wedge\neg\uB$
+  \item[7.] $\neg\left(\uA\vee\uB\right)$
+  \item[8.] $\uA\wedge\uB$
+  \item[9.] $\uB\wedge\uA$
+  \item[10.] $\uA\wedge\left(\uB\wedge\uC\right)$
+  \item[11.] $\left(\uA\wedge\uB\right)\wedge\uC$
+  \item[12.] $\uA\to\uA$
+  \item[13.] $\uA\vee\neg\uA$
+  \item[14.] $\uA\leftrightarrow\uB$
+  \item[15.] $\uA\veebar\uB$
+\end{enumerate}
+\subsection{付値}
+真理値表により論理式の真理函数を表現でき，それが元の論理式の性質を反映していると考えられることは前の小節で見た．ただし，真理函数は論理式に出現する命題変数によって引数の数が異なることになる．これを，一般にどのような命題論理式の真偽値も求められる形式に変更することを考え，$\phi:\bV\to\bT\bV$を導入する．このような数を\red{付値}(valuation) と呼ぶ．ここでは付置全体の集合を$\cF$で表すことにする．函数空間を表す通常の記法を使うと$\cF=\bT\bV^\bV$である．付値$\phi\in\cF$は元々は命題変数の真偽値を定めるものであるが，$\bPro$に対し拡張することが可能である．それは次のようにして行う．$X\in\bPro$とする．\begin{enumerate}
+  \item $X\in\bV$のとき，$\phi'\left(X\right)\dequal\phi\left(X\right)$.
+  \item $X\equiv\neg Y$のとき，$\phi'\left(X\right)\dequal f_\neg\phi'\left(Y\right)$．
+  \item $X\equiv Y\wedge Z$のとき，$\phi'\left(X\right)\dequal f_\wedge\left(\phi'\left(Y\right),\phi'\left(Z\right)\right)$．
+  \item $X\equiv Y\vee Z$のとき，$\phi'\left(X\right)\dequal f_\vee\left(\phi'\left(Y\right),\phi'\left(Z\right)\right)$．
+  \item $X\equiv Y\to Z$のとき，$\phi'\left(X\right)\dequal f_\to\left(\phi'\left(Y\right),\phi'\left(Z\right)\right)$．
+  \item $X\equiv$Tのとき，$\phi'\left(X\right)\dequal\bT$.
+  \item $X\equiv$Fのとき，$\phi'\left(X\right)\dequal\bF$.
+\end{enumerate}
+ここで$\equiv$は，両辺が記号列あるいは木として等しいということを表している．また下の2行は論理定数TとFを導入した場合のみである．この場合，TとFを命題変数と同じ扱いとし，ただし付値$\phi$としての$\phi\left(\mathrm{T}\right)=\bT,\phi\left(\mathrm{F}\right)=\bF$となるもののみを考えてもよい．
+
+重要なのは，上の\red{場合分けが論理式の形のすべての場合を一意的に尽くしていて，しかも各定義の右側の論理式は，$X$よりも簡単なものになっている}(正確には，論理式の記号列の長さが短いもの，あるいは木の大きさが小さいものになっている)ため，これにより\red{$\bPro$の任意の元$X$に対し$\phi'\left(X\right)$が定義}されるということである．つまり付値が一つ与えられれば，すべての論理式の真偽値が定まる．このことを論理式の構成による帰納法できちんと示すことも可能だが，単純だし直感的にはほぼ明らかなので帰納法の例題として用いる場合以外にはわざわざ示さない場合が多い．
+
+$X\in\bV$であれば$\phi'\left(X\right) =\phi\left(X\right)$が成り立つので， 拡張した$\phi'$の代わりに通常元の$\phi$を用いて表す．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[16.] 任意の$A\in\bV$に対し$\phi_\bT\left(A\right)\dequal\bT,\phi_\bF\left(A\right)\dequal\bF$として$\phi_\bT,\phi_\bF\in\cF$を定義する．\ref{sec:truth-value function}の演習問題の各論理式$X$について，$\phi_\bT\left(X\right),\phi_\bF\left(X\right)$を計算せよ．
+  \item[17.] 同じ各論理式$X$について，それぞれの$\phi\left(X\right)=\bT$となる$\phi\in\cF$は存在するか．具体的に示すか存在しないことを示せ．
+  \item[18.] $\phi\left(X\right)=\bF$の場合はどうか．
+\end{enumerate}
+\subsection{モデル}
+ある論理式$X\in\bPro$と，付値$\phi$について$\phi\left(X\right)=\bT$となるとき，$\phi$は$X$を\red{充足する}(satisfy)と言う．またこのとき$\phi$を$X$の\red{モデル}(model)と呼び，\red{$\phi\models X$}と書く．そうでない場合には$\phi\not\models X$と書く．二値論理で$\bT\bV = \{\bT, \bF\}$のときには後者の場合，$\phi\left(X\right) = \bF$である．
+
+次にモデルの定義を論理式の集合に拡張する．$G\subseteq\bPro$とする．$G$は無限集合かもしれない．付値$\phi$が，$G$に属するすべての論理式のモデルになっているとき，$\phi$は$G$の\red{モデル}であると言い，\red{$\phi\models G$}と表記する．これは$G$が有限集合のときには，$G$のすべての論理式を$\wedge$で結んでできる論理式のモデルになっていることと同値である．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[19.]\ref{sec:truth-value function}の演習問題の各論理式について，そのモデルを具体的に示すか，存在しないことを示せ
+\end{enumerate}
+\subsection{トートロジー，充足可能性}
+すべての付値がモデルであるような論理式$X\in\bPro$を\red{恒真}(valid)であると言う．特に命題論理の恒真な論理式を\red{トートロジー}(tautology)と呼ぶ．トートロジーとは元々同義語反復という意味である．
+
+逆にすべての付値$\phi\in\cF$により$\phi(X) = \bF$となる論理式$X\in\bPro$のことを\red{恒偽}式という．恒偽式でない論理式，即ちある付値$\phi$が論理式$X$を充足するとき，$X$を\red{充足可能}(satisfiable)であるという．そうでないとき，\red{充足不能}(unsatisfiable)という．$X$がトートロジーであることと，$\neg X$が充足不能であることは同値である(なぜか?)．
+
+ある論理式$X\in\bPro$がトートロジーであるかどうかは機械的に(アルゴリズムによって)求めることができる．これを，決定可能であるという言い方をする(\ref{sec:decidable-and-decision problem}参照)．付値の情報を完全に与えるにはすべての命題変数の真偽値を与える必要があるが，具体的に$X$が与えられれば，$X$の真偽値に影響を与えるのはFV($X$)の値のみであり，有限の大きさの$X$の真理値表を作成してすべての結果が$\bT$であることを確認すればよいからである．
+
+また同様に，$X$が充足可能であるかどうかも決定可能であることがわかる．一般に二値命題論理の論理式の充足可能性を調べる問題をSATと呼んでいる．しかし，以上のような方法で充足可能性を調べるとすると，$2^{|\textrm{FV}(X)|}$種類の入力に対して$X$の真偽値を求める必要があり，原理的には結論を求められるとしても，|FV($X$)|が少し大きくなるととても実際的な時間で計算を行うことが不可能になってしまう．実は，SATは効率的な解法がないと一般に信じられている決定問題である．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[20.] \ref{sec:truth-value function}の演習問題の論理式について，トートロジーであるものと充足可能なものがそれぞれどれか答えよ．
+  \item[21.] $X\in\bPro$がトートロジーであることと，$\neg X$が充足不能であることが同値であることを示せ．
+  \item[22*.] プログラミング言語LISPを用い，命題論理式をリストで表す方法を定め，命題論理式を具体的に与えた時にそれの真理値表を求めるプログラムを記述せよ．(「情報処理の方法と演習A」の問題より．*付きの問題は難しかったり時間がかかるため，興味のある人のみが解いてみるのが良さそう)
+\end{enumerate}
+\subsection{決定問題と決定可能性}\label{sec:decidable-and-decision problem}
+論理式を記号列として表す場合には，先に見たように記号列の中に，論理式を表すものとそうでないものがある．ここで重要なことの一つは，記号列が渡された場合に，それが論理式を表すかどうかを機械的に，つまりアルゴリズムにより判定可能であるということがある．正式には\red{決定可能}(decidable)であると言い，これは以下のように定義される概念である．
+
+一般に，空でない有限集合$\Sigma$があるとき，$\Sigma$の元から成る長さ0以上の有限列全体の集合を\red{$\Sigma^\ast$}と書く(これはオートマトンや言語理論の文脈でよく使われる記法である)．またこの場合，$\Sigma$の元を\red{記号}(symbol)または文字と呼ぶ．長さ0の記号列を\red{$\epsilon$}と書く場合が多い．一方長さ1以上とした場合には\red{$\Sigma^+$}と記す．即ち$\Sigma^+=\Sigma^\ast\backslash\{\epsilon\}$である．
+
+$A\subseteq\Sigma^\ast$を\red{決定問題}(decision problem)と言う．即ち$\Sigma^\ast$の元に対し，それが$A$に属するかどうかを求めるという問題である．決定問題に対しTuring機械(TM)$M$により答えを与えることを考える．$A$の元をテープに書いてその両側を$M$のブランク記号の列とし，その元の左端(元=$\epsilon$のときはヘッドでブランク記号を指しておく)にヘッドを置いて動作を開始した場合には停止してyesがテープに書かれる結果となり，同様に$A$の補集合の元をテープに書いた場合にはやはり停止してnoが結果となるような，ある一つのTM $M$が存在する場合に$A$は($M$により)\red{決定可能}と言う．いずれの場合にも$M$は必ず停止しなければならない．ただしここでは簡単のためにブランク記号$\not\in\Sigma$で，$M$の記号は$\Sigma$を含むとしている．
+
+この条件についてやや厳密さを欠いた説明をすれば，記号列が$A$の元かどうかを判定するプログラムが存在する，と言い換えることができる．$\Sigma$を一つ固定した場合，決定可能な集合全体の濃度は$\aleph_0$である(なぜか？)．TM $M$に対し，$S_M\dequal\{\sigma\in\Sigma^\ast\mid\text{入力}\sigma\text{に対し}M\text{が停止してyesがテープに書かれる}\}$とする．この記法を使うと，$A\subseteq\Sigma^\ast$決定可能$\darrow$全ての$\sigma\in\Sigma^\ast$に対し必ず停止するTM $M$が存在して$A = S_M$となる．
+
+決定可能性を$A\subseteq \bN$に対して定義することもできる．これは，$s\in\Sigma^\ast$と$n\in\bN$を次のようにして一対一対応付けられるからである．$|\Sigma| = m$とする．まず全単射$\phi^\prime:\Sigma\to\{0,\ldots,m-1\}$を一つ選ぶ．$\phi\left(\epsilon\right)=0, \phi\left(sx\right)=m\sigma\left(s\right)+\phi^\prime\left(x\right)$として$\phi:\Sigma^\ast\to\bN$を定義する．なお$x\in\Sigma$であり，$sx$は列$s$の末尾に記号$x$を付加してできる列である．つまり$\phi$は$\Sigma$による$m$進表現を与える函数である．$s$から$n$への対応は，$n = \phi\left(s\right) + \frac{m^{|s|}-1}{m-1}$により与えられる．ここで$|s|$は$s$の長さである．
+
+ただし$m = 1$の場合には$n = |s|$という対応とする．この場合，$s$を$n$の1進表現と言う．
+
+例えば偶数全体の集合，奇数全体の集合，すべての素数からなる集合等はすべて決定可能である．同様に，記号列でコーディング出来る他のデータに対しても決定可能性の定義を行うことができる．
+
+あるいは\red{再帰函数}(recursive function)により，$\bN$の部分集合が決定可能であることをTMを介さずに直接定義し，2つの定義が同等であることを証明することもできる．
+
+決定可能な集合の補集合，2つの決定可能な集合の和集合と交集合はやはり決定可能である(なぜか?)．つまり$\Sigma^\ast$や$\bN$の部分集合のうち，決定可能な集合全体は\red{ブール代数}となる．
+
+Hilbertの数学の算術化のプログラムでは，当初からアルゴリズム(に相当する)概念が入っており，数学の定理の集合が論理式の集合の中で決定可能であることを示すことも目標としていた．もちろん当時は決定可能という概念そのものがまだあやふやな段階であり，今日見られるような定義を与えていた訳ではないし，自然数論を展開できるような数学を行う場合，定理の集合は決定可能とはならないことが結局は示された訳で，Hilbertの当初の目論みはそのままの形では残念ながら外れてしまった訳である．しかし，決定可能性と次の半決定可能性は数理論理学において重要な役割を果たす概念である．
+\paragraph{注意:}
+決定可能という言葉は数理論理学において他の文脈でも使われる場合がある．この資料の後半に出てくる一階述語論理の閉論理式$E$について，$\vdash E$か$\vdash\neg E$($E$の否定)のどちらかが理論$Th$から推論規則により証明できる時，$Th$において$E$は決定可能(命題)であると言う．これは決定問題$A\subseteq\Sigma^\ast$の決定可能性とは異なる概念であり，混同しないこと．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[23.] $\Sigma^\ast$の濃度を答えよ．
+  \item[24.] $2^{\Sigma^\ast}$の濃度を答えよ．
+  \item[25.] 空集合$\emptyset$や全体集合$\Sigma^\ast$や$\bN$の中で決定可能かどうか根拠付きで答えよ．
+  \item[26.] $\Sigma^\ast$や$\bN$のただ一つの元から成る集合がそれらの中で決定可能かどうか根拠付きで答えよ．
+  \item[27.] 決定可能な集合が少なくとも可算無限個存在することを示せ．
+  \item[28.] 決定可能な集合の濃度が高々可算無限であることを示せ．
+  \item[29.] 偶数全体の集合$\mathrm{Even}\subseteq\bN$が決定可能であることを示せ．
+  \item[30.] 素数全体の集合$\mathrm{Prime}\subseteq\bN$が決定可能であることを示せ．
+  \item[31.] 2つの決定可能集合$X,Y\subseteq\bN$の和集合$X\cup Y$が決定可能であることを示せ．
+  \item[32.] 31で$X\cap Y$が決定可能であることを示せ．
+  \item[33.] 決定可能集合$X\subseteq\bN$の補集合$\bN\backslash X$が決定可能であることを示せ．
+  \item[34$^\ast$.] 再帰函数の定義を調べよ．
+  \item[35$^\ast$.] ブール代数の定義を調べよ．(これらの言葉が本文中に現れる．調べない場合，現れている文を無視して構わない．)
+\end{enumerate}
+\subsection{帰納的可算性と半決定可能性}
+やや厳密さを欠く書き方をすると，$A\subseteq\Sigma^\ast$が\red{帰納的可算}(recursively enumerable)(R.E.)であるとは，有限長の記号列を0回以上出力し続けるプログラムPが存在し，Pが出力する記号列全体と$A$が一致するときである．Pは0個以上有限個の記号列を出力後，無限ループ等に入り，その後何も出力しなくなってもよいし，あるいは無限に記号列を出力し続けてもよい．また，出力する記号列に重複があっても構わない\footnote{重複を許しても許さなくても同等の定義となる．}．帰納的可算な集合のことを\red{半決定可能}(semidecidable)な集合とも言う．$\Sigma$を一つ固定した場合，帰納的可算な集合全体の濃度はやはり$\aleph_0$である．一方$\Sigma^\ast$の部分集合全体の濃度は$\aleph$なので，帰納的可算でない集合の方がずっと多いことがわかる．
+
+なお，$A\subseteq\bN$に対しても帰納的可算性を同様に定義することができる．
+
+$A$が決定可能であることと，AとAの補集合が両方とも半決定可能であることは同値である(なぜか?)．半決定可能な集合の補集合は半決定可能であるとは限らないことが，半決定可能だが決定可能ではない集合の存在から導かれる．後者の例をある条件を満たす要素の集合として与える方法はまったく自明ではなく，Turingが対角線論法と呼ばれる方法を用いて示したものである(ここでは述べない)．ただし2つの半決定可能な集合の和集合と交集合はやはり半決定可能である(なぜか?)．
+
+帰納的可算性を自然数の部分集合や，記号列でコーディング出来る他のデータに対して定義することもやはり可能である．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[36.] $A$が決定可能であれば$A$が半決定可能であることを示せ．
+  \item[37.] $A$と$A$の補集合が両方とも半決定可能であるとき，$A$は決定可能であることを示せ．
+  \item[38.] 半決定可能な集合全体の集合の濃度が高々可算無限であることを示せ．
+  \item[39.] 半決定可能でない$\Sigma^\ast$の部分集合が存在することを示せ．(ヒント:$\Sigma^\ast$の部分集合全体の集合の濃度と，半決定可能な集合全体の集合の濃度を比較せよ．)
+  \item[40.] 2つの半決定可能集合の和集合が半決定可能であることを示せ．
+  \item[41.] 2つの半決定可能集合の交集合が半決定可能であることを示せ．
+\end{enumerate}
+\subsection{非決定性チューリング機械}\label{sec:NDTM}
+計算機科学と関わりがあるSATに言及することとなったので，それの周辺について説明しておくことにする．ただし \ref{sec:NDTM}～\ref{sec:NP}は本稿での論理(logic)の理解のためには必ずしも必要ではないので，飛ばしてもよい．
+
+\red{非決定性}(nondeterministic)チューリング機械(NDTM)というのは通常のTMの拡張の一つである．計算の各ステップで有限個の可能性の内一つを実行していく．最悪の場合，ステップ数と共に可能性は指数函数的に増えてゆくことになる．それら全ての計算の可能性のうちの一つが停止してyesという答えを出せば，全体の答えがyesとなるような仮想的な計算機がNDTMである．通常のTM，あるいは別の言い方をすれば各ステップで可能性が常に一つしかないNDTMを\red{決定性}(deterministic)チューリング機械(DTM)という．NDTMは現状あくまで理論的な存在であり，現実の計算機でいえば，並列計算機の各CPUに各可能性を実行させた場合に近い動作を行うものである．現実に実装できたとしても可能性の数が(入力データのサイズに対し)指数函数的に増大するためにCPUの数がすぐに不足してしまう\footnote{いわゆる分子計算機だとある程度の範囲で実現可能性があるかもしれない．}．
+
+このことは，DTMがvon Neumann型計算機\footnote{この名称で呼ぶのは問題があるとも言われている．}という形で現実に効率よく実装されているのとは対照的である．
+
+「効率的に」という言葉は決定問題を分類する際にテクニカルタームとして用いられる．決定問題$A$を正しく判定する機械$M$があるとする．$M$の入力データのサイズを$n$としたときに，ある$c,d\geq 0$により計算時間($M$のステップ数)が$n^c + d$以下となるとする．これを指して，$A$は$M$により\red{多項式時間}(polynomial time)決定可能であると言う．$A$が$M$により(理論的な意味で)効率的に解けるというのは，$M$がDTMで，$M$により$A$が多項式時間で決定可能な場合のことである．
+
+DTM $M$が存在して$M$により多項式時間決定可能となるような決定問題全体の集合を\red{クラスP}と呼ぶ．同様にNDTMにより多項式時間決定可能な決定問題全体の集合を\red{クラスNP}と呼ぶ．
+
+クラスP$\subseteq$クラスNPである．等号が成り立つかどうかはまだわかっていないが，成り立たないことが強く予想されている．これを\red{P$\neq$NP予想}といい，クレイ研究所のミレニアム問題の一つである．
+
+大まかに言えば，クラスPに属さない問題は実際的には入力が少し大きくなると(現在使われている動作原理による)計算機で解けなくなる問題である．クラスPに属したとしても，多項式の次数が大きければ計算の手間は膨大になり得るが，属さなければ入力が大きい場合，まったく解けないと言える．
+
+一方直観的に言えば，クラスNPに属する問題は，問題の解き方(あるいは解ける証拠)を与えられると，それが正しいことを多項式時間程度で確認できるような問題である．例えばSATはクラスNPに属す問題であり，論理式$X$が充足可能であることの証拠とはこの場合，具体的な$X$のモデル$\phi$のことである．ただしFV($X$)についてのみ値を定めればよい．実際に具体的にこのような$\phi$が与えられれば，$\phi\left(X\right)$の真偽値を求めてそれが$\bT$であることを確認するのは簡単であり，$X$の大きさの2～3乗程度の手間で求められる．
+
+SATは決定問題であり，答えはyesかnoかのどちらかなので，それと論理式$X$の具体的な充足方法$\phi$を求める問題(これはそのままでは決定問題ではない)とではギャップがあるように思うかもしれない．しかし後者の問題は，SATを多項式時間で解くアルゴリズムが存在すれば，やはり多項式時間で解けるのである．具体的には，$X$に対しSATを解いて答えがyesであれば，命題変数の一つ$A$を$\bT$と置いて$X$を簡単化し，それに対してSATを適用し，答えがyesであれば$A$の値を$\bT$とし，noであれば$A$の値を$\bF$とする(noの場合，$A$を$\bF$として$X$が充足可能となるのはなぜか?)．これを繰り返してすべての命題変数の真偽値を求める．このようにしても多項式時間で具体的なモデルを求められる．
+
+このように，P$\neq$NP予想とは，問題の答え(あるいはその証拠)をヒントなしで求めるのは，答えがわかっていてそれが正しいことを確かめるよりも真に難しいという常識的にはほとんど当然と思ってしまうことを数学的に表したものであるとも言える．しかしながらまだそれを証明できていないのである．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[42.] P$\subseteq$NPを示せ．
+  \item[43.] SAT$\in$NPを示せ．
+\end{enumerate}
+\subsection{多項式時間帰着可能性}
+ある決定問題$A\subseteq\Sigma^\ast$を別の決定問題$B\subseteq\Sigma^\ast$に帰着できる場合がある．$x\in\Sigma^\ast$のときに，$x\in A$かどうか調べるとする．テープ上に$x$を書き込み，これを機械$M$により処理すると必ず停止してテープ上に記号列$f_M \left(x\right)$が得られるとする．ここで$f_M$は機械$M$が表す函数である．そして$X\in A$と$f_M\left(x\right)\in B$が同値となるとする．このとき，$A$は$M$により$B$に\red{帰着}(reduce)される，という．さらに$M$に$x$を与えた場合の計算時間が前の小節のように$x$の大きさの多項式で抑えられるとする．このとき，$A$は$M$により$B$に多項式時間で帰着される，という．また，そのようなDTM $M$が存在するとき，$A$は$B$に\red{多項式時間帰着可能}(polynomial-time reducible)であるという．
+
+一般に，$A$を$B$に$M$で帰着できる場合には，ある意味$A$の方が$B$よりも簡単であることを表している．ただしこれは$M$がどのようなものかが問題であり，どのような$M$を使ってもよければ， 任意の決定可能な問題$A$を，yesとnoの両方の結果があり得るような他の決定問題に帰着することが可能である(なぜか?)．したがって$M$を制限することが必要であり，多項式時間帰着可能とい うのは意味のある制限になっている．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[44.] 決定問題$A$を恒等TM$_\text{id}$\footnote{一般的な用語ではない}(すぐに停止して入力列をそのまま出力列とするTM$_\text{ia}$)により$A$自身に帰着できることを示せ．
+  \item[45.] 決定可能な決定問題$A$を一つ固定する．$\{0\}\subseteq\Sigma^\ast$(列0のみから成る集合)に帰着できる$M_A$が存在することを示せ．簡単のために0やyes,noの文字がどの元であると仮定してよい．
+  \item[46$^\ast$.] SATは3SAT\footnote{$\left(\underline{A_1}\vee\neg\underline{A_2}\vee\underline{A_3}\right)\wedge\cdots$のように，1個以上3個以下のリテラル(命題変数かそれに$\neg$が1つ付いたもの)を$\vee$で結んだものを，0個以上$\wedge$で結んだ形の命題論理式について充足可能性を考える決定問題．つまり論理式の形を制限したSAT問題．}に多項式時間帰着可能であることを示せ．
+\end{enumerate}
+\subsection{NP困難性，NP完全性}\label{sec:NP}
+任意の決定問題$A\in\text{class NP}$を$B\subseteq\Sigma^\ast$に多項式時間帰着可能な場合，$B$は\red{NP困難}(NP hard)であると言う\footnote{ここで帰着の仕方は実行時間が多項式時間で抑えられればよく，$A$に依存してよい．}．つまり$B$はクラスNPのどの問題よりも難しい問題である．ここで帰着のための計算時間を多項式時間に限定しているところがポイントである．また$B$が同時にクラスNPにも属している場合，$B$は\red{NP完全}(NP complete)であると言う．これは，$B$がNP問題のうちで一番難しい類の問題であることを表している．
+
+歴史的にはNP完全であることを示された最初の具体的決定問題がSATである．これはCookにより示された．一つの決定問題$B$がNP完全であることが示されたとする．他のNPに属する決定問題$C$に$B$が多項式時間帰着可能であれば，$C$もNP完全であると言える(なぜか?)．そのようにして何千という問題がNP完全であることが示された．部分和問題，ハミルトン閉路問題などという名称を聞かれた人もいるだろう．そういった問題がSAT以外のNP完全問題として有名である(ただしこれらの問題の一部はそのままでは決定問題ではなく，同じ土俵の上で論じるには決定問題への変形が必要である)．それらのうち一つでも多項式時間で計算できないということを証明できればP$\neq$NPの証明となる．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[47.] NP困難な決定問題$A\subseteq\Sigma^\ast$を決定問題$B\subseteq\Sigma^\ast$に多項式時間帰着できるとする．この時，$B$もNP困難であることを示せ．
+\end{enumerate}
+\subsection{論理的帰結}
+この節では意味論的に論理的帰結を定義し，それにより二値論理の$\to$が正しい推論を行うための条件を満たしていることを示す．ただしこれは結局，数学での「ならば」が実質含意であるということを示しているとも言えるかもしれない．
+\begin{dfn*}
+  論理的帰結$X\in\bPro,G\subseteq\bPro$とする．すべての付値$\phi$に対し，$\phi$が$G$のモデルであれば$\phi$が$X$のモデルであるとき，$X$を$G$の\red{論理的帰結}(logical consequence)と言う．
+\end{dfn*}
+上記の論理的帰結は意味論的帰結とも言う．$X$が$G$の論理的帰結のときに\red{$G\models X$}と表記する．そうでない場合には$G\not\models X$と表記する．また，特に$G$が有限集合のときには$G$を論理式の列として記し，それを表すメタ変数としては$\Gamma$を用いることにする．特に$X$が$G = \emptyset$(空集合)，$\Gamma$で言えば空列の論理的帰結であることと，$X$がトートロジーであることは同値となる．
+
+例:$\uA,\uB\models\uA\wedge\left(\uB\vee\uC\right)$が成り立つことと，$\uA\not\models\uB\vee\uC，\models\uA\vee\neg\uA$を示せ．
+
+論理的帰結$G\models X$は，$G$を仮定した場合にそれらから$X$が導かれることを表している．つまり$G$から$X$を結論してよいということである．
+
+次の補題が成り立つ．
+\begin{lem}
+  $G\subseteq\bPro$，$X,Y\in\bPro$とする．$G\cup\{X\}\models Y$と$G\models X\to Y$は同値である．
+\end{lem}
+\begin{proof}
+  ($\Rightarrow$)\ $\phi$を任意の付値として，$\phi\models G$のときに$\phi\models X\to Y$を示す．$\phi\not\models X$の場合と$\phi\models X$の場合に場合分けする．$\phi\not\models X$であれば，$\to$の真理値表から$\phi\models X\to Y$である．次に$\phi\models X$であるとする．$G\cup\{X\}\models Y$の定義から$\phi\models G\cup\{X\}$ならば$\phi\models Y$なので，$\phi\models G$と$\phi\models X$を併せると必ず$\phi\models Y$である．従って$\phi\models Y$であり，やはり$\to$の真理値表から$\phi\models X\to Y$である．
+
+  ($\Leftarrow$)\ $\phi$を$\phi\models G\cup\{X\}$となるような付値として，$\phi\models Y$を示す．このとき$\phi\models G$かつ$\phi\models X$である．$G\models X\to Y$の定義から$\phi\models X\to Y$である．$\to$の真理値表から$\phi\models Y$がいえる．
+\end{proof}
+\begin{cor}
+  $X,Y\in\bPro$とする．$X\models Y$と$\models X\to Y$は同値である．
+\end{cor}
+\begin{proof}
+  上の補題で$G = \emptyset$とした場合である．
+\end{proof}
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[48.] $X\models Y$と$\models X\to Y$がそれぞれ成り立つかどうかを，$X$と$Y$に具体的な論理式を当てはめて確認せよ．論理式の組み合わせは3種類以上について確認すること．
+\end{enumerate}
+\subsection{論理的同値}
+$X,Y\in\bPro$の真理函数が等しいとき，言い換えるとすべての付値$\phi$に対し$\phi\models X$と$\phi\models Y$が同値であるとき，$X$と$Y$は\red{論理的同値}(logically equivalent)，あるいは\red{意味論的同値}(semantically equivalent)であると言う．論理的同値を表す記号は統一されていないが本稿では\red{$X\lequiv Y$}と表記することにする．
+\begin{lem}
+  $X\lequiv Y$の必要十分条件は，$X\models Y$かつ$Y\models X$であることである．
+\end{lem}
+\begin{lem}
+  $X\lequiv Y$と$\models X\leftrightarrow Y$は同値である．
+\end{lem}
+証明略．
+
+例:
+\begin{enumerate}
+  \item $X\to Y\lequiv\neg X\vee Y$
+  \item $\neg\left(X\vee Y\right)\lequiv\neg X\wedge\neg Y$
+  \item $\neg\left(X\wedge Y\right)\lequiv\neg X\vee\neg Y$
+  \item $\neg\neg X\lequiv X$
+  \item $X\wedge\left(Y\vee Z\right)\lequiv\left(X\wedge Y\right)\vee\left(X\wedge Z\right)$
+  \item $X\vee\left(Y\wedge Z\right)\lequiv\left(X\vee Y\right)\wedge\left(X\vee Z\right)$
+  \item $X\wedge X\lequiv X$
+  \item $X\wedge Y\lequiv Y\wedge X$
+  \item $X\wedge\left(Y\wedge Z\right)\lequiv\left(X\wedge Y\right)\wedge Z$
+  \item $X\vee X\lequiv X$
+  \item $X\vee Y\lequiv Y\vee X$
+  \item $X\vee\left(Y\vee Z\right)\lequiv\left(X\vee Y\right)\vee Z$
+  \item $\left(X\vee Y\right)\wedge X\lequiv X$
+  \item $\left(X\wedge Y\right)\vee X\lequiv X$
+  \item $\left(X\wedge\neg X\right)\vee Y\lequiv Y$
+  \item $\left(X\wedge\neg X\right)\wedge Y\lequiv X\wedge\neg X$
+  \item $\left(X\vee\neg X\right)\vee Y\lequiv X\vee\neg X$
+  \item $\left(X\vee\neg X\right)\wedge Y\lequiv Y$
+\end{enumerate}
+さらに，論理定数$\bT$や$\bF$を導入している場合には以下が成り立つ．
+\begin{enumerate}
+  \item $X\wedge\neg X\lequiv\bF$
+  \item $X\vee\neg X\lequiv\bT$
+  \item $X\to X\lequiv\bT$
+  \item $X\wedge\bT\lequiv X$
+  \item $X\vee\bT\lequiv\bT$
+  \item $X\wedge\bF\lequiv\bF$
+  \item $X\vee\bF\lequiv X$
+  \item $\neg\bT\lequiv\bF$
+  \item $\neg\bF\lequiv\bT$
+  \item $\bT\to X\lequiv X$
+  \item $\bF\to X\lequiv\bT$
+  \item $X\to \bT\lequiv\bT$
+  \item $X\to \bF\lequiv\neg X$
+\end{enumerate}
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[49.] $X\models Y$かつ$Y\models X$と，$X\lequiv Y$が同値であることを示せ．
+  \item[50.] $X\lequiv Y$と$\models X\leftrightarrow Y$が同値であることを示せ．
+  \item[51.] 上記の例についてそれらが正しいことを個々に確認せよ．
+  \item[52.] 左側に一つ論理式がある場合に限定すると，$\models$は論理式の二項関係となる．$\models$が前半(まえはん)順序関係であることを確認せよ．即ち前半順序関係の以下の2つの公理を満たすことを示せ．\begin{enumerate}
+          \item[i.] $X\models X$
+          \item[ii.] $X\models Y$かつ$Y\models Z\Rightarrow X\models Z$
+        \end{enumerate}
+  \item[53.] 上の問題において，次のような，半順序関係の場合に追加する公理の反例を挙げよ．ここで$\equiv$は字面上等しい，即ち全く同じ論理式であるという二項関係であった．\begin{enumerate}
+          \item[iii.] $X\models Y$かつ$Y\models X\Rightarrow X\equiv Y$
+        \end{enumerate}
+  \item[54.] $\lequiv$は論理式の二項関係である．$\lequiv$が同値関係であることを示せ．即ち同値関係の以下の3つの公理を満たすことを示せ．(一般に，前半順序関係があるとき，その関係が両向きに成り立っているという新しい関係を定義すると同値関係になることを示してもよい．)\begin{enumerate}
+          \item[i.] $X\lequiv X$
+          \item[ii.] $X\lequiv Y\Rightarrow Y\lequiv X$
+          \item[iii.] $X\lequiv Y$かつ$Y\lequiv Z\Rightarrow X\lequiv Z$
+        \end{enumerate}
+\end{enumerate}
+\subsection{論理式の同値変形}
+命題変数として[]という記号を付け加えて論理式の集合を改めて定義し，それらのうち[]がちょうど一箇所出現する論理式の集合を$\bPro_{[]}$と表記する．また$\bPro_{[]}$の元を$X'[]$などと表記し，$X'[]$の中の記号[]を論理式$Y\in\bPro$で置き換えたものを$X'[Y]$と表記することにする．$X'[Y]\in\bPro$となる．すると，$X\in\bPro$の部分論理式$Y$があるとき，$X \equiv X'[Y]$と表すことができる．また，$X$の部分論理式$Y$を$Z\in\bPro$で置き換えたものは$X'[Z]$と表記される．
+
+\paragraph{例:}
+$X'[]\dequiv\uA\to[]\in\bPro_{[]},Y \dequiv\uB\in\bPro$のとき，$X'[Y] \equiv \uA \to \uB\in\bPro$である．これの$Y$を$\uC$で置き換えた論理式は$X'[C] \equiv\uA\to\uC$である．
+
+\begin{lem}
+  付値$\phi$に対し，$\phi(Y) = \phi(Z)$であるとする．このとき$\phi(X'[Y]) = \phi(X'[Z])$である．
+\end{lem}
+\begin{proof}
+  (概略) 論理式$X'[]$の構成に関する帰納法で証明できる．
+\end{proof}
+\textbf{補題 6.} $Y\lequiv Z$であれば$X'[Y] \lequiv X'[Z]$が成り立つ．\\
+証明: $Y\lequiv Z$を仮定すると，上の補題からすべての$\phi$について$\phi(X'[Y]) = \phi(X'[Z])$だから．$\square$
+
+この補題を利用して，論理式の部分論理式をそれと論理的同値な論理式に置き換えてゆくことで，論理式をどんどん変形していくことが可能になる．なぜなら論理的同値性は同値関係だからであり，推移性が成り立つからである．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[55.] 補題5を証明せよ．
+\end{enumerate}
+\subsection{論理式の標準形}
+ここでは古典命題論理の2つの標準形について説明する．
+\subsubsection{論理積標準形}\label{CNF}
+\red{論理積標準形}(conjunctive normal form, CNF)というのは，1レベル目がすべて論理積$\wedge$で結ばれていて，2レベル目がすべて論理和$\vee$で結ばれ，3レベル目が命題変数か，あるいはそれに否定$\neg$が一つだけ付いた形になっているものである．
+
+$\wedge, \vee$は意味論的にはそれぞれ結合法則と交換法則を満たしているので，意味論的な取り扱いの際には$\wedge$同士，$\vee$同士の括弧を外しても問題ない\footnote{厳密に言えば意味論的な同値で割る(同値類を作る)と結合法則と交換法則を満たす．}．従ってこのような扱い方をする場合がある\footnote{後述のように完全性定理が成り立つので証明論的にも問題ない．}．
+\subsubsection*{■例:}
+$(\uA\vee\neg\uB)\wedge(\neg\uC\vee\neg\uB\vee\uD)\wedge\uB,\neg\uA\wedge(\uC\vee\neg\uB\vee\uE)\wedge(\uB\vee\uE)$
+
+論理式として論理定数TやFが許されている場合には，ここではT,Fを1レベル目の式として付け加えておくことにする．つまりT, Fそのものも標準形ということである．論理定数を導入していない場合には，トートロジーである標準形の論理式は$\uA\vee\neg\uA$などである．一応，一番上のレベルも1つ以上必要だからである．またここでは$\wedge$と$\vee$が列を引数に取るように書いている．これは先に出てきたように意味的には結合法則が成り立つからで，多項式の場合の$\cdot$や$+$と同様である．ただし正式にはどちらかに結合するとしておく必要がある．ここでは例えば$P\vee Q\vee R\vee S$は$P\wedge(Q\wedge(R\wedge S))$を表すとしておく．
+
+2レベル目に出てくる形の論理式を，\red{節}(clause)と呼ぶ．3レベル目に出てくる，命題変数かそれに一つだけ$\neg$が付いた形の論理式を，\red{リテラル}(literal)と呼ぶ．2つの呼び名は標準形以外でも使う場合がある．節をリテラルの集合であると捉える方法もあり，そうした場合には\red{空節}(empty clause)も節の一種とする場合がある．空節は意味的には常に偽である論理式を表している．節形式は古典一階述語論理の自動証明である\red{導出}(resolution)で用いられる形式でもある．ただしそこでは節は命題論理ではなく一階述語論理の論理式である．$\neg$が付いていないリテラルを正リテラル，$\neg$が付いたリテラルを負リテラルと言う．節のうち，さらに形を制限して正リテラルが高々一つであるとしたもののことを\red{ホーン節}(Horn clause) と言う．このように制限すると導出の手続きが非常に効率的に進むようになる．プログラミング言語\red{Prolog}は，さらに導出を行う順序も 固定することで，論理式，即ちホーン節の列をプログラミング言語と見なしたものである．
+
+CNFにはこのままでは冗長性がある場合がある．CNF$X$に2つの節$C$と$D$があり，$C$に現れるリテラルがすべて$D$に現れている場合，$D$を取り除いても論理的に同値となる(なぜか?)．ある節に同じリテラルが現れる場合，それらを一つに減らしても論理的に同値である．また，同じ命題変数の正負リテラルが両方現れる節$L$はトートロジーであり，他のリテラルを取り除けるし，他にも節が存在する場合には$L$を取り除いても論理的に同値である．論理定数Tがある場合にはさらに$L$をTで置き換えられる．これらの操作を行えば，冗長性が取り除かれる．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[56.] $(X_1\vee\cdots\vee X_k\vee X_{k+1} \vee\cdots\vee X_n)\wedge(X_1\vee\cdots\vee X_k)\lequiv X_1\vee\cdots\vee X_k$を示せ．
+  \item[57.] リテラルの例を3つ挙げよ．
+  \item[58.] ホーン節の例を3つ挙げよ．
+  \item[59.] ホーン節でない節の例を3つ挙げよ．
+  \item[60.] CNFであるような論理式の例を3つ挙げよ．
+  \item[61.] CNFでない論理式の例を3つ挙げよ．
+  \item[62$^\ast$.] 導出について調べよ．
+  \item[63$^\ast$.] 論理型プログラミング言語Prologについて調べよ．そこでは一つのプログラムが，函数型あるいは手続き型のプログラミング言語の場合には2通りの利用方法を持つ場合がある例を示せ(例えば2つのリストの結合と，1つのリストを2つのリストに分解するなど)．
+\end{enumerate}
+\subsubsection{真理値表から論理積標準形を求める}
+任意に真理値表を与えられたときに，その真理値表を持つようなCNFの論理式を与える手続きがある．これにより\red{二値論理の場合，命題論理の論理式ですべての真理函数を表せる}ことがわかる．また，論理式$X$の真理値表を求めればそれから$X$のCNFを求めることができる．
+
+入力の命題変数を$A_1,\ldots,A_n$として，真理値表が与えられているとする．結果の真偽値が$\bF$となる各行$l = 1, \ldots, m$について，次のような節Cを一つずつ用意する．
+\[C_l\dequal (\neg)A_1\vee\ldots\vee(\neg)A_n\]
+ここで$\neg$を付ける場合と付けない場合がある．その行の$A_i$の真偽値が$\bT$であれば$\neg$を付け，$\bF$であれば付けない．するとその行が表している命題変数の真偽値の状態の場合のみに$C_l$は$\bF$となる．従って次のCNFの論理式$Y$の真理値表は元の真理値表と一致する．
+\[Y \dequal C_1\wedge\cdots\vee C_m\]
+ただし$m=0$のとき，即ち$X$がトートロジーの時には$Y\dequiv A_1\vee\neg A_1$(あるいは論理定数Tがある場合にはT)などとする．
+
+このようにして求めたCNFには上の意味での冗長性はない．しかしさらに小さなCNFに置き換えられる場合がある．例えば$(P\vee A)\wedge(P\vee\neg A)$は$P$に置き換えることができる．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[64.] $C_l$が，$l$行目の命題変数に対する真偽値割り当ての場合にのみ$\bF$となることを確認せよ．
+  \item[65.] 幾つかの論理式に対し，まず真理値表を求め，上の方法によりCNFを求めよ．
+\end{enumerate}
+\subsubsection{論理積標準形への同値変形}
+論理式$X$を次々に同値な論理式に置き換えてゆくことで$X$のCNFを求めることもできる．具体的には次のような操作を行う．ここで$A\Rightarrow B$は，$C\equiv C'[D']$の部分論理式$D'$が左側の$A$の形をしている場合，それを右側の$B$の形に書き換えて$C'[B]$とすることを表している．$A$と$B$が論理的同値であることに注意してほしい．また，各ステップでは左側の形をした全ての部分論理式に対し同様の操作を行う．
+\begin{enumerate}
+  \item $X\to Y\Rightarrow\neg X\vee Y$
+  \item $\neg(X\vee Y)\Rightarrow\neg X\wedge\neg Y,$\\$\neg(X\wedge Y)\Rightarrow\neg X\vee\neg Y$
+  \item $\neg\neg X\Rightarrow X$
+  \item $(X\wedge Y)\vee Z \Rightarrow (X\vee Z)\wedge (Y \vee Z),$\\$X\vee(Y\wedge Z)\Rightarrow (X\vee Y)\wedge(X\vee Z)$
+  \item $(X\vee Y)\vee Z \Rightarrow X\vee(Y\vee Z)$
+  \item $(X\wedge Y)\wedge Z\Rightarrow X \wedge(Y \wedge Z)$
+\end{enumerate}
+以上の操作を若い番号からできる限り行うと，まず1により$\to$はすべて消える．2によりすべての$\neg$は命題変数の左側に並ぶ．3により$\neg$は命題変数の直前に高々1つ付くのみとなる．4により$\wedge$が$\vee$の外側に移動する．5と6は$\vee$と$\wedge$の結合の仕方を標準的なものに変えるものである．
+
+上記書き換えは各番号ごとに停止することがわかる．1は一回書き換えるごとに$\to$の個数が1減る．2は$\neg$が書き換えごとに$\wedge$や$\vee$の内側に移ってゆく(厳密にはもう少し正確に言う必要がある)．3は$\neg$の個数が2減る．4は$\vee$が$\wedge$の内側に移る．5,6は演算子の左側の深さが減る．
+
+論理定数T,Fを導入している場合にはさらに以下の操作も必要である．
+\begin{enumerate}
+  \item[7.] $\neg \rT \Rightarrow \rF, \neg\rF\Rightarrow\rT$
+  \item[8.] $\rT\vee X\Rightarrow\rT, X\vee\rT\Rightarrow\rT, \rF\vee X\Rightarrow X,X\vee\rF\Rightarrow X$
+  \item[9.] $\rT\wedge X\Rightarrow X,X\wedge\rT\Rightarrow X, \rF\wedge X\Rightarrow\rF,X\wedge\rF\Rightarrow\rF$
+\end{enumerate}
+上記の書き換えの各ステップで，論理的な同値変形を行っているので，最終的に得られる論理式は$X$と論理的に同値である．この後，小節\ref{CNF}に記述してあるようにして冗長性の削減を行う．すると，トートロジーであれば$A\vee\neg A$などという形の論理式，あるいはTとなる．そのため上記の手続きは，言い換えると論理式がトートロジーであることの決定手続きであるとも言える．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[66.] 上の各変形の左右の論理式が論理的同値であることを確認せよ．
+  \item[67.] 幾つかの論理式のCNFを同値変形により求めてみよ．
+  \item[68$^\ast$.] 論理式を記号列で表し，上記書き換えをDTMで行うことを考える．実行ステップ数の最大値が入力の大きさ$n$のどのような函数で抑えられるかを考察せよ．
+\end{enumerate}
+\subsubsection{論理和標準形}
+\red{論理和標準形}(disjunctive normal form, DNF)は論理積標準形の双対である．即ち，1レベル目がすべて論理和$\vee$で結ばれていて，2レベル目がすべて論理積$\wedge$で結ばれ，3レベル目がリテラルになっているものである．
+\subsubsection*{■例:}
+$(\uA\wedge\neg\uB)\vee(\neg\uC\wedge\neg\uB\wedge\uD)\vee\uB,(\neg\uB\uA)\vee\neg\uD\vee(\uA\wedge\uB)$
+\subsubsection*{■}
+CNFのときと双対的に，論理定数を導入していない場合には，常に$\bF$を表すDNFの論理式は$\uA\wedge\neg\uA$などである．
+
+論理和標準形の場合にも，対応する論理式(を表す集合)を節と呼ぶ場合がある．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[69.] $(X_1\wedge\cdots\wedge X_k\wedge X_{k+1}\wedge\cdots\wedge X_n)\vee(X_1\wedge\cdots\wedge X_k)\lequiv X_1\wedge\cdots\wedge X_k$を示せ．
+  \item[70.] DNFであるような論理式の例を3つ挙げよ．
+  \item[71.] DNFでない論理式の例を3つ挙げよ．
+\end{enumerate}
+\subsubsection{真理値表から論理和標準形を求める}
+$\wedge$と$\vee$が双対の関係にあるので，CNFの場合と同様にして与えられた真理値表を持つDNFの論理式を求めることができる．文章中や論理式の$\wedge$と$\vee$，$\bT$と$\bF$，TとFを入れ替えることで同様の議論が成り立つ．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[72.] DNFの場合の$C_l$(CNFの場合の双対)が，$l$行目の命題変数に対する真偽値割り当ての場合にのみ$\bT$となることを確認せよ．
+  \item[73.] 上の方法で幾つかの論理式のDNFを求めてみよ．
+\end{enumerate}
+\subsubsection{論理和標準形への同値変形}
+こちらも同様である．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[74.] 上の各変形の左右の論理式(CNFの場合の双対)が論理的同値であることを確認せよ．
+  \item[75.] 幾つかの論理式のDNFを同値変形により求めてみよ．
+\end{enumerate}
+
+\subsection{形式的体系}
+以前の節で論理式の意味論的な正しさについて説明した．この節では構文論的な正しさを定義することになる．以下は古典命題論理に限定されない説明である．
+
+証明図を与えて正しいことを示す対象をここでは証明対象\footnote{一般的な名称ではない．}と呼ぶことにする．例えば論理式やそれらなどから成る記号列が証明対象だったりする．構文論的な正しさは，証明対象に対し，初めから正しいことがわかっている証明対象である\red{公理}(axiom)と，正しいことがわかっている証明対象から別の正しい証明対象を導き出す\red{推論規則}(inference rule)により与えられる．これらをまとめて\red{形式的体系}(formal system)，あるいは単に体系と呼ぶ．「形式的」というのは，それらの意味まで考えずに単なる記号列として取扱うということを意味している．最終的には古典論理の場合，意味論的な正しさと構文論的な正しさが一致することを証明できる．これを指して完全性定理と呼ぶ．
+
+多くの体系で公理は無限個あったりするが，それぞれ個々の公理として与えられるのではなく，通常は論理式等が入るメタ変数を含んだ有限個の公理スキーマとして与えられる．メタ変数を含んだ式にそこに入るべきもの，即ちこの場合は具体的な論理式を代入してできる式を一般に\red{インスタンス}(instance)と呼ぶ．このようにすると，公理の集合は(証明対象全体の集合の部分集合として)決定可能な集合として与えられることになる．つまりある論理式が公理スキーマのインスタンスであるかどうかは計算機プログラムで有限時間内に(通常容易に\footnote{ここで「容易に」というのが曖昧であれば，クラスPに属する問題であると読み替えてもよい．}) 判定できる．そうしておかないと，人間が判定するにしても証明対象が公理かどうかを誰もが同じ様に判定できるようにはならない．また推論規則はやはり有限個のスキーマとして与えられるのが普通である．正しいことがわかっている証明対象(複数かもしれない)と，それらから導かれる証明対象が与えられたときに，その推論規則に当てはまるかどうかを(通常容易に)決定可能な形で与えるのが普通である．
+
+これら2つの制約，即ち公理であるかどうかが決定可能，推論規則が当てはまるかどうかが決定可能という条件が満たされる場合，正しいものとして推論される証明対象全体は一般には半決定可能な集合となる(条件を，決定可能より弱い条件である半決定可能としても同じ結論が成り立つ)．
+
+ただし例えば古典命題論理の場合には決定可能なものになる(後述)．古典述語論理の場合には半決定可能なものにしかならない．G\"{o}delの不完全性定理は，一階述語論理の体系に，自然数論を展開できるような公理や推論規則をさらに付け加えた場合，上記制約(と若干の追加の制約)を満たしている限りどうやっても決定可能なものにはならないということを意味している．
+
+形式的な体系には様々なものがあり，主なものを大まかに分類すると，Hilbert流，自然演繹法，シーケント計算などに分類できる．Hilbert流の体系では，証明対象は論理式である．公理スキーマの数が多めで，推論規則の数が少ない方式の体系である．ただしあまり自然に思えない手順で証明を与えることになる場合も多い．自然演繹法はやはり論理式が証明対象で，実際の人間の推論に近い，直観的に分かりやすい，推論規則の数が多い体系である．シーケント計算は，元々自然演繹法の分析のために考えられた体系である．証明対象は後述する様なシーケントであり，公理スキーマの数が少なく，論理演算子ごとに何個かの推論規則があるような体系である．技術的に取り扱いやすく，体系の性質を証明しやすい．歴史的にはこの順番で出現した．以前から使われていた体系に対する不満を解消したり，構文論的な無矛盾性などの証明を行ったりするために考え出されたのである．なおシーケント計算と現在よく使われている形式の自然演繹法はGentzenにより考案されたものである．
+\subsection{形式的体系の要素}
+以下では，「論理式」(formula)という言葉は古典(classical,二値(two-valued))命題論理の論理式を指す(が，定義や補題，定理は，他の論理の場合にもそのままあるいは必要に応じて修正すれば適用・成立するものもある)．
+\paragraph{証明対象}
+本稿では証明する対象のことを\red{証明対象}ということにする(一般的な用語ではない)．論理式だったり，論理式と若干の記号でできた記号列または木だったりする．
+\paragraph{公理}
+初めから正しいとわかっている証明対象のことを\red{公理}(axiom)という．論理式などを表すメタ変数を含んだ\red{公理スキーマ}(axiom schema)で与えられる場合も多い．公理は，次の推論規則の$n =0$となっている特殊ケースであると見ることもできる．
+\paragraph{推論規則}
+すでに正しいことがわかっているいくつかの証明対象$o_1,\ldots,o_n$から別の正しい証明対象$o$を導く方法を記述するのが\red{推論規則}(inference rule)である．通常はやはりスキーマの形で与えられる(ので推論規則スキーマとは言わない)．
+\begin{prooftree}
+  \AxiomC{$o_1\cdots o_n$}
+  \UnaryInfC{$o$}
+\end{prooftree}
+
+\paragraph{証明図}
+\ \red{証明図}(proof figure)とは，公理から始まってその下に推論規則を連ねた木のことをいう．木全体を，木の一番下，すなわち根の位置にくる証明対象$o$の証明図，あるいは証明木，単に証明という．$o$の証明図が存在するとき，$o$は\red{証明可能}(provable)であるという．またそのような$o$を\red{定理}(theorem)\footnote{文脈によってはメタレベルの定理と紛らわしい．証明されたのが対象レベルのスキーマであれば，「定理スキーマ」という言い方なら殆どの場合紛らわしくない．}ということにする．
+
+証明図や定理にメタ変数を含める場合があり，その場合にはそれらのメタ変数に具体的な論理式等を代入してできる証明対象についてすべて証明図を与えたことになる．そういった場合，本稿では証明図スキーマ，定理スキーマと呼ぶことにするのがよいように思われるが，省略して単に証明図，定理と呼ぶこともある．
+
+証明図，あるいはそのスキーマがこのようなものなので，それらに関する性質を証明したい場合，それらの構成に関する帰納法を用いることができる．これは論理式の構成に関する帰納法に類似したものである．
+
+証明図の一部を省略することもある．そういった場合，本稿では規則の横線を二重にして省略を表示する場合がある．
+\paragraph{派生規則}
+公理スキーマや推論規則を組み合わせて，別の推論規則を作ることができる．そういった規則を\red{派生規則}(derived rule)と言う．言い換えると(複数の)元の公理や推論規則に置き換えられるような規則が派生規則である．つまり派生規則も用いて作られた証明図を，元の公理や推論規則のみから成る証明図に変換できる．
+
+以下で3種類(aLKも入れると4種類)の形式的体系を紹介する．これらは見かけ上異なっているが，証明できる論理式の集合は同等となることを示すことができる\footnote{本稿では省略する．例えば其々の体系が健全かつ完全であることを示せば意味論を介して同等性が言える．}
+\subsection{Hilbert流}
+\paragraph{公理}
+以下はポーランドの論理学者\L ukasiewicz\footnote{日本語表記はウカシェヴィッツとする場合が多い．}による版である．これは，$\wedge$と$\vee$については$X\wedge Y\dequal \neg(X \to \neg Y), X\vee Y\dequal X\to Y$として定義し，$\to$と$\neg$のみを論理演算子とする体系である．
+\begin{align}
+   & X \to \left(Y\to X\right),\label{hilbert1}                                                                          \\
+   & \left(X \to \left(Y \to Z\right)\right)\to \left(\left(X\to Y\right)\to \left(X\to Z\right)\right),\label{hilbert2} \\
+   & \left(\neg X\to \neg Y\right) \to \left(Y\to X\right).\label{hilbert3}
+\end{align}
+$\to$と$\neg$以外に$\wedge$と$\vee$も基本的な論理演算子とするHilbert流の形式的体系もあり，この場合には公理の数がさらに多くなる．
+\paragraph{推論規則}
+推論規則は一つだけである．
+\begin{prooftree}
+  \AxiomC{$X$}
+  \AxiomC{$X\to Y$}
+  \BinaryInfC{$Y$}
+  \label{HilInfRule}
+\end{prooftree}
+\paragraph{証明図}
+証明図は，公理から始まって推論規則を積み重ねた木であり，すべての葉が公理でなければならない．例えば以下は定理スキーマ$X\to X$の証明図である．
+\begin{prooftree}
+  \AxiomC{$X\to\qty(Y\to X)$}
+  \AxiomC{$X\to\qty(\qty(Y\to X)\to X)$}
+  \AxiomC{$X\to\qty(\qty(Y\to X)\to X)\to\qty(X\to\qty(Y\to X))\to\qty(X\to X)$}
+  \BinaryInfC{$\qty(X\to\qty(Y\to X))\to\qty(x\to X)$}
+  \BinaryInfC{$X\to X$}
+\end{prooftree}
+なお本稿ではHilbert流の体系の場合であっても証明図という概念を使用しているが，公理と論理式，あるいはそれらのスキーマの列を代わりに用いて議論を行うのが普通である(議論の道筋も異なったものとなる場合がある)．この場合，各論理式は公理のインスタンスか，列中その論理式より左側に現れる論理式から推論規則により正しいと導かれる論理式である．本稿では他の体系と統一的に記述するために上記のような説明を行っている．
+
+上では基本的な論理演算子を$\neg$と$\to$のみであるとしていた．さらに$\neg$を論理演算子から除くと論理演算子は$\to$のみとなる．このような論理を\red{含意命題論理}(implicational propositional logic)と呼ぶ．含意命題論理のHilbert流の公理系の一つは上の最後の公理スキーマ(\ref{hilbert3})を次のような公理スキーマ(\ref{PeircesLaw})に置き換えたものである．これをPeirce's lawと呼ぶ．
+\begin{equation}
+  \left(\left(X\to Y\right)\to X\right)\to X.\label{PeircesLaw}
+\end{equation}
+他の論理演算子を表したい場合には，矛盾を表す$\perp$を論理定数として追加し，$\neg X\dequiv X\to\perp, X\wedge Y\dequiv\left(X\to \left(Y\to\perp\right)\right) \to\perp,X\vee Y\dequiv\left(X\to Y\right)\to Y$などとして他の論理演算子を定義することになる．ただしこれだけでは$\perp$の性質を表すには不十分である．例えば次のような公理スキーマをさらに付け加える必要がある．
+\begin{equation}
+  \perp\to X.\label{perpToX}
+\end{equation}
+\paragraph{型理論との関係}
+この資料の本筋から見れば余談ながら，興味がある方もいらっしゃると思われるので簡単に書くことにする．但しこの部分の理解には函数型言語あるいは入計算の若干の事前知識が必要である．
+
+上記体系の最初とその次の公理は，型付き入計算の$K$コンビネータと$S$コンビネータの型となっている．これは偶然ではなく，型理論とlogicは実はほぼ同じものであることに由来する．
+
+Hilbert流の体系で，様々なトートロジーを証明できることと，$K$と$S$をうまく組み合わせると，与えられた$\lambda$式と$\beta$同値な$\lambda$式となることが対応している．Peirce's lawについては，これは継続の型であり，継続は，古典論理を函数型言語に導入した場合の言語要素である．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[76.] $X\vee Y\to Y\vee X$の$\vee$を上記の定義に従って展開し，さらに展開後の論理式の証明図を示 せ．論理演算子は$\neg$と$\to$のみ，論理定数なし，公理スキーマは(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3})とする．\\解答例:展開すると$\left(\neg X\to Y\right)\to\left(\neg Y\to X\right)$．証明図は省略．
+  \item[77.] 二重否定除去$\neg\neg X\to X$の証明図を示せ．公理スキーマは(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3})とする．
+  \item[78.] 含意命題論理で考える．排中律$\neg X\vee X$と$X\vee\neg X$を展開し，それらの証明図をそれぞれ示せ．論理演算子は$\to$，論理定数は$\perp$，公理スキーマは(\ref{hilbert3})を展開した次のような(\ref{hilbert3'})\footnote{この問題の場合，実は(\ref{hilbert3'})は必要ない．}と，(\ref{hilbert1}),(\ref{hilbert2}),(\ref{perpToX}) とする．
+        \begin{equation}
+          \left(\left(X\to\perp\right)\to\left(Y\to\perp\right)\right)\to\left(Y\to X\right).\tag{15'}\label{hilbert3'}
+        \end{equation}
+  \item[79.] 論理演算子は$\to$，論理定数は$\perp$とする．(\ref{PeircesLaw}),(\ref{perpToX})が，(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3'})から導けることを示せ\footnote{「導けることを示せ」と「証明図を示せ」が，求めていることが異なることに注意せよ．前者では具体的な証明図を示す必要が必ずしもなく，証明図の存在を示せば十分である．}．
+  \item[80.] 逆に(\ref{hilbert1}),(\ref{hilbert2}),(\ref{PeircesLaw}),(\ref{perpToX})から(\ref{hilbert3'})を導けることを示せ．
+  \item[81.] 上の問題で(\ref{perpToX})を除いた場合，(\ref{PeircesLaw})から(\ref{hilbert3'})を導けないことを示せ．(ヒント:まず(\ref{hilbert1}),(\ref{hilbert2}),(\ref{PeircesLaw})と(\ref{HilInfRule})から成る体系が健全，即ちこれらにより証明できる論理式が全てトートロジーであることをいう．次に，命題変数$A, B$に対し$\left(\left(A\to L\right)\to\left(B\to A\right)\right)\to\left(B\to A\right)$を導けるとしたら，命題変数$C$に対して$\left(\left(A\to C\right)\to\left(B\to C\right)\right)\to\left(B\to A\right)$が導けることを示し，それがトートロジーとならない場合があることを言う．)
+\end{enumerate}
+\subsection{自然演繹}
+以下はGentzenによる体系．論理定数$\perp$を導入する(Fと同じだと思ってよい)．
+\paragraph{公理}
+$X\vee\neg X_{\text{(excluded-middle)}}$\\日本語では\red{排中律}と言う．名称は，論理式の値に中間の値がないという意味である\footnote{但し，MV代数あるいは\L ukasiewicz論理の意味論のように，中間の値があってもこの式の真理値は$\bT$となるようなlogicもある．}．
+\paragraph{推論規則}
+\begin{prooftree}
+  \AxiomC{$X$}
+  \AxiomC{$Y$}
+  \RightLabel{{\scriptsize ($\wedge$-introduction),}}
+  \BinaryInfC{$X\wedge Y$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$X\wedge Y$}
+  \RightLabel{,}
+  \UnaryInfC{$X$}
+  \AxiomC{$X\wedge Y$}
+  \RightLabel{{\scriptsize ($\wedge$-elimination1,2),}}
+  \UnaryInfC{$Y$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$X$}
+  \RightLabel{,}
+  \UnaryInfC{$X\vee Y$}
+  \AxiomC{$Y$}
+  \RightLabel{{\scriptsize ($\vee$-introduction1,2),}}
+  \UnaryInfC{$X\vee Y$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$X\vee Y$}
+  \AxiomC{$\qty[X]$}
+  \noLine
+  \UnaryInfC{$\vdots$}
+  \noLine
+  \UnaryInfC{$Z$}
+  \AxiomC{$\qty[Y]$}
+  \noLine
+  \UnaryInfC{$\vdots$}
+  \noLine
+  \UnaryInfC{$Z$}
+  \RightLabel{{\scriptsize ($\vee$-elimination),}}
+  \TrinaryInfC{$Z$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\qty[X]$}
+  \noLine
+  \UnaryInfC{$\vdots$}
+  \noLine
+  \UnaryInfC{$Y$}
+  \RightLabel{{\scriptsize ($\to$-introduction),}}
+  \UnaryInfC{$X\to Y$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$X$}
+  \AxiomC{$X\to Y$}
+  \RightLabel{{\scriptsize ($\to$-elimination),}}
+  \BinaryInfC{$Y$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\qty[X]$}
+  \noLine
+  \UnaryInfC{$\vdots$}
+  \noLine
+  \UnaryInfC{$\perp$}
+  \RightLabel{{\scriptsize ($\neg$-introduction),}}
+  \UnaryInfC{$\neg X$}
+  \AxiomC{$X$}
+  \AxiomC{$\neg X$}
+  \RightLabel{{\scriptsize ($\neg$-elimination),}}
+  \BinaryInfC{$\perp$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\perp$}
+  \RightLabel{{\scriptsize $\qty(\perp)$.}}
+  \UnaryInfC{$X$}
+\end{prooftree}
+なお[]は対応する規則を適用する時に，作成途中の証明図の葉の部分に位置する論理式の出現の両側に書き入れるものであり，記号列として同じ論理式の出現0個以上について付ける．同じ論理式の出現のうちの\red{何個，或いはどれに付けるかは自由であり，付けずに残すものがあってもよい}．どの規則の適用時に[]を付けたのかをはっきりさせるためには，規則の出現(横線の横など)と[]に番号を付けるなどして他と区別する必要がある．
+\paragraph{証明図}
+証明図はやはり公理から始まって推論規則を積み重ねてできる木である．葉の部分はすべて公理であるか，[]で囲まれていなくてはならない．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[82.] \L ukasiewiczの3つの公理スキーマを$A_1, A_2, A_3$とする．それぞれについて自然演繹による証明図を示せ．
+  \item[83.] 本稿中に現れた他のトートロジーについて証明図を示せ．
+  \item[84.] 本稿中に現れた命題論理式で，トートロジーでないものについて，証明図を構成できないことを確認せよ．
+\end{enumerate}
+
+\subsection{シーケント計算LK}
+Gentzenにより構築された，シーケント計算の体系の一つであるLK(Logischer Kalkül，論理計算)を紹介する．ここでは命題論理用に修正した版を導入する．
+
+以下で出てくる論理式の列$P_1,\ldots, P_n$は，集合とは異なり，順序が付いていて同じものが複数回現れる場合もあることに注意してほしい．$\textbf{0個}$以上の有限個の論理式の列を$\Gamma$，$\Delta$，$\Pi$，$\Theta$などのメタ変数を使って表すことにする．$\Gamma,\Delta$や$\Gamma, P$などは，二つの列$\Gamma$と$\Delta$を並べてできる列，列$\Gamma$の最後に論理式$P$をつけてできる列を表す．0個の論理式から成る列のことを空列と呼ぶ．ここで「,」の左右の論理式の列が空列の時には，「,」は表記上除く場合があるので注意してほしい．例えば$\Gamma$が空列の時には$\Gamma,\Pi$は$\Pi$と等しい．また列$\Gamma$に出てくる要素全体からなる集合を$\Gamma_s$と書くことにする．
+
+$\Gamma\vdash\Delta$の形をした記号列のことを\red{シーケント}(sequent)と呼ぶ(Gentzenは$\rightarrow$という記号を用いたが，本稿では多少短くするために$\vdash$を使っている．$\vdash$は本来，他の形式的体系で用いられ，証明可能であることを表している．その文脈ではドイツ語の場合Beweisと読むとのことである．ただし日本語・英語ではturnstyleなどと読んだりするようであるが，これは記号そのものの呼び方であろう．)．$\Gamma\vdash\Delta$の直観的な意味は，$\Gamma$の論理式がすべて成り立つと仮定したときに，$\Delta$の論理式を$\vee$で結んだものが成り立つ，ということである．LKではシーケントを証明対象とする．
+\subsubsection{LKの公理}
+LKで公理に相当するのは$P\vdash P$という形のシーケントすべてである．つまりLKの公理は公理スキーマで与えられる．これを含めて以下での$P$や$Q$は，命題変数ではなく論理式を表すメタレベルの変数であることに注意．公理に相当するシーケントのことを\red{始式}(initial sequent)という．
+\subsubsection{LKの推論規則}
+推論規則は構造に関する規則と論理演算子に関する規則に分けられる．規則の名称は異なるものを用いる場合もある．
+\paragraph{構造に関する規則}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta$}
+  \RightLabel{{\scriptsize (weakening-left),}}
+  \UnaryInfC{$P,\Gamma\vdash\Delta$}
+  \AxiomC{$\Gamma\vdash\Delta$}
+  \RightLabel{{\scriptsize (weakening-right),}}
+  \UnaryInfC{$\Gamma\vdash\Delta,P$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$P,P,\Gamma\vdash\Delta$}
+  \RightLabel{{\scriptsize (contraction-left),}}
+  \UnaryInfC{$P,\Gamma\vdash\Delta$}
+  \AxiomC{$\Gamma\vdash\Delta,P,P$}
+  \RightLabel{{\scriptsize (contraction-right),}}
+  \UnaryInfC{$\Gamma\vdash\Delta,P$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma,P,Q,\Delta\vdash\Lambda$}
+  \RightLabel{{\scriptsize (exchange-left),}}
+  \UnaryInfC{$\Gamma,Q,P,\Delta\vdash\Lambda$}
+  \AxiomC{$\Gamma\vdash\Delta,P,Q,\Lambda$}
+  \RightLabel{{\scriptsize (exchange-right),}}
+  \UnaryInfC{$\Gamma\vdash\Delta,Q,P,\Lambda$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \AxiomC{$P,\Lambda\vdash\Theta$}
+  \RightLabel{{\scriptsize (cut)}}
+  \BinaryInfC{$\Gamma,\Lambda\vdash\Delta,\Theta$}
+\end{prooftree}
+以上は論理演算子についての規則ではなく，シーケントの構造に関する規則なので\red{構造規則}(structural rule) と呼ぶ．今の場合，構造に関する規則は左右対称なものになっている．
+\paragraph{論理演算子に関する規則}
+\begin{prooftree}
+  \AxiomC{$P,\Gamma\vdash\Delta$}
+  \RightLabel{{\scriptsize ($\wedge$-left1),}}
+  \UnaryInfC{$P\wedge Q,\Gamma\vdash\Delta$}
+  \AxiomC{$Q,\Gamma\vdash\Delta$}
+  \RightLabel{{\scriptsize ($\wedge$-left2)}}
+  \UnaryInfC{$P\wedge Q,\Gamma\vdash\Delta$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \AxiomC{$\Gamma\vdash\Delta,Q$}
+  \RightLabel{{\scriptsize ($\wedge$-right)}}
+  \BinaryInfC{$\Gamma\vdash\Delta,P\wedge Q$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \RightLabel{{\scriptsize ($\vee$-right1),}}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\vee Q$}
+  \AxiomC{$\Gamma\vdash\Delta,Q$}
+  \RightLabel{{\scriptsize ($\vee$-right2)}}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\vee Q$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$P,\Gamma\vdash\Delta$}
+  \AxiomC{$Q,\Gamma\vdash\Delta$}
+  \RightLabel{{\scriptsize ($\vee$-left)}}
+  \BinaryInfC{$P\vee Q,\Gamma\vdash\Delta$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \RightLabel{{\scriptsize ($\neg$-left),}}
+  \UnaryInfC{$\neg P,\Gamma\vdash\Delta$}
+  \AxiomC{$P,\Gamma\vdash\Delta$}
+  \RightLabel{{\scriptsize ($\neg$-right),}}
+  \UnaryInfC{$\Gamma\vdash\Delta,\neg P$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \AxiomC{$Q,\Lambda\vdash\Theta$}
+  \RightLabel{{\scriptsize ($\to$-left),}}
+  \BinaryInfC{$P\to Q,\Gamma,\Lambda\vdash\Delta,\Theta$}
+  \AxiomC{$P,\Gamma\vdash\Delta$}
+  \RightLabel{{\scriptsize ($\to$-right),}}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\to Q$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\subsubsection{LKの証明図}
+LKにおける証明図は，始式から始まってその下に推論規則を連ねた木である．証明図の一番下，すなわち根の位置にくるシーケントのことを\red{終式}(end sequent)という．木全体が終式の証明図となる．シーケント$s$に対し，$s$の証明図が存在するとき，$s$は証明可能であるという．またそのような$s$を定理ということにする．
+
+証明図の一部を省略することもある．特にexchange， あるいは weakeningやcontractionも省略する場合もある．そういった場合，本稿では規則の横線を二重にして省略を表示する場合がある．
+\paragraph{証明図の例:}
+\begin{prooftree}
+  \AxiomC{$\uB\vdash\uB$}
+  \LeftLabel{{\scriptsize ($\vee$-right2)}}
+  \UnaryInfC{$\uB\vdash\uA\vee\uB$}
+  \AxiomC{$\uA\vdash\uA$}
+  \RightLabel{{\scriptsize ($\vee$-right1)}}
+  \UnaryInfC{$\uA\vdash\uA\vee\uB$}
+  \RightLabel{{\scriptsize ($\vee$-left)}}
+  \BinaryInfC{$\uB\vee\uA\vdash\uA\vee\uB$}
+  \RightLabel{{\scriptsize ($\vee$-right1)}}
+  \UnaryInfC{$\uB\vee\uA\vdash\qty(\uA\vee\uB)\vee\uC$}
+  \RightLabel{{\scriptsize ($\to$-right)}}
+  \UnaryInfC{$\vdash\uB\vee\uA\to\qty(\uA\vee\uB)\vee\uC$}
+\end{prooftree}
+上は具体的な証明図であり，スキーマではない．
+\begin{prooftree}
+  \AxiomC{$P\vdash P$}
+  \RightLabel{{\scriptsize (weakening-left, weakening-right, exchange)}}
+  \doubleLine
+  \UnaryInfC{$\Gamma,P,\Delta\vdash\Pi,P,\Sigma$}
+\end{prooftree}
+上は$P$に論理式，$\Gamma$等に論理式の列を入れたら具体的な証明図となるスキーマである．また$\Gamma,P,\Delta\vdash\Pi,P,\Sigma$は定理スキーマである(本稿では$\Gamma,\Delta,\Pi,\Sigma$に現れる各論理式と$P$を命題変数に限ったこの形式のスキーマをTC(tautology clause) と名付けることにする)．シーケントがTCであるかどうか(シーケント全体の集合の中で，TCであるようなシーケント全体の集合)は(簡単に)決定可能である．
+
+定理スキーマを公理スキーマの代わりに使った木があったとする．この時，定理スキーマをそれの証明図で置き換えれば木の根の部分の証明図となる．
+\subsection{LKの派生規則}
+LKの推論規則をいくつか繋げて例えば次の様に証明図の断片を作って派生規則を作ることができる．これらの葉は公理とは限らないことに注意してほしい．
+\begin{prooftree}
+  \AxiomC{$P,Q,\Gamma\vdash\Delta$}
+  \UnaryInfC{$P\wedge Q,Q,\Gamma\vdash\Delta$}
+  \UnaryInfC{$Q,P\wedge Q,\Gamma\vdash\Delta$}
+  \UnaryInfC{$P\wedge Q,P\wedge Q,\Gamma\vdash\Delta$}
+  \UnaryInfC{$P\wedge Q,\Gamma\vdash\Delta$}
+  \AxiomC{$\Gamma\vdash\Delta,P,Q$}
+  \UnaryInfC{$\Gamma\vdash\Delta,P,P\wedge Q$}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\vee Q,P$}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\vee Q,P\vee Q$}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\wedge Q$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+今の場合，以下のような新しい規則を導入して証明図を作っても，それらの規則を上のような証明図の断片と置き換えれば，元々の規則だけから成る証明図を得られる．
+\begin{prooftree}
+  \AxiomC{$P,Q,\Gamma\vdash\Delta$}
+  \RightLabel{\scriptsize ($\wedge$-left)}
+  \UnaryInfC{$P\wedge Q,\Gamma\vdash\Delta$}
+  \AxiomC{$\Gamma\vdash\Delta,P,Q$}
+  \RightLabel{\scriptsize ($\vee$-right)}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\vee Q$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+また同様に，以下の様にして新しい規則を導入する．
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \AxiomC{$Q,\Gamma\vdash\Delta$}
+  \RightLabel{\scriptsize ($\to$-left)}
+  \BinaryInfC{$P\to Q,\Gamma,\Gamma\vdash\Delta,\Delta$}
+  \RightLabel{\scriptsize (exchange,contraction-left,contraction-right)}
+  \doubleLine
+  \UnaryInfC{$P\to Q,\Gamma\vdash\Delta$}
+\end{prooftree}
+これによって以下の派生規則ができる．
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \AxiomC{$Q,\Gamma\vdash\Delta$}
+  \RightLabel{\scriptsize ($\to$-left')}
+  \BinaryInfC{$P\to Q,\Gamma\vdash\Delta$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$P,\Gamma,\Delta\vdash\Lambda$}
+  \RightLabel{\scriptsize (exchange-left),}
+  \doubleLine
+  \UnaryInfC{$\Gamma,P,\Delta\vdash\Lambda$}
+  \AxiomC{$\Gamma\vdash\Delta\Lambda,P$}
+  \RightLabel{\scriptsize (exchange-right)}
+  \doubleLine
+  \UnaryInfC{$\Gamma\vdash\Delta,P,\Lambda$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+これによって以下の派生規則ができる．
+\begin{prooftree}
+  \AxiomC{$P,\Gamma,\Delta\vdash\Lambda$}
+  \RightLabel{\scriptsize (exchange-left'),}
+  \UnaryInfC{$\Gamma,P,\Delta\vdash\Lambda$}
+  \AxiomC{$\Gamma\vdash\Delta,\Lambda,P$}
+  \RightLabel{\scriptsize (exchange-right')}
+  \UnaryInfC{$\Gamma\vdash\Delta,P,\Lambda$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item[85.] \L ukasiewiczの3つの公理スキーマを$A_1, A_2, A_3$とする．$\vdash A_1,\vdash A_2,\vdash A_3$がそれぞれLKで証明可能であることを示せ．
+  \item[86.] 排中律のスキーマ$X\vee\neg X$がLKで証明可能であ
+  ることを示せ．
+  \item[87.] 二重否定除去のスキーマ$\neg\neg X\to X$がLKで証明可能であることを示せ．
+  \item[88.] 上で導入されたそれぞれの派生規則を示す証明図
+  の断片で省略されている規則の数はいくつか．
+\end{enumerate}
+\subsubsection{LKの特徴}
+$T$を命題論理のシーケントのLKにおける証明図で，規則cutが現れないものとする．すると，各規則の上の段に現れる論理式はすべて下の段に現れる論理式のうちどれかの部分論理式である．この事実を指して\red{部分論理式性}(subformula property)が成り立つと言う．しかも論理演算子に関する規則の場合には，真に小さい論理式となっている．これらは，各規則の形から直ちに確かめられることである．部分論理式性は重要な性質であり，命題論理の論理式がLKで証明可能であるかどうかを決定する決定手続きを，LKの推論規則たちを元にして作れることを意味している(後述)．このことと(別の)後述のLKの完全性と併せると，命題論理の論理式が恒真であるかどうかが決定可能であることの別証明を与える\footnote{一つ目の証明は，論理式の真偽値表を書いて結果の真偽値が全て$\bT$であればyes，そうでなければnoを答えるというものであった．}．
+
+また後述のカット除去定理は，もしそれを構文論的に証明すれば，LKの無矛盾性の構文論的な証明を与える．カット除去定理とは，規則cutを含む証明図が存在する場合，それを元にしてcutを含まない証明図を得られる手続きがあるという定理である．Gentzenにより一階述語論理のLKについて証明された．LKの無矛盾性，即ち$\vdash$の証明図が存在しないことの証明は，これが下段のシーケントとなりえる規則がcut以外に存在しないことから導かれる．
+
+これらの事実はシーケント計算の美点となっている． 本稿でもcutを含む証明図が存在する場合，cutを含まない証明図が存在することを証明する．ただしその証明では恒真性という意味論的な概念を利用するし，cutを含む証明図を手続き的に変換するという，純粋に構文論的な証明にはなっていない．
+
+\subsection{形式的体系aLK}
+ここで，TCを公理スキーマとし，exchange-left', exchange-right', $\wedge$-left', $\wedge$-right, $\vee$-right', $\vee$-left, $\neg$-left, $\neg$-right, $\neg$-left', $\neg$-right を推論規則とするシーケントに対する命題論理の体系を考え，それをaLKと呼ぶことにする．LKとaLKは，実は定理，即ち証明図を持つシーケントの集合が同じであることが後でわかる．LKがあるのにわざわざaLKを考えるのはaLKの方が解析しやすい性質を持っているからである．
+
+以下に形式的体系aLKについて纏める．
+\paragraph{aLKの公理}
+$\Gamma,A,\Delta\vdash\Pi,A,\Sigma$ (TC)
+
+これはLKの定理スキーマになっている．前述のようにシーケント中のすべての論理式を命題変数のみに制限している．
+\paragraph{aLKの構造に関する規則}
+P,,AFA
+TF A, A, P - (exchange-left'), - T.P.APAN
+TF A. P. A (excha
+211
+■aLKの論理演算子に関する規則
+P, Q, ΓΕΔ ΓΕ Δ, Ρ ΓΕΔ, Q ΡΛΟ.Γ.ΔΛ-left'), Γ-Δ.ΡΛΟ
+- (Λ-right),
+Ρ, ΓΕΔ Q, ΓΕΔ
+PVQ,TEA V
+ΓΗ Δ, P, Q, -left), TEAPV Ö (V-right),
+Ρ, ΓΕΔ
+ΓΕΔ,P ΕΡΓΕΛΗ-left),
+TEA -P (-right)
+212
+ΓΗ Δ, P
+Q, ΓΕΔ
+―(→-left'),
+Ρ, ΓΕΔ, Q
+(→-right)
+”が付いた規則はLKの派生規則になっており，付いて いない規則はLKの規則と同じである．つまりALKで 証明図を持つシーケントはLKでも証明図を持つ．
+2.24 形式的体系の性質
+ここで証明対象をシーケントとする形式的体系の性質 を幾つか定義し，LKと2LKについてそれらが成り立
+213
+つことを示す．証明対象を論理式とする形式的体系の 場合にもほぼ同様の定義を行い，示すことができる．
+2.24.1 無矛盾性
+シーケントについての形式的体系Sで，TPPと TH -P が両方証明図を持つような論理式Pが存在す るとき，TはSで矛盾している (inconsistent) という． そうでないとき，TはSで無矛盾(consistent)である という．特にTとして空列が矛盾している時にSは矛 盾しているという．
+214
+LKの場合，以下のようにTトが証明図を持つことと， TEPとTE -Pの両方が証明図を持つことは同値で あり，特にLKが無矛盾であるというのはシーケント 上が証明図を持たないことと同値である．Tが矛盾し
+ているとどのような論理式QについてもTE Qが証明 図を持つこともわかる．
+TE
+' -- (weakening-right,Q = P, -P の場合も OK)
+TEQ
+215
+PEP
+- (--left) -P, PE
+– (exchange-left) P, -PF
+- (-left1) PX -P,-PF
+- (exchange-left) →P, P  -PF
+- (-left2) PA-P, P  JPG
+(contraction-left) PA-PF
+(cut)
+TEP TF-P
+– (1-right) TF PA-P
+TE
+2.24.2 LKの健全性
+次に体系Sの健全性を定義する． 以下でTはTのすべての論理式をへで結んでできる論 理式である．また，TvはVで結んでできる論理式を表
+216
+す．ただし，「が空列の時にはT A → A, Tv = A-Aとしておく．
+■例:
+T = P,Q,Rのとき，T = PAQARとなる． T=Pのときには T = Pである．
+定義 シーケントの充足 付値ルとシーケント s=TF △があるとする．v(s) " v(T  → Av)とし てルによるsの真理値を定める．付値ルが論理式 TA → △vを充足するとき，ルはシーケントを充足す
+217
+るという．どのような付値によっても充足されるよう な古典命題論理のシーケントを恒真であるという． 」
+古典命題論理の恒真なシーケントをやはりトートロ ジーと呼ぶ．
+■例」
+v(P) = T, (Q) = F とすると， v=PAQ → TPVQなので，ル はシーケント P,Q - -P,Qを充足する．
+補題 7. 命題論理の論理式 X が恒真であることと，
+218
+シーケントト X が恒真であるのは同値である．
+証明: 定義より直ちに成り立つ．
+定義 健全性 形式的体系Sの定理，即ち証明図を持つ シーケントがすべて恒真である時，Sは(弱い意味で) 健全((weakly) sound)であると言う．
+健全でない体系Sを考えてもあまり意味はない．正し くない場合があるシーケントに証明図があるからで ある．
+補題 8. シーケントに関する体系Sが弱い意味で健全
+219
+であれば無矛盾である．
+証明:XとX が両方ともトートロジーとなることは
+ない．
+ただしこれは意味論的な概念を利用した無矛盾性の証 明である．
+定義 完全性 恒真なシーケントがすべて形式的体系S の定理である，即ち証明図を持つ時，Sは(弱い意味 で)完全((weakly) complete)であると言う． 」
+健全かつ完全であることを指して完全と言う場合もあ
+220
+る．最終的には後述するようにLKもaLKも弱い意味 で完全でもある．
+定理 9 (LKの健全性). LKは弱い意味で健全である． すなわち，LKでシーケントsが証明図を持つとすれ ば，sはトートロジーである．
+証明:(概略) 証明図の構成による帰納法によって証明 できる．まず各公理はトートロジーである．加えて 個々の推論規則について，上のシーケントがすべて トートロジーであれば，下のシーケントがトートロ ジーであることを示す．
+221
+系 10. LKは無矛盾である．
+証明:トはトートロジーではないからである．
+ロ
+一般に，体系 S' の公理(スキーマ)がすべて別の健全な 体系Sの定理(スキーマ)であり，S'の推論規則がSの 規則か派生規則であるとする．このとき，Sが健全で あればS'も健全となる．逆に S' が完全であればSも 完全である．
+補題 11 (aLKの健全性). aLKは弱い意味で健全で ある．
+222
+証明: TCはLKの定理スキーマであり，LKは健全な のでこれらはトートロジーのスキーマである．aLKの 各推論規則はLKの派生規則なので，上のシーケント がすべてトートロジーであれば下のシーケントもそう である．
+しかしaLKについてはもう少し強い性質が成り立つ．
+補題 12. 付値のとaLKの各推論規則について，上の段 のシーケントを 81,.., Sn，下の段のシーケントをsと すると，ゆ(s;)がすべてTであることと，(s) がTで あることは同値である．
+のす
+223
+証明: aLKの各推論規則ごとに同値性を示す．例えば --left の場合，(-PATA → △v) = Tとなるのは の(-P) = F，(Tx) = F，(A) = Tの3つの場合 である．いずれの場合にも．(T → A VP) = Tで ある．(T → AV VP) = Tとなるのはゆ(P) = T，
+(Tx) = F，(v) = Tの3つの場合である． の(-P) = Fとめ(P) = Tは同値なので求める同値性 が成り立つことがわかる． 他の規則の場合も類似の議論により示される． ロ
+演習問題
+224
+89. 定理9の証明の細部を完成せよ． 90. 補題12の証明で，本文中で記述されていない他
+の規則の場合について補完せよ．
+2.25 証明図の構成手続き ここで，シーケントsに対して証明図の候補を作って ゆく手続きを与える．
+■手続き W(Wangのアルゴリズムの変形)
+225
+*23 最初 sを木Tの唯一の葉-根として出発する． 1. T のいずれの葉のシーケントにも論理演算子が現れ
+ていなければ，手続き W を停止し，Tを結果と する． 2. そうでない場合，一つ以上の論理演算子が現れてい
+る葉のシーケントを選び，s'とする(例えば一番左 側のものを選んでもよい)．s' =TF △として，演 算子がTまたは△のどれかの論理式に現れている． それらから一つ選ぶ(やはり例えば一番左側のもの
+*23 日本語表記は「ワン」が近いと思われる．
+226
+としてもよい)． 3. 「から選んだ場合，その論理式が一番左になければ
+exchange-left"で一番左に移動する．論理演算子に 応じて --left, A-left",v-left, →-left"のうちいずれか 一つを適用し，それらのインスタンスを選んだシー
+ケントの上に繋いでTを延長する． 4. △ の場合には同様に exchange-right"で一番右に移
+動する．その後はTの場合と同様にしてTを延長
+する． 5. 1に戻る．
+227
+1/11
+■停止性
+ここで，s中の論理演算子の数は有限であることと，3 あるいは4で，推論規則の上の段の各シーケント中の 論理演算子の数は下の段のシーケント中の数よりも1 以上減ることに注意してほしい．
+補題 13. 手続き W は停止する． 証明: 対象とするシーケントs中の論理演算子の個数 をd個とする．上の注意の内容から，Tの深さは一定 値2d以下にしかならない．Tの分岐の仕方が2以下で
+228
+あることと併せると，Tの大きさ(ノードの数)は高々 22d41 であり有限である．手続きWの各ループでTに 1個あるいは2個の規則のインスタンスが追加されるの
+で，ループの回数も有限である．
+停止時のTのexchange-(left",right')を除いた深さは 一定で，s中の論理演算子の数と等しい．今示したよ うに手続き W は停止するが，できた木がaLKの証明 図になっているとは限らない．葉の部分のシーケント がすべてALKの公理だとは限らないからである．
+補題 14.0を付値とする．上の手続き Wの途中で出
+229
+てくる各Tにおいて，葉の部分に現れるシーケントを S1, ..., Snとする．ゆ(s) = Tであるための必要十分条 件は，すべてのi = 1, ..., n に対しゆ(si) = Tである．
+証明: () (s) = Tであるとする．ループを回った 回数 l = 0のときにはの(s) = Tは自明である． 手続き W のあるステップでi = 1, ...,nに対し の(s) = Tであるとする．次にどこかの葉を延長する ことになる．補題12より，延長した先のどの葉のシー ケントs'でもの(s') = Tとなるので，その時点でのす べての葉のシーケントs" についての(5") = Tである．
+230
+(←) (s) = Fであるとする．=0のときには
+(s) = Fは自明である． 手続き W のあるステップで1<i<nであるiに対し (s) = Fであるとする．次にどこかの葉が延長され る．延長した葉lのシーケントのかによる値がTの場 合には，シーケントの中による値がFである葉はその ままである．Fの場合には，1の部分で延長されていは 葉ではなくなるが，補題L1より，やはり延長した先の 一つの葉のシーケントs' での(s') = Fとなる． ロ
+上の手続き W によりaLKでのsの証明図の候補が作ら
+231
+れ，葉の部分に現れるシーケントは全て命題変数の列 から成るものとなっている．そうでなければ停止して いない．これがaLKの証明図であるためには，それら のシーケントが全て TCのインスタンスとなっていれ ばよい．
+補題 15. 全て命題変数からなるシーケントを s=TF △とする．sがトートロジーであることと，T と△に共通変数がある，即ちTCのインスタンスであ ることは同値である．
+証明:付値をbとする．共通変数 Aがあるとする．
+232
+の(A) = T の場合にはめ(v) = Tであり， の(T → △v) = Tとなる．の(A) = F の場合には の(T) = Fであり，やはりか(T → △v) = Tとなる． 共通変数がないとする． T = A1, ...., An, A = B1, ..., Bm とする (n, m > 0)． 1 <i<n,1 j<mであるようなすべての i,j に対 しゅ(Ai) = T, ©(Bs) = F となるのにより ゆ(T → △v) = Fとなる．
+定理 16 (aLKの完全性). シーケントsがトートロ ジーであれば体系aLKで証明図を持つ．
+233
+証明:sに対し上の手続き W を適用する．補題14によ り葉の部分に現れるシーケントはすべてトートロジー である．補題15により，それらはすべてaLK の公理 である．
+系 17 (LKの完全性). シーケントsがトートロジーで あれば体系LKでsの証明図を作れる．
+証明: ALK は完全なのでaLKの公理と推論規則でsの 証明図Tを構成できる．aLKの公理スキーマはLKの 定理スキーマ，aLKの推論規則はLKの推論規則か派 生規則なのでTをLKの証明図に変換できる． 口
+234
+系 18 (LKの cut 除去定理). シーケントsのLKでの証 明図があるとする．すると規則 cut を使わないLKでの sの証明図を作れる．
+証明: LKは健全なのでsはトートロジーである．上の 系の証明に出てくる方法でsのLKでの証明図を作れ
+る．その際，aLK の規則にはcut は含まれないし， aLKの公理や派生規則の証明にもcut を使用していな い．また，変換により cut が出てくることもないため である．
+LKのcut除去定理は述語論理版をGentzen が初めて
+235
+証明した．その証明はcutを使った証明図を変形して cut を使わなくする手続きを与えるものである．その 手続きは必ず停止するし，証明は純粋に構文論的なも のである．本稿で説明した証明はそうではなく，元の 証明図を変形するものではないし，証明の過程でトー トロジーなどの意味論的な概念を用いている．また， 命題論理の場合にしか適用できないものである． LKのcut除去定理からLKの無矛盾性を証明できる． LKの無矛盾性は上が証明図を持たないということと 同値であった．LKで上が証明図を持つことを仮定す
+る．するとcut除去定理によりLKでcut を含まないト
+236
+の証明図が存在する．しかし上が下段に来ることがで きる規則はcut 以外に存在しない．これは矛盾である． 結局，Gentzen の証明の場合には，LKの純粋に構文 論的な無矛盾性の証明を与えているといえる． シーケントsへの手続き W の適用後に葉の部分の各論 理式si がすべて TCのインスタンスであるかどうかを テストするという手続きは，シーケントsがトートロ ジーであることの決定手続きとなる．補題14によりs がトートロジーであることと， Si がすべてトートロ ジーであることが同値となるからである．論理式が トートロジーでない時に yesと答えるという問題は NP
+237
+EL
+完全問題なので，この手続きは(少なくとも今の所)多 項式時間で実行できないはずである*24． 手続き W は，論理式 X のCNFを与えるものでもあ る．具体的には，シーケントト Xに手続きW を適用 して得られた木の葉の部分のシーケントを s1 = T1 A1, ..., Sn = Trト Anとする． C: " (-Ti, A3)として節Cを定義し， YSC1 A ... A Cm とすれば補題14によりY は X の
+*24 P = NPである場合か，P = NPだがNP完全問題に
+多項式時間で答えるアルゴリズムが求められるまでは．
+238
+CNFである．ここに -「はTの各論理式にをつけた 列である．ただし，T; と △;に同じ命題変数が複数回 出現していたら一つに減らす，T; と A3 に共通変数が あるCiは除くなど，単純化を行ってもよい．
+演習問題 91. Lukasiewiczの3つの公理スキーマを A1, A2, A3
+とし，それらの異なるメタ変数にそれぞれ異なる命 題変数を代入したものを AL, AS, Agとする． ト A1, - A3, - Agに対し手続きWを適用し，葉の部 分のシーケントがすべて TCのインスタンスである
+239
+かどうか調べよ． 92. 排中律のスキーマXV -Xに対し 91 と同様のこ
+とを行え． 93. X | AVB → JAAC に対し手続き W を適 用し，葉の部分のシーケント si でTCのインスタン スでないものがもしあれば，v(si) = F となる付値 レを与え，(X)を求めよ．ただし付値はXに出現 する命題変数についてのみ真偽値を記述すれば十分 である．
+240
+2.26 形式的体系についてのまとめ 1. 形式的体系により論理式の構文論的な正しさを定義
+する． 2. 形式的体系は，言語，公理(スキーマ)，推論規則か
+ら成る． 3. 古典命題論理の形式的体系の例として Hilbert流， * 自然演繹，シーケント計算を挙げた．
+4. 公理から始まる推論規則のインスタンスを連ねた木  を証明図という． 5. 証明図を持つ論理式，シーケントを定理と呼ぶ．
+241
+6. 論理式，シーケントが定理かどうかは一般には半決
+定可能であるように形式的体系を作る． 7. 恒真式(トートロジー)のみに証明図がある形式的体
+系を(弱い意味で)健全であると言う． 8. 逆にどの恒真式にも証明図があるとき(弱い意味で)
+完全であると言う． 9. 形式的体系LK(と他の2つの体系)は(弱い意味で)
+健全かつ完全である． 10. シーケントあるいは論理式がトートロジーであるか
+ー どうかの構文論に基づく決定手続きがある． 11. 同じ手続き(と若干の付加的な操作)により論理式の
+242
+CNFを求めることができる． 12. 古典命題論理の場合には定理の集合は決定可能と
+なる．
+2.27 命題論理のコンパクト性 ここで命題論理の場合のコンパクト性を示しておく． これは無限かもしれない命題論理式の集合GC Pro について，その任意の有限部分集合G'に対しG'に依 存する一つの付値によってG' の要素すべてが充足可 能であれば，Gの要素すべてが一つの付値によって充
+ここに
+243
+足可能になるという性質である．これは後で出てくる 一階述語論理についての定理であるエルブランの定理 (3.10節)を示すのに使うことができる．エルブランの 定理は命題論理と述語論理の橋渡しをする定理であ
+り，形式的体系の定理の計算機による自動証明の基礎 となる定理でもある．
+■論理式の集合からの演繹
+GC Proとするとき，Gの元から成る有限列IIがあっ て，II, TF △がLKで証明できるとき，TF △はGか ら演繹されるといい，G, TF △ あるいはT-G △と書
+244
+く (表記法の細かい部分の流儀はいろいろあるので授 業で用いた表記法が使われていない場合もある)．つ まり，
+TEG A iff ある有限なIICGによりII, TF A
+である． XE ProがあってGE X かつGE-X のとき，G は矛盾していると言う．そうでないとき，Gは無矛盾 であると言う．
+補題 19. GC Proとする．Gが充足可能であればG
+245
+は無矛盾である．
+証明:Gが充足可能であるとすると，ある付値が存 在してルー Gであり，従ってT．CGであるような任 意の有限列Tに対してもレトT である． するとGE Xであるような任意のXE Proについ
+て，LKの健全性よりルト X である．どのようなレに よってもレト X かつルト -X であることはないので， Gは無矛盾である．
+無矛盾なGC Proが，集合の包含関係で極大，即ち G' 2Gである任意のG' C Proが矛盾しているとき，
+246
+Gは極大無矛盾 (maximal consistent)であると言う．
+補題 20. GC Proが無矛盾かつ XE Proとする． 1. GE X ならばG' Gu{X}も無矛盾である． 2. G H X ならばG' Gu{-X}も無矛盾である．
+証明: 1. T , A CG'である有限列T', ATMについて T'EYとA' -Y の証明図があるとする． T', A から X を除いたものをT, △とすると， T, A,X - YA -Y の証明図が存在する．GA X なの でII，CGである有限列IIによりII - Xである．従っ
+247
+てT, A, II - YA -Y の証明図が存在する． TS,A,CGなのでGは矛盾している． 2. 対偶を示す． T., ACG'である有限列T', A'につ いてT'FYとA-Y の証明図があるとする． T', A' から -X を除いたものをT, △とすると， T, A,-X-YA Y の証明図が存在し，ゆえに T,,-X 上の証明図が存在し，従ってT, AF X の証 明図が存在する． TA, CGなのでGE X となる．
+補題 21. GC Proが極大無矛盾の時，任意の
+248
+XEProに対し次が成り立つ． 1. GE X ならXEGである． 2. XEGかつ -X EGということはない． 3. XEG又は-X EGである．
+証明: 1. GE X かつXEGとする． G' "GU{X} とすると補題20の1によりG'2Gは無矛盾である． 従ってGは極大ではない． 2. もしそうであればGは矛盾している． 3. XEGであるとする．1よりGJ Xである． G' GU{-X} とすると補題20の2よりG'は無矛
+249
+盾である．Gの極大性からG' = Gであり，-XEG である．
+補題 22. GC Proが無矛盾であるとする．任意の XE Proに対しXEGあるいは-X EGであれば， Gは極大無矛盾である．
+証明: YEGとすると仮定より -Y EGなので GU{Y}は矛盾する．
+補題 23. GC Proが無矛盾であるとき，G'SGと なる極大無矛盾なG' C Proが存在する．
+250
+証明: Proを整列して番号をつけ，X1, X2, ...とする． これは命題変数の集合V が高々可算無限個という本稿 のような定式化の場合にはそのようにできる． まずGoG とする．これは無矛盾である． i>1について以下のようにしてG;を定める．
+e def J Gi-1 U {-X;} (Gi-1 Xi)
+1G-U{X;} (Gi-FX)
+Gi-1が無矛盾であれば補題20によりGも無矛盾であ り，数学的帰納法によりすべてのiについて Giは無矛 盾である．
+251
+det
+G' SUXGとしてG' を定義する．G'が矛盾して いるとするとその矛盾を導く有限個の前提を含む Giが あり，G;も矛盾していることになるのでG'は無矛盾 である． 列 X1, X2, ...にはすべての論理式が現れているので， G'の作り方から任意のYE ProについてYEG'ま たは-YE G'である．従って補題 22 によりG'は極大 である．
+結果として得られるG'は論理式の列の与え方に依存す ることに注意してほしい．ちょうど一回ずつProの各
+252
+論理式を X1, X2, ... として出力してゆく手続きが存在 する．つまり Proは帰納的可算である．有限で無矛盾 なGを与えると，それを含む極大無矛盾かつ決定可能 な集合G' を与えられることもわかる．Gが有限集合で あれば各Giも有限であり，Gi Xは命題論理なので 決定可能である．G'に含まれるかどうか判定するため に与えられたXがX;として現れるまでGiを生成し， XがGに含まれるか判定すればよい．
+補題 24. GC Proを論理式の無矛盾な集合と
+する．
+253
+1. Gが極大無矛盾であれば，AEVに対し
+VG(A) ""
+1) def JT (AEG)
+F (AEG) として付値 vs を定義すると，VG FGである． 2. Gのモデルが存在する．
+証明: 1. まず，Gが極大無矛盾だからAEVに 対しAEGか-AEGのどちらかなので VG: V → {T, F}が定義される．XE Proの構 成による帰納法によりXEG if vg(X) = Tを
+254
+示す． まず，XEV のときにはルの定義から XE Giff vg(X) = Tである．
+X,Y E Prok 2017X E Giff vg(X) = TX YEG iff va(Y) = Tが成り立つと仮定すると 以下が成り立つ．ただしifが一番結合力が弱い． -X EG iff X  Giff vg(X) + T iff VG(X) = Fiff VG(-X) = Tである． XAY E G iff X,Y E G iff vo(X) = VG(Y) = Tiff VG(XY) = Tである． XVY E G iff XE G Hz 18 Y E G iff vg(X) =
+255
+TまたはvG(Y) = Tiff VG(X VY) = Tである． X + YEG iff X   G TIZY E Giff VG(X) = TまたはvG(Y) = Tiff vg(X) = FまたはvG(Y) = Tiff VG(X → Y) = Tである． ここでそれぞれの最初の同値はGの極大無矛盾 性から導かれる． 2. 補題23よりGを含む極大無矛盾なG' C Pro が存在する．1よりVGE G'であり，ゆえに VG PGである．
+256
+定理 25 (命題論理におけるコンパクト性). GC Proとする．すべての有限なG' CGにつ いてG' が充足可能であれば，Gは充足可能で ある．
+証明: Gが矛盾しているとすると，矛盾を導く論 理式の有限集合G' CGが存在するが，それは補 題19から充足不能であり，仮定に反する．従っ てGは無矛盾である．すると補題24よりGは充 足可能である．
+この定理をコンパクト性定理と呼ぶのは，位相空
+257
+間論におけるコンパクト性に対応するからであ る．この部分の理解には位相空間論の初歩の知識 が必要である．ただし理解できなくても本稿の他 の部分には影響しない．命題変数全体の集合V からの附値の : V → TV全体の集合TVにカン トール位相を入れる．即ちTV = {T, F}, V = {A1, A2, ... } とし，SE TV* に対し B, " { : V → TV|() = S; for 1 < vi < length(s)}, Beg" {B. | s E TV*} とする．ここ
+で s; は列sのi番目の文字(この場合はTVの要
+258
+素)，length(s)は列sの長さである．Bを基本開 集合としてTV に位相を入れると，コンパクト となることが知られている．この場合各基本開集 合は開閉(開集合かつ閉集合)となっている． 各命題論理式XE Proは有限個の命題変数を含 ŁOBU Sx def {0 € TVV | 0(X) =F} 453 と開閉となる．式中のFをTとしても開閉であ る．GC Proが充足不能 iff UnceSx = TV' である．iffの右側はTV”がコンパクトなので EG' C G G' : finite 1 UxEG, Sx = TV' ZH
+259
+値である．Uxce, Sx = TV' if G' が充足不能 なので，結局Gが充足不能 iff Gのある有限集合 G'が充足不能を示した．これの⇒方向の対偶を とったものが上の定理である．
+2.28 一般のSAT問題の3SAT への帰着
+この小節では古典命題論理式X を，充足可能性 を保存しながらCNF S3に変換する手続きの例を 示す．ここで示す例では S3の各節が高々3つの リテラルから成る．各節のリテラルが3個以下の
+260
+CNFに限った決定問題を3SATと呼ぶ．即ちこ こで示すのは，CNFに限定しない一般のSAT か ら3SAT への変換手続きの例である． S3の大きさはX の大きさの或る線形函数で抑え られる．実現方法を工夫すれば変換の実行時間は やはり線形函数で抑えられる．なおSAT問題と いう言い方をするとCNFである場合に限ってい る場合も多いが，ここではXは一般の古典命題 論理式であり，更にA,V,→ 以外の二項論理演算 子を含んで構わない(次段落の一を除く．但し同 じ論理函数の演算子，例えば⇔を含んでよい)．
+261
+但しX は論理定数を含まないものとしている． もしも含む場合を考えたいのであれば多項式時間 の前処理により含まないように簡単化しておくこ とで対応できるし，あるいは以下の手続きを拡張 することでも対応できるだろう． 手続きを示す前に論理演算子を新たに1つ導入し て論理式の文法を拡張する．まず新しい二項論理 演算子三を付け加え元の文法を拡張する．但し この演算子は本小節内でのみ変換目的で用い， トップレベルにしか出現せず，しかもAXと いう形(Aは命題変数で，Xは拡張前の文法での
+262
+任意の論理式)でのみ現れるとする．演算子とし ての表示上の優先順位は最も低いとする．三に 対応する真理函数は々と同じであるとする．
+■変換の手続き: 最初に拡張前の文法の論理式(ごが出現しない論 理式) X に対し集合 So = {X} とする．Soに対し 以下の3つの段階の変換手続きを順に適用する． 第一段階 ではS = Soに対して次のような書き換 え(其々を書き換えの1ステップとする)を，当て はまるパターンがなくなるまで繰り返し行う (1
+263
+以外の記述では{と}US'の部分を略している)． opはニ 以外の二項演算子，A,Bは命題変数， A', B'は新しい(即ちS中に出現しない)互いに異 なる命題変数を表している．4の→の左側はリ テラル数3以下の節である場合を除く．例えば AV(-BVC)や-Aは書き換えられないが， AV (BV(CV-D))は書き換えられる．上方の 行の規則の方が優先適用される．
+1. {XY}US' ⇒ {X,Y} US', (S = {X AY
+}US'全体を{X,Y} US' に書き換える．略記
+264
+するとXXY → X,Y である), 2. -X → X, 3. -X ⇒ ■A', A' = X, 4. X opY ⇒ A', A' = X opY. 書き換えはS中の各論理式のトップレベルにのみ 適用される．S1 第一段階終了時のSとする． 第二段階では，S = SLに対し以下の書き換えを 同様に行う．但し cnf(X)はXのCNF(節の集合 扱いし，やはり列として表記している)を表す． cnf(X)には三が現れないことに注意．
+265
+1. A = -X → JAV-B', A V B', B' = X, 2. A = X opY ⇒
+cnf( A (B' op C')), B' = X, C' = Y. 第二段階を終了すると，S中のA Xというパ ターンの論理式について，Xは命題変数である (それ以外のパターンは1,2どちらかにマッチする ため)．S, 第二段階終了時のSとする． 第三段階ではS = Shに次の書き換えを同様に行
+う．終了時のSを変換結果 S3 とする．
+266
+1. A2 B → JAV B, AV -B,
+以下に第一段階の変換の例を示す．命題変数のア ンダーラインを略している．
+(AV B)((--(-A V (B V C)))  (-AV
+(BV(CV D)))) ⇒ AV B, (-(-AV (BVC)))(-AV (BV
+(CV D))) ⇒ AV B, --(-AV(BVC)), HAV(BV(CV D)) ⇒ AV B,-AV (BVC), JAV (BV (CV D)) ⇒ AVB,-AV(BVC), E, E = -AV(BV(CVD))
+267
+続いて第二段階ではコを含む式のみ変換される． その部分のみ表記する．含まない式はそのまま S2(及び S3)の要素となる．[]内はそのステップ で確定し，結果の S2が含む部分である．
+[A V B, -A V (BVC), E],
+E = -A V (B V (CVD)) → [-EV(FVG), E V -F, E V -G],
+F = A,G = BV (CVD) ⇒「-FV-H, FV H, H = A, G BV (CV D) ⇒ [-G V (IV J),G V -I, G V -J, I = B] , J =
+268
+CVD ⇒ [-JV(KVL), JV-K, JV-L, K = C, L = D]
+S2は上記の口の中身を全て合併したものである． 第三段階では2つの命題変数がこで結合された 論理式が全て書き換えられ，以下になる．S3 = {AV B, -A V (BVC), E, -E V (FVG), EV -F, E V -G,-F V -H, F V H, -H V A, HV-A, -G V (IV J),G V -I,G V -J, -IV B, IV-B, -JV (KVL),JV-K, JV-L,-K VC, KV-C, -L V D, LV-D}である．例を見てわ
+269
+かる様に，改良すれば効率化(即ち少ない追加命 題変数，少ない結果の節)可能である．
+補題 26.(上の)第一段階は停止する．
+証明:S中の，之を含まない論理式で，なおかつ リテラル個数が3以下の節以外のものについて， それらの中の演算子の出現個数の合計をnとする と有限であり，1ステップ毎に1以上減る． ロ
+補題 27. 第一段階の各ステップで充足可能性が 保存される．
+270
+証明: (省略していない)1ステップ書き換え {X}US' ⇒ SMUSに対し充足可能性につい て(⇒)を示す時の上{X}US"，(←)の時 WE STUS'とする． (1,2の場合) そのままの上 S" USMあるいは WE {X}US'である． (3⇒) X = -X'とすると の[F/A'] = { A', A' = X'}US'である．ここで ofu/A1(B) def  (B = A) .
+である． lo(B) (BEA)
+271
+(3~) そのままリー{X}US'である． (4→) X = X'op Y'とすると 小[T/A'] = {A', A' = X' opY'} US'である． (4←) そのままリー {X}USである． ロ 補題 28. S1の要素はリテラル数3以下の節であ るか，A X の形の式のどちらかである．
+証明: それら以外の論理式があると書き換えの対 象となるため手続きは終了していない．
+補題 29. 第二段階は停止する．
+272
+証明:S中のA Xの形の論理式の X の長さの 合計値がステップ毎に減るため．
+補題 30. 第二段階の各ステップで充足可能性が 保存される．
+証明:補題27 と同様に証明する． (1⇒) X = A = -X'とするとの「(A)/B'] = {-AV-B', A V B, B' = X'}US'である． (1~) そのまま充足する． (2) X = A = X' op Y' Z73% •[0(X')/B'] [(Y)/C"] = {cnf( A + (B'op C')), B' = X',
+273
+C EY"US'である． (2-) そのまま充足する．
+補題 31. 命題変数がn個の古典命題論理式 X の CNFX'の各節は，高々n個のリテラルから成る 或る節と同値である．
+証明: まずA, V 以外の二項演算子を一, へ, Vによ り表し，CNFX'を求められる．n+1個以上のリ テラルを含む X'の節をCとする．すると少なく とも一つの命題変数 Aについて Aと-A両方がC に出現するか，あるいはどちらかが重複してCに
+274
+出現している．それゆえCATであるか，Cの リテラルを減らして同じ推論を繰り返せる． ロ
+補題 32. S2はリテラル数3以下の節とA Bの 形の式から成る(A, BEV)．
+証明:補題28と，第二段階の書き換え1.2の結果 中の，A = X以外の形の論理式がリテラル数2 の節形式であること，3の場合にはcnf の部分の 命題変数の数が3に対し補題31を適用すること， A = X(XEV)の形の論理式がS中にある場合 には第二段階が終了していないことによる． 口
+275
+補題 33. S3はリテラル数3以下の節から成る．
+証明:上の補題と，第三段階でA 2Bが -AV B, AV -Bに書き換えられるため．
+ロ
+以下では論理式を計算機中でポインタにより木の 形で表現するとする．具体的にはC言語のポイン タと structを利用するか，あるいはLISPを利用 する場合を考えればよい．すると論理式のトップ レベルから定数レベル下までのパターンを分類し たり，論理式をトップレベルの論理演算子の引数 に分解したり，逆に特定の演算子の引数を与えて
+276
+組み立てたりするのはどれも定数時間で実行可能 である．ここではそのような実現方法と採ってい るとして各段階の実行時間と結果の大きさについ て考える．なお定数分余分に必要な点については 省略して記述している．例えば定数倍で抑えられ る，などと書いた場合，正確には或る一次式で抑 えられる，という意味である．
+補題 34. 第一段階の実行時間は So の大きさの定 数倍で抑えられる．結果のデータS」の大きさ(複 数の論理式を表すデータをリストとして表すのに
+277
+必要なメモリも含める)は So の大きさの定数で抑 えられる．
+証明: 第一段階の書き換えの回数は So中の演算 子の数以下である．パターンマッチにかかる時間 の合計は Soの大きさの定数倍である． 追加で利用するメモリの領域は書き換えの回数の 定数倍である．
+口
+補題 35. 第二段階の実行時間はSの大きさの定 数倍で抑えられる．結果のデータ S2の大きさは S1の大きさの定数で抑えられる．
+278
+証明:上と同様である．
+補題 36. 第三段階の実行時間は S2 の大きさの定 数倍で抑えられる．結果のデータ S3の大きさは S2 の大きさの定数で抑えられる．
+証明:これも同様である．
+結果的に以下が証明された．
+系 37. 一般の論理式 X についてのSAT問題を 3SATに変換する上の手続きについて，変換結果 の大きさは X の大きさの一次式で抑えられる．
+279
+仮定した実現方法を採った場合には，実行時間も 同様に一次式で抑えられる．
+系 38. 3SATはNP完全である．
+証明: 3SATの問題はSAT問題なので3SATはク ラス NPに属する．NP困難なSATが上の系によ り 3SATに線形時間帰着可能ゆえ3SATもNP困 難であり，併せるとNP完全である．
+口
+280
+
+
+\section{古典一階述語論理}
+この節で\red{古典一階述語論理}(classical first-order predicate logic)に付いて述べる(以下，一階述語論理と記す)．この論理を用いると，ある種の数学を記号的・形式的に取り扱うことが可能になる．実際にはその領域の数学と議論を全て枠内で取り扱えるという保証があるわけではないが，経験的には問題がないし，そうできると信じられてもいる．
+
+一階述語論理を用いると，例えば以下のような論理式を取り扱うことが可能になる．
+\begin{align}
+   & \forall x,y,z\ x\cdot\qty(y\cdot z) = (x\cdot y)\cdot z,                                                                                                           \\
+   & \forall x\forall\epsilon\qty(\epsilon>0\to\exists\delta\ \delta>0\wedge\forall x^\prime\qty(\qty|x^\prime-x|<\epsilon\to\qty|f\qty(x^\prime)-f\qty(x)|<\epsilon)), \\
+   & \forall x,y\qty(x\leq y\wedge y\leq x\to x=y),                                                                                                                     \\
+   & \forall x,y,z\qty(x\in y\cup z\leftrightarrow x\in y\vee x\in z),
+\end{align}
+\red{述語}というのは，引数を与えられると真偽値が定まるもののことで，命題論理の命題が引数によらずに真偽 値が定まったのとは対照的である．例えば等号$=$は両側の2つの引数が定まると真(等しい時)か偽(それ以外の時) かが定まるような述語である．ただし述語論理と命題論理の違いは，函数記号を扱うことや，命題ではなく対象の上を動く変数があることなど他にもある．\red{古典}論理というのは，もともと数学で広く使われている自然言語での論理に対応するような，研究の歴史が長い論理ということで，その基本的な意味論で真偽値として真と偽2つの値を取るものを考えるので\red{二値論理}(two-valued logic) とも言う．\red{一階}(first-order)というのは，数学の理論が取り扱う領域の要素が変数の値となるし，取り扱う函数や述語もそういった要素に対して値や真偽値が定まるという意味である．領域上の函数や述語(領域の部分集合)の上を動くような変数がある場合には\red{二階}(second-order)と言う\footnote{一階述語論理に基づいた数学の例に集合論があり，その場合には変数は集合の上を動くと考えられるが，領域の元が集合であるため一階の範疇に入る．}．さらにそれらの集合の上の函数や関係の上を動く変数があり，さらに...というようなものを\red{高階}(higher-order)と言う．
+
+一階述語論理により，集合，自然数や，半群，モノイド，群，環，体などの代数的な数学的対象に付いてそ れらの性質を論理式で表現し，証明を行えるようになる．例えばそのようにして集合論や自然数論を一階述語論理の中で展開できる．前者を\red{公理的集合論}(axiomatic set theory)と呼び，後者には\red{ペアノ数論}(Peano arithmetic)という標準的な方法がある．
+
+これらに対し，解析学(に相当する数学)を展開するには二階の論理を用いる必要がある．ただし，集合論の中で実数に対応する集合を定義して解析学を行うことは可能なので，その意味では一階述語論理で解析学を取り扱えるとも言える．
+
+以下，命題論理の場合とある程度同じように，一階述語論理の言語，意味論，形式的体系，標準形たちとそれらへの変換手続き，命題論理との関係(エルブランの定理)，体系の健全性と完全性について説明する．
+
+\subsection{一階述語論理の言語}
+古典一階述語論理で使用する記号と項，論理式とは以下のようなものである．これらを古典一階述語論理の言語と呼ぶ．古典命題論理の場合には命題変数全体の集合を固定すれば言語は1つしかなかった．また命題変数全体の集合を可算無限集合の範囲で取り替えても本質的には同じである．そのため言語は事実上1つであると考えてよい．しかし古典一階述語論理の場合には\red{言語そのものが変化する}ことに注意してほしい．具体的には定数記号，函数記号，述語記号の集合に依存して変化する．
+
+\paragraph{論理記号}
+$\wedge\ \vee\ \neg\ \to\ \forall\ \exists$
+
+命題論理と比べて, $\forall,\exists$の2つが新しい記号である．これらを\red{量化記号}(quantifier symbol)と言う．$\forall$を\red{全称量化記号}(universal quantifier symbol)，全称記号，$\exists$を\red{存在量化記号}(existential quantifier symbol)，存在記号などという．
+
+\paragraph{変数記号}
+$V$: 可算無限個の\red{変数記号}(variable symbol)の集合．
+
+対象言語の変数記号: $\underline{x_1},\underline{x_2},\ldots,\underline{y_1},\underline{y_2},\ldots,\underline{z_1},\underline{z_2},\ldots$．変数記号を表すメタ変数としては$x_1,x_2,\ldots,y_1,y_2,\ldots,z_1,z_2,\ldots$を用いる．
+
+以下，$K, F, P$についての対象言語の記号も，それらの方に下線をつけて表す．また，誤解がない場合には下線を省略する場合もある．
+
+\paragraph{定数記号}
+$K$: \red{定数記号}(constant symbol)の集合．
+
+対象言語の定数記号:$\underline{c_1},\underline{c_2},\ldots,\underline{d_1},\underline{d_2},\ldots$．定数記号を表すメタ変数としては$c_1,c_2,\ldots,d_1,d_2,\ldots$を用いる．定数記号をarity(引数の数)が0の函数記号として扱う流儀もある．
+
+\begin{comment}
+■函数記号
+2311
+F: 函数記号(function symbol)の集合． arity: F → N \ {0} が定義され，引数の数を表すと する． 対象言語の函数記号:fi, f2, ... 91, 92, ... h1, h2, ...． 函数記号を表すメタ変数としては f,g,h, fi, fe, .... g1, 92, ..., h1, h2, ... を用いる． F = {f/2,g/1}などと表 記して，arity(f) = 2, arity(g) = 1を表すことに
+する．
+述語記号
+232
+P: 述語記号(predicate symbol) の集合．空でないと する．arity: P → N が定義されているとする． 対象言語の述語記号:p1,p2, ..., 41,42, ..., r1, 72, ...．述 語記号を表すメタ変数として p, g, r, ..., p1,p2, ..., 91, 92, ... を用いる．Fの場合と同 様にしてarity を表すことにする．
+上記3種類の定数・函数・述語記号は，述語記号が空集 合でないという条件が付いている以外，一般には追加 条件はない．述語記号が空集合だと，後で定義する論 理式の集合が空集合となってしまうため，意味がない．
+233
+但し一階述語論理で取り扱える一般の数学の場合，こ れら3種類の記号は通常有限集合とする場合がほとん どである．無限集合の場合も考えるのは，そのように 一般化してもそれほど問題がないことと，理論展開上 必要な場合が出てくるのに備えてのことである．
+■補助記号 (,) などの補助的に用いる記号．
+■一階述語論理の言語
+234
+V, K, F, Pがすべて定まると一階述語論理の構成要素 の記号やそれらの列あるいは木がすべて定まるので， L = (V, K, F, P) で一階述語論理の言語を表すことに する．逆に，LのV, K, F, Pをそれぞれ VL, KL, FL, PL と書いて，言語Lの変数記号，定数記 号，函数記号，述語記号の集合を表すことにする．以 下の項，原子論理式，論理式の集合は，組 Lが定まる と決まるので，それぞれ添え字Lを付けている．
+Phone
+www
+項
+235
+以下のように帰納的に定義される集合TTL の元を項 (term) という． (1) 変数記号と定数記号はTTLの元である． (2) ti, ... twをTTLの元とし, f を arity nの函数記号
+とするとき，f(t1,..,tn) も TTLの元である． S, t, S1, S2, ..., t1, te, ...を項のメタ変数として用いる． 函数記号を四則演算の+や-，・のように演算子として 項を表記する場合がある．演算子の優先順位は，通常 は単項の方が他よりも優先順位が高いとする．
+■原子論理式
+236
+t1,.., thを項とし, pを arity が n の述語記号とすると き，p(t1,..,tn)は原子論理式(atomic formula) の集 合 AALの元である． 原子論理式も，述語記号を演算子として表記する場合
+がある．例えば等号=/2は二項演算子として表記する 場合が多い．
+■量化子
+CE VL のとき，V.cを全称量化子(universal quantifyer)，3.を存在量化子(existential quantifyer)と言い，両者を併せて量化子(quantifyer)
+237
+と呼ぶ．本稿ではxをその量化子の変数記号と言う．
+■論理式 次のように定義される集合Prer の元を論理式 (formula) という．論理式を表すメタ変数としてE, F などを用いる． 1. 原子論理式はPreL の元である． 2. E,F を Pres の元,xを変数記号とするとき,以下
+は論理式である． (a)→E (b) E A F
+238
+(c) EVF (d) E → F
+(e) VxE (f) 3xE FX1 V02....Vinを省略して『201, 22, ..., Onと書く場合が ある．ヨについても同様である．量化子の右側の論理 式に括弧が付けられていない場合，切れ目がわかりに くくなりやすい．そこに若干の空白を入れる，あるい は.を入れるなどして切れ目をわかりやすくしたりす る場合がある ． 原子論理式と，その前に-を一つ付けたものをリテラ
+239
+ル(literal) と呼ぶ．リテラルをVで有限個結んだもの を節(clause) と呼ぶ．これらは命題論理の場合と同じ である． () の使用を減らすため，論理記号の間に優先順位をつ ける．本稿では-, へ, V, → についてはお互いの優先 順位は命題論理の場合(2.1節の最後の部分を参照) と 同じで，量化子，即ちFax, 3の優先順位はA, V と → の間であるとする．即ち本稿では以下の2つの論理式
+240
+は同等である．
+Var p(ac) ^ q(ac) → Jayp(y) V g(y) (Vx(p(x) ^ q(x))) → -ヨy((-p(y)) Vg(y))
+量化子の優先順位をっと同じとする流儀もあるし，→
+が連なった場合に右側の → の式が括弧で囲まれていな くてもそちらが優先される流儀もあるので，注意して ほしい． KL, FL, PL が高々可算無限集合のとき，TTL, PreL は可算無限集合，AAL は高々可算無限集合となる．こ のような言語Lを可算な言語(countable language) と
+241
+いう． 2つの言語 L1, Lがあり，VL1 = VL , KLACKL2， さらにarity を含めて FL C FL2, PL C PL, のとき， L2 を L1の拡張(extension)という．このとき，TTL の元はそのままTTL,の元とみなせるし，PreL」の元 はそのままPreLの元とみなせる．
+なおここでE → F(E → F) ^ ( F → E) として， 同値の記号令を命題論理と同じように略記法として導 入することができる．→の優先順位は → と同じで
+242
+ある．
+以下では,特に別の言語や言語の拡張を考えない場合 には，一つの言語Lを固定し，添え字のLを適宜略す．
+■出現
+論理式あるいは項の中に変数記号や定数記号，函数記 号，述語記号が現れている場合，それらをそれぞれ の出現(occurrence) と呼ぶ．出現と言う場合には，同 じ記号が複数回出現している場合，それぞれを区別す る．本稿では，量化子V2, 32 の変数記号は変数の出 現と言わないことにする．ただし (変数記号をxとす
+wwwwwwwww
+243
+る)量化子の出現ではあるとする． 変数が出現しない項を基礎項(ground term)，あるい はグラウンドな項と言う(分野によってはこういった 項を閉(closed)であるという場合もある)．
+■部分項
+項は以上のように帰納的に定義される．ある項tを帰 納的に作っていく際に途中で出てくる項s，言い換え るとt の一部になっている項sをtの部分項(subterm) と呼ぶ．本稿ではt自身ももの部分項であるとする．
+244
+■部分論理式
+論理式も以上のように帰納的に定義される．ある論理 式Eを帰納的に作っていく際に途中で出てくる論理式 F，言い換えるとEの一部になっているFをEの部分 論理式(subformula) と呼ぶ．本稿ではE自身もEの 部分論理式であるとする．
+■変数の束縛と自由な出現 変数xが量化子∀cまたはヨンの内側に出現している場 合，その出現は束縛されている (bound) と言う．以下
+245
+で例えば括弧内のxは左側の▼xやヨンにより束縛され ている．ここでFac(・・・0...)はEの部分論理式で ある．
+E= F =
+"VE(.C.). ... ヨa(...)..
+束縛されている変数の出現からみて，最も内側にある 同じ変数記号の量化子の出現が，その変数の出現を束 縛する．つまり束縛されている変数の出現には，一意 的にそれを束縛する量化子の出現が対応する．量化子 の同じ出現に束縛されている変数は，それらと，対応
+246
+する量化子の変数記号を組織的に別の変数記号に置き 換えても，後でわかるように論理式の意味や証明可能 性は変わらない*25．これはプログラムで仮引数や局所 変数の名前を変えてもプログラムの動作や意味に変化 がないことに相当する．論理式E中で，いずれの量化 子の出現によっても束縛されない変数 x が出現してい る時，その出現を の自由(free) な出現と呼び，xはE に自由に出現する，と言う．
+*25 但し他に出現している変数名に置き換えて，置き換え
+後の量化子でその出現を束縛するのはまずい．
+247
+ps(i, Ann Vez qt, ) → (r(i, }) vpla) • p("))
+p(f(x, y)) ^ Ta((x, y) → ((3z(z(z, y) V p(z))) ^ p(z))) まず，上式は各論理演算子等の優先順位により，括弧 付きで表すと下のような式である．1はどの自由な出 現であり，2,5,8はyの自由な出現である．4と10は3
+に，7と9は6に束縛されている．つまり 4,7,9,10はx の束縛された出現である．後でわかるように，3の変 数記号と 4, 10をすべて とに，6の変数記号と7,9をす べて に置き換えても論理式の意味は変わらない．た だしそれらの一部のみを置き換えたり，2ではなく，に
+248
+置き換えたりするのはだめである． FV(E) '" {x ∈ V |2cは式E中に自由に出現する}と してFV : PreL → 2' を定義する．FV(E) = 0 の時， Eは閉(closed)であると言う．あるいは文(sentence) とも言う．Pret C PreLを閉論理式全体の集合とす る．変数も量化子も出現しない論理式をグラウンドで あると言うことにする．以下，幾つか定義を行う．
+249
+■閉包 FV(E) = {21, ..., Xn}OZ & VX1, ..., Un E & E D FH2 (universal closure). 3x1, ..., Un E & E
+の存在閉包 (existencial closure) と呼ぶ．閉包は両方 とも閉論理式となる．
+■代入 論理式E中の変数 x の自由な出現をすべて項tで置き 換える操作を，変数 x への t の代入 (substitution) と言 い，代入の結果をE[t/z] と表記する．ただし，tに出
+250
+現する変数達がEの量化子によって束縛されてはなら ない(そのような場合には，tに現れる変数記号と衝突 する，Eの量化子の変数記号達と，それに束縛される 変数の出現達をまったく新しい(つまりEに出現しな い)変数記号達に置き換える操作を行ってから代入す ることになる)．E[ac/ac] = E であり，xがEに自由に 出現しない場合にはE[t/a] = Eであることに注意し てほしい．
+■置き換え
+251
+iごとにそれぞれ定数記号あるいは述語記号として KL に [，あるいはPL に [12/0を i = 1, ...., kまで付け加え て言語 L'とし，論理式の集合PreLを改めて定義し， Preu, k と記す．またPreL,k の元を E[] などと表記 し，E[]の中の記号 1: をすべてLの項または論理式u で置き換えたものを E[u1, ..., uk] と表記することにす る．ただし は liが定数記号であれば項，述語記号で あれば論理式でなければならない． E[u1, ..., uk] PreL となる． u, が自由変数を含んで いる場合には，それらの変数が代入によって束縛され てはならない (ui が項の場合は ur 中のすべての変数が
+252
+eeeeee
+自由変数である)． なお，本稿では記号 [] を導入して論理式の置き換えを 以上のように定義し，記法 E[u1, ., UK] を定義したが， 直観的な説明でE[u1, ..., ux]を導入してもよいかもし
+れない．
+1.12.0
+演習問題 94. 以下の言語を Lpeanoと表記する．
+Kpeanslat {0}, Fpeans {s/1, 4/2, -/2}, Ppeano {=/2},
+253
+1. 基礎項の例，基礎項でない項の例をそれぞれ3つ
+挙げよ．ここで+, ., =は演算子として記述する
+こと． 2. 項と使用する記号は同じだが，項とはならない記
+号列を3つ挙げよ． 3. 原子論理式の例を3つ挙げよ． 4. , A,V,→ をそれぞれ一つ以上含んで量化子を含
+まない，閉論理式の例と自由変数を含む論理式の 例をそれぞれ3つ挙げよ．ただし括弧をできる限
+り省略すること． 5. 上の問題の回答の全称閉包を求めよ．
+254
+MARCONeeeeeeeed.
+6. T, へ, V, →, V, 3をそれぞれ一つ以上含む，閉論理
+式の例と自由変数を含む論理式の例をそれぞれ3 つ挙げよ．ただし括弧をできる限り省略する
+こと． 7. 上の問題の回答の存在閉包を求めよ． 95. (s(x) = s(y) → c = y)[s(c)/z][s(y)/y] を求
+めよ． 96.
+(([]+ []1)+2 = 7+ []2^[])[0, s(0), 1 = 1, -0 = 1]
+を求めよ． 97. 使用している記号は同じだが，論理式ではない記
+255
+号列の例を3つ挙げよ．
+五口
+W0
+3.2 一階述語論理の意味論
+一般に形式的体系の言語に対し，それが何を意味する かを別の数学的対象を使って表すことを意味論 (semantics)と呼ぶ．一階述語論理の言語Lに対して は，それの意味を集合論を使って表すことが行われて きた．これを Tarski意味論と呼ぶ．他には例えば圏論 (catogory theory)を使った意味論もある．この意味 論で論理を研究する分野を圏論理(categorical logic)
+256
+と呼ぶ． ここから一階述語論理の Tarski方式の意味論に入る．
+3.2.1 L構造
+一階述語論理の言語Lに対し，以下のようなDとIの 対〈D,IのことをL構造(L-structure) と呼ぶ(単に構 造と呼ぶ文献もある)．Dは変数や函数の値の取り得 る集合であり，Iは定数記号，変数記号，述語記号の意 味を定めるものである． ・Dは空でない集合で，Dのことを対象領域
+TELLE
+257
+(domain) という． ・IはKL UFLU PL からの函数で，次を満たすもの
+である．
+I(c) ED, I(f) Derity(f) → D, I(p) < Derity(P) → TV.
+I(c) は具体的なDの値であり，I(f) は D上のarity(f) 引数の函数，I(p) は D上のarity(p) 引数の特性函数で ある．Iのことを解釈 (interpretaton) と呼ぶ．ここで
+258
+はI(p)を特性函数として与えたが，I(p) C Darity(p) として与えても同等である． Dを空ではないとするのが標準的な方法だが，空の場 合も許す方式もある．ただしその場合には後述する恒 真性や形式的体系が変化することになる．
+演習問題
+98. 言語 Lpeanoに対し Lpeano構造を少なくとも2種
+類与えよ．
+1.19
+3.2.2 付値
+259
+e-momeogree
+本稿では論理式の意味を与えるのに，付値を用いる方 法を採用する．これを用いない方法も何種類かあり， 文献によって異なる．後述の注意参照．
+VLからDへの回数を付値(valuation) と呼ぶ．付値は 変数の値を与える．束縛された変数の値を定めて量化 子の意味を与える道具でもある．Iが与えられている ときを付値とすると，レをTTLに拡張することがで きる．これは命題論理の場合に，命題変数のみに対し て付値を定義すれば任意の命題論理式に対して真理値 を与えるように拡張できたことと類似している．即 ち，tETTLに対し，VI:TTL → Dを以下のように
+260
+帰納的に定義する． 1. Vi (c) "" v(z), 2. VI(c) 1(C), 3. Vi(f(t1,.... tr)) - I(f)(vi(t1), ..., Vi(tm))
+Vi(c) = v(a)が成り立つので，文脈からIが何である か決まっていて区別する必要がなければ」をvと書く こともある． 一階述語論理の場合の対象言語の変数に対する付値 が，命題変数に対する付値と類似した面があると書い たが，役割としてはむしろ解釈 I の方が命題論理の場
+261
+合の付値に近いので注意してほしい．実際，引数のな い述語をn個用意してそれら原子論理式からできる量 化子のない論理式を考えると，出現している述語記号 をそれぞれ異なる命題変数記号に置き換えることで， 命題論理の論理式を得る．この場合，命題変数に対す る付値に対応するのは(後述の)I(p)である．
+演習問題
+99. 言語 Lpeanoの場合に対象領域 D と解釈I，2つの
+異なる付値V1, V2 を具体的に与えてみよ． 100. V1(t1) = va(t1)，V1(t2) = V2(t2) となる項
+262
+t1, tz を与え，VA(t1) と vi(tp)，V2(t1)を求めよ．た だし項にはそれぞれ1つ以上の函数記号を含める こと．
+3.2.3 論理式の真理値
+L構造(D, I〉 と :VL → Dが与えられると，Lの原 子論理式，ひいては論理式の真理値を以下のように定 めることができる．ただしここで〈D,I),vを与えた場 合に論理式Eの真偽値がTであることを 〈D,I), D E E，そうでない場合，即ちFである場合を
+263
+t1, t2 を与え，VA(t1) と un (tp)，Vクt1)を求めよ．た
+だし項にはそれぞれ1つ以上の函数記号を含める こと．
+3.2.3 論理式の真理値
+L構造〈D, I〉 と v : VL → Dが与えられると，Lの原 子論理式，ひいては論理式の真理値を以下のように定
+めることができる．ただしここで〈D,I),vを与えた場 合に論理式Eの真偽値がTであることを 〈D,I), v = E，そうでない場合，即ちFである場合を
+263
+t1, t2 を与え，V1(t1) と vi(tp)，V2(t1)を求めよ．た だし項にはそれぞれ1つ以上の函数記号を含める
+こと．
+3.2.3 論理式の真理値
+L構造〈D, I〉 とv:VL → Dが与えられると，Lの原 子論理式，ひいては論理式の真理値を以下のように定 めることができる．ただしここで〈D, I),vを与えた場 合に論理式Eの真偽値がTであることを 〈D,I), E，そうでない場合，即ちFである場合を
+263
+〈D,I), v = E と書いている．二値論理なので 〈D,I), E か D,I), v = E どちらか一方が成り立
+つことに注意してほしい． 1. 〈D,I), v = p(th, ...,tn) iff * I(p)(v(t1), ...,V(tm)) = T,
+2.〈D,I),v -Eiff <D,I), E, 3. 《D, I〉, vEX Fiff 〈D, I〉, E かつ
+《D,I),v F, 4. (D, I), v = EV F iff (D, I), v = E 7018
+D,I), F, 5. 《D,I), v = E → Fiff 〈D, I〉, E または
+264
+(D, 1), v EF, 6. (D,I), v E VxE iff Fm Tode DIII b
+(D,I), v[d/x] = E, 7. (D,1),v + 3x E iff $3 de Dikb
+  (D, I), v[d/x] = E.
+  ld
+  (y = x) 6 to be
+  v[d/x](y) det {.
+  |(y)
+  (y + x)
+  265
+  本稿では，対象領域 D, 解釈 I, 変数への付値により 自由変数が現れているかもしれない論理式Eの真偽値 を定める方式を取っている．即ち，自由変数の意味を ルにより定めている．この方法，あるいはレの代わり にDの無限列を用いる同等な方法はある程度使われて いる．しかし例えばChang and LeeによるSymbolic Logic and Mechanical Theorem Proving Culinis れている真偽値の定め方は本稿で使われている方法と 異なる．その他の注意事項としては，対象領域 Dが空 集合ではないという条件を強調しておく．
+  266
+  人
+  27日日日
+  演習問題
+  101. 言語 Lpeanoの場合に，前節の演習問題で答えた 対象領域Dと付値11, V2について，〈D,I),v1 — E かつ〈D, I), v2 Eとなる論理式Eを与えてみよ． ただしEは論理演算子と量化子をそれぞれ2つ以上 含むこと．
+  3.2.4 充足
+  言語Lの論理式Eに対し，L構造 〈D, I〉 と付値によ
+  り 〈D,I),v> Eとなるとき，〈D,I),vは Eを充足する
+  267
+  (satisfy) と言う．ある〈D,I),vが存在してEを充足す るとき，Eは充足可能 (satisfiable) と言う．そうでな いとき，充足不能(unsatisfiable) と言う．Eが充足可 能であることを本稿ではメタレベルで記号的に 3D, I〉, ヨvEと記すことにする(上という記号が 入っているので対象言語と混同する可能性が低い)． 言語Lの論理式の集合GC PreLとL構造 〈D, I〉 と付 値ルがあって，任意のEEGに対し，〈D,I),E であるとする．このとき，〈D,I),vはGを充足すると いい，《D,I),G と書く (注意: シーケントの上の 右側は直観的にはORで結ばれた意味となるが，集合
+  268
+  であるGの場合には AND で結ばれた意味となるので 誤解の原因になるかもしれない)．
+  補題 19. 任意のcE FV(E)に対しv(x) = '' (x)の 時，〈D,I), v = Eiff <D, I〉, ' FEである．特にE が閉論理式の時，任意の , V に対し 〈D, I), v Eiff 〈D, I,V' Eである．
+  つまり，ルは論理式Eの自由変数の意味を定めるので， Eに自由変数がなければルに関わらず真偽値が定まる ということである． なお，命題論理の場合には論理式が充足可能かどうか
+  269
+  は決定可能だったが，述語論理の場合には決定可能で はない(Church の定理)が，本稿では触れない．ただ し充足不能であることは半決定可能である．
+  演習問題
+  102. 補題19を証明せよ． 103. Eが充足可能であることと，Eの存在閉包が充
+  足可能であることが同値であることを示せ．
+  270
+  3.2.5 モデルと恒真式
+  #い出
+  言語Lの論理式EとL構造 〈D, I〉に対し，すべての付 値ルについて 〈D, I〉, E E となるとき，〈D, I〉 は E のモデル (model)であると言い，〈D,I) Eと書く． すべてのL構造 〈D, I〉がEのモデルであるとき，E は恒真(valid) あるいは妥当であると言い，FEと書 く．以下では手でないとき，手と書くことにする．逆 にどのようなL構造と付値によっても常にFとなる論 理式を恒偽式と言う． GC PreL とする．任意のEEGに対し 〈D, I〉 E
+  271
+  であるとき，《D, I〉はGのモデルであると言い， <D,I> G と書く． Dが高々可算無限集合であるようなモデル 〈D, I〉を可 算モデル(countable model) という．
+  補題 20. E E PreL とすると以下が成り立つ． 1. Eiff -E が充足不能 2. = Eiff E DIEETE 3. Eiff -Eが充足可能 4. -Eiff E が充足可能
+  証明: それぞれの定義から直ちに導かれる．
+  272
+  これにより，Eが恒真式であるかどうかを見るには， →Eが充足不能かどうかを調べればよいことがわかる． また，Eが充足可能なことを記号的にヨ(D,I)ヨv = E の代わりにキ Eと書くことにしても自然なことがわ かる．
+  補題 21 (F1). EE PreL とし，E'をEの全称閉包と すると，FEとE'は同値である．また，E”をE の存在閉包とすると, 3D,I)Eと 3〈D, I〉Eは同値である．
+  証明: 上の定義から直ちに出る．
+  273
+  補題 22. EE Pref の時， (D, I) E E iff to Bulidu (D, I), v E E iff 任意のルにより〈D,I), VEEである．
+  証明: 上の定義から直ちに出る．
+  演習問題
+  104. 補題20から22 の証明を詳しく書け．
+  274
+  3.2.6 恒真式の例
+  見方を変えれば以下の論理式でトップレベルが今に なっているものは，後述する論理的に同値な論理式の 例も与えている． 1. 命題論理のトートロジーの各命題変数を，述語論理 この論理式で置き換えてできる論理式
+  2. VrE → E 3. 3xE → E 4. VuE → VyE[y/2z] 5. BuE → ByE[y/ze]
+  275
+  6. E A VxF H Vx E AF 7. E^3x F H 3x E AF 8. EV VXF 4 Vx EV F 9. Ev 3xF H 3x EVF 10. (E → VxF) # Vx(E → F) 11. (E + 3xF) H 3x(E + F) 12. (VxF + E) + 3x(F + E) 13. (ExF + E) # Vx(F + E) 14. 7VxE 4+ 3x-E 15. -3x E H Vx-E 16. Vc, đE + Vg, cE
+  276
+  17. 3x,yE → By, cE 18. VI EAF ←→ (VxE) / VcF 19. 3x EVF H (ExE) V 3xF 20. 3x(E → F) → (VarE → 3cF) 21. Exty E + Vyš. E 22. Vz(E → F) → (VcE → VxF) 23. va(E → F) →(JxE → 3xF)
+  2, 3, 6~13については Eにはxが自由に出現しないこ と．4,5については，yは新しい変数であることが条 件となる．1の形の論理式をトートロジーと呼ぶこと
+  にする．2以下はトートロジーではない恒真式である．
+  277
+  演習問題 言語 Lpeanoを今回も使用する．
+  105. 上記リスト中の3つ以上の項目についてスキー
+  マでなく具体的な恒真式を挙げよ． 106. 上記リスト中の各項目についてそれが恒真であ
+  ることを証明せよ 107. リストの後に書いてある条件を満たなさい場
+  合，恒真にならない例をそれぞれの項目について挙
+  げ，条件が必要であることを示せ．
+  278
+  3.2.7 論理的帰結
+  一階述語論理の場合にも命題論理の場合と同じように 論理的帰結を定義できる．
+  定義 論理的帰結 一階述語論理の言語をLとし， EE Preu,G C PreLとする．すべてのL構造 <D,I),vに対し，どのFEGに対しても 〈D,I), v = Fであるとすると，《D,I), v = Eである とき，EをGの論理的帰結 (logical consequence)と言 い，GEEあるいはEG Eと書く．
+  279
+  上記の論理的帰結は意味論的帰結とも言う．GLEで GEEでないことを表す．また，特にGが有限集合 のときにはGを論理式の列として記すこともできる． 列を表すメタ変数としてはやはりT,A等を用いること にする．特にEがG = 0(空集合)，Tで言えば空列の 論理的帰結であることと，Eが恒真であることは同値 となる．
+  補題 23. Tが空列以外の時，TE Eiff → Eで ある．
+  ここではTの各論理式をへで結んだ論理式である．
+  280
+  Tが一つの論理式から成る時に制限すると，上は
+  PreL 上の二項関係となる．
+  補題 24. 二項関係上は前半順序である．即ち反射律 と推移律を満たす．
+  二項関係上の右側に来る方が大きいと見ると，すべて の恒真式が最大元であり，すべての恒偽式が最小元で ある．次の論理的同値目は前半順序上から定義され る同値関係であり，月で同値類を作ると -, へ, V が well-defined となり，これらの演算によりPreL/月 はブール代数となる．
+  281
+  ■論理的同値
+  E,FE Prer の充足性が等しいとき，即ちすべてのL 構造〈D, I〉 と付値に対し 〈D, I〉, Eと 《D, I), F が同値であるとき，EとFは論理的同 値 (logically equivalent)，あるいは意味論的同値であ ると言う．ここではEFFと表記することにする．
+  補題 25. E Fiff (E F かつ FE E) iff (FE + FD2 EF + E) iff E EHF
+  つまり先の恒真式で E → F の形のものは，EU Fと
+  282
+  読み替えることができる．
+  補題 26. 日はPreL上の同値関係である．即ち反射 律，対称律，推移律を満たす．
+  演習問題 108. 補題 23から26を証明せよ．
+  283
+  3.3 冠頭標準形 EE PreLが以下の形をした論理式の時，冠頭論理式 という．
+  Q1.QmF
+  ただし，は量化子でFは量化子が現れない論理式で， 量化子の変数記号はすべて異なるとする．特に冠頭論 理式のうち，量化子がすべて全称量化子のものを全称 冠頭論理式，存在量化子のものを存在冠頭論理式と 言う． Eと論理的に同値な冠頭論理式E' をEの冠頭標準形
+  284
+  (prenex normal form)，略してPNFという．冠頭標 準形は一般に複数存在することに注意してほしい．
+  補題 27. 論理式EからEのPNF E'(のうちの一つ)を 求める手続きが存在する．
+  ここでEは自由変数を含んでいてもよい．
+  証明: 論理式Eの一部Fをそれと論理的に同値な論理 式F'で置き換えてできる論理式をE'とする．すると EHE'が成り立つ (厳密にはこれはEの論理式の構 成に関する帰納法で証明する)．そのため，目が同値
+  285
+  関係であることから，上の恒真式の例の6から15を用 いて論理的同値性を保ったまま量化子を外側に移動し ていくことができる．このとき変形の条件を満足しな い場合(つまり移動対象の量化子の変数記号 がEに 自由に出現する場合)には，まず4,5を用いて心を新し
+  い変数記号」に変えればよい．以上を繰り返せば -V^ → の内側には量化子がなくなる．2,3により， 重複する変数に対する量化子を除けばPNFが得られ
+  る．
+  SE
+  演習問題
+  286
+  1111
+  次の論理式たちのPNFを求めよ． 109. VE(> 0 → 36 6 > 0 ^ Gro, c(lar - xo| < S →
+  「f(x) - f(co)| < c)) 110. Vc0, 6(e > 0 + 36 6 > 0A V ( z – 20 < 5 »
+  「f(x) - f(co)| < c))
+  3.4 スコーレム標準形 スコーレム標準形は，冠頭標準形を，さらに量化子の 種類の並び方を制限した形に変形したものである．文 献によって，元々のSkolem の論文のように KL, FL が
+  287
+  空集合の場合についてのもの(当時は函数記号を用い ずに論理式を定義していた)と，そうではない場合に追 加の定数記号・函数記号を言語Lに付け加えつつ全称 冠頭論理式あるいは存在冠頭論理式とするものがあ る．本稿では後者2種類を紹介する． まず，全称冠頭論理式に変形する版である．
+  補題 28 (スコーレム標準形への変形手続きの存在). EE Prexのとき，FLに有限個の定数記号と函数記号 を付け加えたLの拡張言語 L'と，次のような FE PresでEとFの充足可能性が同値であるよう
+  288
+  なものを作る手続きが存在する．
+  F = Vi1...WinF'
+  ただしF'には量化子が現れない
+  ここでEは自由変数を含んでいてもよい．また両者を 充足するL構造のDは共通にできる．つまり (言語L とその)解釈の部分だけを変更して充足するようにで きる．FをEのスコーレム標準形(skolem normal form)，略してSNFと呼ぶ．本稿では F を (E)と記 すことにする．ヨが含まれないという点と，定数記号 や函数記号を付け加えて言語を拡張する必要がある点 がPNFとは異なる．なおEとFの充足可能性が同値
+  289
+  というのはEUFと異なる条件であることに注意し てほしい．一般にEFFであれば EとFの充足可能 性は同値である．しかし逆は成り立たない．ただしス コーレム標準形の場合，FF E である．
+  証明:EをPNFに変形した後，左から見て最初のヨc を順番に次のように変形する．
+  ▼x1...V.ch3cE' → Fi1...VERE'[f (x1, ..., xk)/c]
+  ここで f はarity(f) = kであるような，論理式中に現 れない新しい函数記号，または定数記号である．即ち
+  290
+  ヨの左側に全称量化子が一つもない場合には定数記号
+  となる．FLに新しい函数記号 S / k，あるいはKLに新 しい定数記号cを付け加えてLを拡張することになる． またここで，PNFの場合には変数記号が同じ量化子が 高々1回しか出現しないことに注意してほしい． この1ステップで充足可能性が変化しなければ，これ を存在量化子の個数だけ繰り返して最終的に得られる 論理式の充足可能性も変化しない．したがってこの1 ステップについて証明すればよい．なお，L'はLに各 ステップで付け加える記号をすべて付け加えたもので
+  ある．
+  291
+  <D,I), v = G.71...V.2.3cE'であれば，上の定義より， すべての d, ...,dk EDに対してあるdEDが存在し て，〈D,I),v[d1 / 201], ., [do /ek][d/ac] > E' である． したがって，解釈の構成の際に選択公理を仮定すれば f* : D” → Dを f * ((ds, ...,dx)) = dとなるように与 えることができる．1' を，I(f) = f*，その他の場合 にはIと同じとして定義する．すると， 〈D, I'), V[da / 2c1], ... [dk/ack] = E'[f(r1,.., ch)/2] となる．これは任意の d, ..., du EDに対して成り立
+  292
+  つので以下が成り立つ．
+  〈D, I'>, = var 1. dark E [ f (r1,.., ch)/2] 逆に，〈D, I' ), E V.21...V.EKE'[f(x1, ., k)/c] で あるとする．すべてのd, ...,dk EDに対して 〈D, I'), v[da / ac1] , ... [dk/ack] = E' [ f (r1, ... ck)/z] である．したがって，すべての d, ...,dk E Dに対し て〈D, I', [da / 01] , ... [da / ack] [(I(f)(d1, ...,dx))/2] = E'が成り立つ．ゆえにI か らKL \ KL, FL \ FL の分を制限して I を定義すると 《D, I), v = v.01...Vach3cE'である．
+  293
+  (この証明でD,I), v = Vz1...Hack3uE' と 〈D, I'), v = v.01...VIKE'[f(x1, ..., 0h)/2]の同値性を 示す際，どちらの方向の場合にもDとは元のままで あった．IからI'，あるいは逆にI から I を構成する 際にのみ変更を加えたことに注意してほしい．この事 実を後で可算モデルの存在を証明する際に用いる．) 以上の手続きで導入した函数記号 f たちをスコーレム 函数 (skolem function) あるいは引数がない場合に はスコーレム定数 (skolem constant) という．また， 以上の手続きをスコーレム化 (skolemization) という． 以上の手続きを行った後に，論理式の量化子の出てこ
+  294
+  日三公」
+  ない部分，即ちF'のCNFを求めることまで含めてス コーレム化という場合もある． この手続きは論理式の自動証明を行う際に用いられ
+  る．上記のスコーレム化は充足可能性を保つので，証 明したい閉論理式Eに対し，→EのSNF= (-E)syを 求める．すると(-E) syが充足不能であることとEが 恒真であることが同値となる．(-E)の量化子を除 いた部分を(命題論理の場合と同様にして)CNF E'に 変形し，導出 (resolution) という手続きを適用する． 自動証明の文脈ではCNFは節(clause)の集合として 扱い，節はリテラルの集合として扱う場合が多い．異
+  295
+  なる節に同じ名前の変数がある場合にはそれらは異な るものとして扱うが，同じ節の異なるリテラルにある 場合には同じ変数である． 導出は次のような手続きである．節集合から節の対を 一つ選択する．その際，同じ述語記号の正リテラルと 負リテラルをそれぞれ含み，それらの変数に適切な項 を代入すれば，否定演算子を除いた部分が全く同じ記 号列となる(つまり単一化可能な(unifiable))対を選
+  ぶ．それらの論理的帰結となる新たな節を求め，節集 合に付け加える．以上を空節が出現するか単一化可能 な正負リテラルを含む節の新たな対がなくなるまで繰
+  296
+  り返し行う． E'が充足不能(つまり元の-Eが充足不能)で節の選択 の仕方がフェアであれば，いずれ空節が導出されるこ とが保証される (導出の完全性)．ここでフェアという のは，単一化可能な正負リテラルを含む節の対はどれ もいずれ選択されるということを意味する．E'が充足 可能な場合には手続きが止まらないか，あるいは単一
+  化できる節の新たな対がなくなって停止する． 導出について詳しくは自動証明の教科書を参照してほ しい． 次にEを存在冠頭論理式(E)に変形する方法を説明
+  297
+  11111
+  する．全称冠頭論理式の場合の双対である．こちらは 各ステップで存在量化子ヨx ではなく全称量化子 心が 除去されて新しい函数記号が導入されてゆき，充足可 能性ではなく恒真性が保存される．即ち上 Eと 上 (E) が同値となる．その証明も上の場合の双対で ある．全称記号の消去方法は上で存在記号を消去する 場合と同じであり，同様に新しい函数記号を導入する． EE (E) が成り立つ．結果の論理式の恒真性を示せ ば元の論理式の恒真性を示せるため，この形式を説明 している本もある ([1]など)． スコーレム標準形により可算モデルの存在を証明で
+  298
+  きる．
+  補題 29 (可算モデルの存在). LはKL, FLが有限な言 語であるとし，EE PreL とする．Eが可算モデルを 持つことと，Eがモデルを持つことは同値である．
+  ←を証明するためのアイディアの概要: EE Pret と する．〈D, I> Eの時に，空でない高々可算無限の集 合DCDを構成し，D, I〉 — Eを示す．Dを 構成する際にスコーレム化を用いる．
+  証明:(⇒) 自明である．
+  299
+  (←) (E)cyでEの全称閉包を表すことにする． <D,I) > Eとする．これは〈D, I〉 = (E)と同値で ある．((E)cy) を求め，I' と L'を補題28の証明のも のとする(この部分で選択公理が必要)．D; CDを次 により構成する．Do {I'(c) | ce KL}， i > 0に MHL Di def {T'(f) (ds, ..., darity(t))If E FL,d; E Di-1} U Di-1． De "UN.D;として D を定義する．但し Kur = 0の場合にはdo EDを一つ選んで Do = {do} とし，Do = 0 とならないようにする．KL，FLは
+  300
+  有限故各 D;は有限であり，Dは高々可算無限集合で ある．D~は定義から定数 I'(c)，函数 I'(f)の適用に ついて閉じている(この事実を(A)とする)． 〈D,I) (E)cy故任意のレ:V → Dに対し， 〈D,I), v = (E)である．補題28の証明より 〈D, I'), v = ((E)cy)sy である． ((E)cy) sv = T.11....CRE'(E'には量化子が現れない)と すると，上の定義から，《D, I'), v = ((E)cy)sy ⇔ (全 TO d1, ..., dk E DIMF L (D, I'), v[d1/x1] ... [dk/x] FE') = (£TO d1, ..., dk E Dæk fL 〈D, I'), [da / 21] ... [dk / c'] E' )である．これは特
+  301
+  にレ : V → D&CDの場合にも成り立つ．その場合 に限定しつつ(A)を考慮すると，最後の()内の式台 (全ての d, ..., dr ED~に対しくDx, I"), [da/c1] ... [dk/20] = E' )である．但し1" は I" (c) """ T'(c), 1 () " T (f) Ips , I"(p) "" T(p)|peと定義する． 最後の式は〈Dx, I"), v = ((E)cy) syと同値であり， 補題28の証明より 〈D, I"), v = (E)cy と同値であ る．即ち最後の式が任意のレ: V → D&に対して成立 し，〈Do, I"> = (E) である．故に 〈D,I"> > E である．
+  302
+  補題29はKL, ELが有限という条件があるし，一つの 論理式Eについてのものである．これを KL, FL が可 算，可算なGC Prer という条件に緩めることが可能 である．証明はほぼ同様である．但し|D;| < No とな る．Do = U, D;は同じである． *26
+  *26 細かい話として，一般の場合に可算無限集合の可算無
+  限列の和集合が可算無限集合となることを示すには選 択公理が必要である．しかしこの場合には各D;の整 列の仕方を帰納的に定めていくことが可能なため，選 択公理が必要ないと思われる．尤も補題の証明には図
+  303
+  可算な言語LでのGC Pref の場合の別証明として， Gのエルブランモデルを構成する方法がある(エルブ ランモデルを含めこの部分については後の説明を参照 する必要がある)．Gがモデルを持てば無矛盾で，無矛 盾なGに対してはエルブランモデルが存在する(定理 44)．エルブランモデルはいわゆる項モデルで，定数記 号と函数記号から作られる形式的な項全体をDとする モデルであり，作り方から可算モデルとなる．
+  数 f * たちの構成のところで選択公理が既に使われてい るので気にしてもあまり意味はなさそうである．
+  304
+  演習問題 前節の問題でPNFを求めた論理式につき以下に答えよ．
+  111. 元の論理式と充足可能性が同値となるSNFを求
+  めよ． 112. 上問の答えが充足可能性を保存していることを
+  確かめよ． 113. 元の論理式と恒真性が同値となるSNFを求
+  めよ． 114. 上問の答えが恒真性を保存していることを確か
+  めよ．
+  305
+  口川
+  3.5 一階述語論理の形式的体系LK 一階述語論理の場合にも，命題論理の場合と同じく， 正しさを構文論的に取り扱うことができる．そのため の枠組みを形式的体系というのもやはり同じである． 一階述語論理の体系も，命題論理の場合と同じく Hilbert流の体系と自然演繹，Gentzenによるシーケ ントによる体系がある．それぞれの特徴は命題論理の 場合とほぼ同じである．ここではシーケントによる体 系LKについて解説する． LKのシーケントの定義は，命題論理の場合のシーケ
+  306
+  ントの定義の「命題論理の論理式」を「一階述語論理 の論理式」に置き換えたものである．また，一階述語 論理のLKの公理は命題論理のLKの公理と同じく EF E という形のシーケントである．ただし，当然の ことながら出現する論理式は一階述語論理の論理式で ある．推論規則は，命題論理の場合に以下の4つの推 論規則を加えたものである．これらについても出現す る論理式は一階述語論理の論理式である． 一階述語論理のLKの推論規則(命題論理の場合の規則 への追加部分)
+  307
+  TF A, P[y/2]
+  P[t/ar], TFA_
+  ー (V-left), VuP,TEA
+  TEA. HOP (V-right),
+  P[y/2], TF A
+  ー(ヨ-left), 3P,TEA
+  TF A, Pt/ac]
+  ー , (ヨ-right) TEA. 3.x P ?
+  tは対象言語の項を表すメタ変数，2, y は対象言語の変 数を表すメタ変数であり，取り得る値の範囲が異なる ことに注意してほしい．満たすべき条件として，yは P,F, △に自由に出現しない変数でなければならない．
+  308
+  このような」のことを固有変数(eigen variable) とい う．また項t の中に出現する変数とyは代入によりP の中で束縛されてはならない．そのまま代入すると束 縛される場合には，それらP中の変数名を全く関係な い別の変数に統一的に置き換えてから代入を行う．こ れらはプログラムにおいて，大域変数が現れる函数定 義のインライン展開を行う場合と類似している． 注意:上の推論規則で，tは項であり具体的には例えば f(c, 2) や0が項である．一方これらは対象変数を表す メタ変数x,yのインスタンスではない． 2, 1 などが対 象変数である．もちろんx, y1 は項でもあるのでtのイ
+  309
+  ンスタンスでもある． 一階述語論理の場合のLKの証明図，始式，終式，証 明可能，定理，Tや△の定義等は命題論理の場合と 同じである．ただし「や△が空列の時にはarity が最
+  小の述語記号pを一つ選んで， va(p(ar, .., ) → P(x, ..., x))， V.x(p(2, ., c) ^ Jp(2, ., 2))などとしておく．これら は恒真閉論理式，恒偽閉論理式である．arity(p) = 0 の場合には量化子は必要ない． 公理の集合が決定可能で，推論規則が正しく適用され ているかどうかが決定可能なため，そういった性質を
+  310
+  満たす他の形式的体系の場合と同様に，LK の定理の 集合は半決定可能となる．しかし，命題論理の場合の LKとは異なり，一般には決定可能にはならないこと をここでは証明なしで述べておく． 定義をいくつか述べる．
+  ■シーケントについての充足，恒真 L構造〈D, I〉 と付値ルが論理式TA → Aを充足する とき，ルはシーケントTE A を充足する (satisfy)とい う．本稿のみの記法として 〈D, I,△ と書く ことにする．どのようなL構造と付値によっても充足
+  311
+  されるようなシーケントを，恒真(valid)，あるいは妥 当なシーケントと呼ぶ．
+  ■論理式の集合からの演繹 GC PreLを論理式の集合とするとき，Gの元からな る有限列TがあってT, A ト IIが証明できるのであれ
+  ば，▲トIIはGから演繹されるといい，G, AF IIあ るいはA LG II と書く(表記法の細かい部分の流儀は いろいろあるので本稿で用いた表記法が使われていな い場合もある)．
+  312
+  ■論理式の集合の矛盾，無矛盾 Gを言語Lの論理式の集合とするとき，GE EA-E であるような論理式EE PreLがあれば，Gは矛盾し ている (inconsistent)という．そうでないとき，G は無矛盾(consistent)であるという．命題論理の場合 と同じく，GF EA-Eである論理式Eが一つでもあ れば，任意の論理式Fについて体系LKでGIFとな る．したがってGから演繹できない論理式が一つでも あれば，Gは無矛盾である．特に)が無矛盾であるの とLKが無矛盾であるのは同値である．
+  313
+  3.6 一階の理論 言語Lの閉論理式Pret の任意の部分集合Thを一階
+  の理論(first-order theory)，あるいは単に理論 (theory) と呼ぶ． これは数学の個々の理論(一階の理論という意味では なく，通常の意味での数学の理論)の対応物であり， Thは通常の数学で言えば公理(の集合)に相当するも のと考えることができる．そのため，実際の数学の理 論を展開する場合には，Thは決定可能，あるいは半決 定可能な集合として与えるのが通常である．実際に
+  314
+  は，有限個の公理あるいは公理スキーマとして与える 場合が多く，そうであれば決定可能となる．もし決定 可能でないとすると，EE PreLが与えられたときに それが公理であるかどうかを有限時間内に判定するこ とができないことになる．半決定可能でもないとする と，Eが公理であることが有限時間内にわかるとは限 らないことになってしまう．それでは公理的に数学的 理論を取り扱う意味がない．ただし一階の理論の性質 を数学的に研究する場合にはそのような制限を設けな
+  い場合も多い．
+  315
+  ■完全な理論
+  同じくThを言語Lの一階の理論とするとき，任意の EE Pret についてTHE EまたはThE -Eが成り立 つとき，Thを完全(complete) な理論という．ゲーデ ルの不完全性定理(数理論理学Bで扱う予定である)の 完全性はこの意味の完全性である．理論の完全性は， 命題論理や一階述語論理の形式的体系での正しさが意 味論的な正しさと一致するという完全性 (完全性定理 はこちらの方である)とは定義が異なるので注意が必 要である．
+  316
+  3.7 等号を持つ理論
+  数学では大抵の場合，=を述語として使用する場合が 多い．また，A = Bが成り立つ場合，正しい言明の中 のAの一部をBで置き換えた言明も正しいとしてい
+  る．これは他の述語の場合には一般には成り立たない 性質である．このため，等号に関しては様々な数学の 理論に共通する述語として，特別に取り扱うことに する． PLに=/2という述語記号が入っている言語を使用し ていて，以下の形の任意の論理式の全称閉包が演繹さ
+  317
+  れるような理論を等号を持つ理論 (theory with equality) という(E[]2の形をずっと制限する流儀や， それらが公理であるとする流儀もある)．
+  E1: x = x,
+  (23) E2: = y → (E[, ar] → E[2, y]) (24) E[x, y] は E[20, ac] の中で自由に出現するとのうち，0個 以上全部までをyに置き換えたものを意味している． このとき，x, y は E[2, ac] や E[2, y]の中で束縛されて はならない．これらは通常の同値関係の公理に加え， 等しいもので置き換えても論理式の真偽値が保存され
+  318
+  ることを主張している．
+  (25)
+  | tt = t2 + N2 = t1,
+  ti = t2 → (ta = ta → tt = ts)
+  (26)
+  などは上の(23), (24) から形式的体系LKにより導かれ る(ここでt1, to, t3は任意の項)．例えば(25)を導くた め， (24)でE[] を []2 = []として全称閉包を取る．こ れと (23)の全称閉包を条件側に並べたシーケント Varvy x = y → (= x → y = x), Van x = xl t1 = to → t2 = t1はLKで証明できる．
+  319
+  補題 30 (F1.2). 3を等号を持つ理論とし，〈D, I〉 をそ のモデルとする．すると=の解釈I(=) は D上の同値 関係である．
+  証明:E[12 を []2 = []とすると E2 は x = y → ((l2 = [01)[ar, ac] → (CO2 = [01)[ar, y]) であ り，これはx = y → (C = x → y = 2)なので，これ の閉包とE」の閉包が常に真であることから任意のに 対し〈D,I), v = x = y → y = 2である．また，E[12 を v = []2 とすると E2 はr = y → (u = 0 → 0 = 9) であり，同様にして任意のに対し
+  320
+  <D,I), v x = y → (V = → 0 = y) である．ま
+  た，任意のに対し〈D, I〉, x = 2である．これら からI(=)がD上の同値関係であることが言える．
+  ■正規モデル Bを等号を持つ理論とし，〈D, I〉をそのモデルとする． =の解釈I(=)がD上の恒等関係(等号関係, identity relation)であるとき，〈D, Iを Bの正規モデル (normal model) という．
+  321
+  補題 31 (F1.3). Bを等号を持つ理論とする．Bにモデ ルがあることとBに正規モデルがあることは同値であ る．特に可算モデルがあることと可算正規モデルがあ ることは同値である．
+  証明: 《D, I〉をBのモデルとし，これから正規モデル 〈D', I'> を構成する．補題F1.2 より I(=)はD上の同 値関係である．そこでD' ' D/I(=) とする．Dが空 集合でないのでD'も空集合ではない． まず定数記号CE KLに対し，I' (c) " [I(c)] と定め
+  る．次に I' を函数記号f E FLについて定める．
+  322
+  T'(f)([di], ., [d]) - [I(f)(d, ., dn)] とする．E1, E2 の形の論理式が〈D, I〉によりすべて真であること から右辺の値が代表元の取り方によらないことがいえ る．述語についても同様に定義する．すべての閉論理 式について 〈D', I') での真偽値とD, I) での真偽値が 一致することを示せる．つまり 〈D', I'> も Bのモデル である． D'の濃度は D の濃度以下であり，特に D が高々可算 無限であれば D'も高々可算無限である．
+  以下の事実を証明なしに示しておく．
+  323
+  補題 32. 全ての述語記号pE PLと函数葱号f E FL に対し，以下の論理式(スキーマ)の全称閉包が全て演 繹される言語 Lの理論Thは等号を持つ理論である． 1.x = 2. 2.= y → (p(x1, ..., Li, ..., Narity(p)) → __p(x1, ., Y, ..., Carity(p))). 3.0i = y + f(201, .., Li, ., Carity(f)) =
+  f(x1, ..., Y, ..., Carity(f)).
+  演習問題
+  115. (25)の証明図スキーマを書け．
+  324
+  116. (26)の証明図スキーマを書け．
+  325
+  3.8 等号を持つ理論の例 以下では変数記号の可算無限集合 VL を一つ固定して 必要がなければ変えないこととし，(等号を持つ)理論 B達の例を挙げる．またBの各元の外側の全称量化子 を省略する場合がある．つまりBの各元に自由変数が あるように記述されている場合には，それの全称閉包 に置き換えてほしい．また，文献によって公理の表現 や選び方が異なったり扱わない場合がある．
+  ■ペアノの自然数論
+  326
+  peano
+  cano
+  peano
+  Kpeano def {0},
+  Fpeano def {s/1, +/2, /2}, Ppeano def {=/2}, Bpeano def {
+  x = x, x = y + (x = 2 + y = z), x = y + s(x) = s(y),
+  ano
+  (27) (28)
+  (29)
+  327
+  as(x) = 0,
+  (30) s(ax) = s(y) → X = y,
+  (31) 0+0= 0,
+  (32) x + s(y) = s (x + y), 0.0 = 0,
+  s(y) = T.+ x,
+  (35) E[0/a] ^ va(E → E[s(x)/x]) → VCE (36)
+  (33) (34)
+  (36) は数学的帰納法であり，これのみがスキーマで，
+  328
+  Eは任意の論理式である．+, ・についての等号の公理
+  は帰納法により示す．
+  ■モノイド
+  mo
+  mo
+  Kmonoid def {e}, Fmonora { /2}, Promoid { =/2},
+  mo
+  d
+  Pmonoid =
+  329
+  (37)
+  Bmonoid te {
+  X = X, x = y + (x = 2 + y = z), x = y + x· z =y: 2,
+  = y + 2 • X = z•Y,
+  · (yoz) = (x - y) • Z, Ze= 0, e x = x
+  (38) (39) (40)
+  (41)
+  (43)
+  330
+  Karoup, Paroupは上と同じ，Faroupは -- /1 を追加．
+  Bgroup del Bmonoid U {
+  22 = 1 → 2-1 = y', (44) 2.-1 = e,
+  (45) ac-1.x = e
+  (46)
+  モノイドや群の場合のように，述語が=/2のみでBの 元が等号を持つ理論となるための最小限の公理に加
+  331
+  え，sとtを任意の項として等式s=tの全称閉包達の みから成るような理論を代数的理論 (algebraic theory) と言う．今の例の場合， (37)-(40) が等号を持
+  つ理論となるための公理で，他の公理は全て Var'1... Vans = tという閉論理式である．代数的理論 で他によく見るのは半環(はんかん，semiring)，環(か ん，ring)，半群(はんぐん，semigroup)などである． 体(たい，(s)filed) はこの範疇に入らない(なぜか?)．
+  332
+  圏(category) の場合には射の合成．が部分函数(引数 によって未定義の場合がある函数)なので，ここでは3 引数の述語cpとして扱っている．また，射と対象を別 の集まりとして分けない方式，即ち各idを対象の代わ りとして用いる方式を採っている．
+  def
+  Kcategory def Ø,
+  Fcategory def {dom/1, codom/1}, Peategory f" { = / 2, cp/3}.
+  333
+  det
+  (47)
+  (48)
+  (49)
+  Bcategory det {
+  X = X,
+  = y + (x = 2 + y = z), = y + dom(x) = dom(y),
+  = y + codom(x) = codom(y), x = y + (cp(x, X1, X2) + cp(y, X1, X2)), x = y + (cp(x1, X, X2) + cp(x1, y, x2)), x = y + (cp(x1, X2, X) + cp(X1, X2, y)), cp(x, y, z) → dom(z) = dom(y), cp(x, y, z) → codom(z) = codom(x),
+  (50) (51) (52) (53)
+  (54)
+  (55)
+  334
+  dom(x) = codom(y) # Iz cp(x, y, z), (56) cp(x, dom(x), x),
+  (57) cp(codom(x), x,x),
+  (58) cp(x, y, z1) + (cp(x, y, z2) + 2 = 22), (59) cp(x, y, Xi) + (cp(x1, 2, X2) + (cp(x, y1, y2)
+  + (cp(y, z, y1) + X2 = y2)))
+  (60)
+  335
+  以下の等式は Beategoryから演繹される．
+  dom(x) = dom(dom(x)),
+  by (57,54)
+  12
+  (61)
+  dom(x) = codom(dom(c)), by (57,56)
+  (62) dom(codom(x)) = codom(x), by (58,56)
+  (63) codom(x) = codom(codom(x)), by (58,55)
+  (64)
+  336
+  ISAAZE
+  Kset def ,
+  Set
+  Set
+  Fset def Ø, Pset def {=/2, E/2}
+  337
+  (65) (66)
+  (67)
+  Bset def { X = X, x = y + (x = 2 + y = z), x = y + (x Ez + y Ez), x = y + (z Ex + z Ey), Vz(z E x + z E y) + x = y, FxVy ny Ex, 3zVx1(x1 E z H (x1 = x V x1 = y)), ByVz(z Ey 4 Jy z E y Ay E x),
+  (68)
+  (69)
+  (70) (71) (72)
+  338
+  ヨx(ヨy(Vac 20 E )) ^ y E ) ^ Vy(y Ex →
+  (ヨzz E va(x E z + X EyVx = y))),
+  (73) ByVz(z Ey Vy(y E z → y Ec)), (74) va, y, 2(E[x,y] ^ E[2, 2] → y = z)
+  → Grayvz(z Ey + By y Ex ^ E[y, z]), (75) ヨyyEx → ヨyyEx AVZ(ZE x → E y) (76)
+  (69) から順に，外延性の公理，空集合の公理，対の公
+  理，和集合の公理，無限公理，幕集合公理，置換公理，
+  339
+  正則性公理と言う．置換公理(75) は公理スキーマであ る．分出公理ヨyVz(z E y (z E e ^ E[z])) は置換 公理からE[12 E[01] ^ In = []2 (つまり E[, y = E[2] ^ x = y)などとして導かれる．交集合 end'は分出公理からE[] E ad' (つまり E[x] = > E ')として得られる．
+  340
+  |||
+  口集合論ZF(函数記号版)
+  ITTTTT
+  Keel of {0,}, Feet {U/1, 2/1,{-,-}/2}, Pet {=/2, 6/2}.
+  (77)
+  341
+  (78) (79) (80)
+  Bset det { X = X, x = y + (x = 2 + y = z),
+  = y + (x Ez + y ez), x = y + (z E x +zEy), x = y + Ux = Uy,
+  = y + 24 = 29 x = y + {x,z} = {y, z}, x = y + {z, x} = {z,y}, Vz(z Ex H z Ey) + x = y,
+  (82)
+  (83) (84) (85) (86)
+  342
+  (88) (89)
+  -X EO, z € {x, y} # (z = x V z = y), z E Ux + Jy z Ey Ay Ex, 0 EW, X EW → U{x, {x, x}} Ew, z E 24 H Vyly E z → y Ex),
+  (90)
+  (91) (92)
+  +Vx=ytz(z E Y H By Y E x 1 Esy, z]), (93) x = Ø V ZY y E x 1 Vz(z E x + 12 Ey) (94)
+  343
+  def
+  こちらは(山以外は一意的に)存在する集合の一部を函 数で表した版である．和集合はxUyfuf2, y} と定 義される．比較してこちらの方が人間には読みやすい ものになっている．ただし置換公理と正則性公理は すっきりしたものにはなっていない．
+  3.9 LKの弱い意味での健全性
+  一階述語論理の場合にも，弱い意味での健全性，完全 性は命題論理の場合と同じように定義される．
+  344
+  定理 33 (一階述語論理の場合のLKの(弱い意味での) 健全性). LKの公理は恒真である．LKの各推論規則の 上の段のシーケントがすべて恒真であれば，下の段の シーケントも恒真である．つまり一階述語論理の場合 にもLKは健全である．
+  証明: LKの公理の恒真性は自明である． 命題論理の場合と同じ推論規則の場合には，証明もほ ぼ同じである． (V-left) {D,I),v P[t/ar], T F A であるのは 〈D,I), v = P[t/2z]，〈D,I),v，
+  345
+  〈D,I), v = Av の3つの場合である．最初の場合には 〈D,I), v = ViPであり，残りの場合にも 〈D,I), v = FacP,△ となる． (V-right) 〈D,I),v = TF A, Ply/2z]であるのは 〈D,I),v LTA，〈D,I), v = Av， 〈D,I), v = P[y/]，の3つの場合である．yが固有変 数であって D チ)なので任意のdE Dについて最初の 2つは〈D, I),v[d/y] FTへ，D, I),v[d/y] = Av と
+  同値である．つまり D, I を固定した場合，最初の2つ が成り立つかどうかはdEDの選び方に依らない．上 段が恒真の場合，任意の D, Iを固定すると，最初の2
+  346
+  つのうちどちらかが成り立っている場合と，そうでは ない場合に場合分けできる．後者の場合にも3つ目が dEDに依らずに成り立っている．最初の2つの場合， <D,I),vAVuPであり，残りの場合にも 〈D,I) , レがやはり同じシーケントを充足する． (3-left) (3-right) 同様にして示すことができる． ロ
+  演習問題 117. 推論規則 ヨ-left について，上段が恒真のときに
+  下段の恒真性を示せ． 118. 推論規則 ヨ-right について，上段が恒真のとき
+  347
+  に下段の恒真性を示せ．
+  3.10 命題論理のコンパクト性
+  ここで命題論理の場合のコンパクト性を示しておく． これは無限かもしれない命題論理式の集合GC Pro
+  が，その有限部分集合ごとに一つの付値によって要素 すべてが充足可能であれば，Gの要素すべてが一つの 付値によって充足可能になるという性質である．これ は後で出てくる一階述語論理についての定理であるエ ルブランの定理を示すのに使うことができる．エルブ
+  348
+  ランの定理は命題論理と述語論理の橋渡しをする定理 であり，形式的体系の定理の計算機による自動証明の 基礎となる定理でもある．
+  ■論理式の集合の充足
+  GC Pro，レを付値とする．任意のXEGについて v=Xであるとき，vはGを充足すると言う．
+  ■論理式の集合からの演繹
+  GC Proとするとき，Gの元から成る有限列IIがあっ て，II, TF A がLKで証明できるとき，TE AはGか
+  349
+  ら演繹されるといい，G,T△ あるいはTEGAと書 く(表記法の細かい部分の流儀はいろいろあるので授 業で用いた表記法が使われていない場合もある)．つ まり，
+  TG A iff ある有限なII, CGによりII, TF A
+  である． XE ProがあってGE X かつGF-X のとき，Gは 矛盾していると言う．そうでないとき，Gは無矛盾で あると言う．
+  350
+  補題 34. GC Proとする．Gが充足可能であればG は無矛盾である．
+  証明: Gが充足可能であるとすると，ある付値ルが存 在してvGであり，従ってT．CGであるような任 意の有限列Tに対してもET である． するとGE Xであるような任意のXE Proについ
+  て，LKの健全性より1F Xである．どのようなしに よってもルト X かつv=-X であることはないので， Gは無矛盾である．
+  無矛盾なGC Proが，集合の包含関係で極大，即ち
+  351
+  G'2Gである任意のG' C Proが矛盾しているとき， Gは極大無矛盾 (maximal consistent)であると言う．
+  補題 35. GC Proが無矛盾かつ XE Proとする． 1. GE X ならばG' "GU{X}も無矛盾である． 2. GFXならばG' GU{-X}も無矛盾である．
+  def
+  証明: 1. T', A. CG' である有限列T', ATMについて T'FYとA' F -Y の証明図があるとする． T', ATMから X を除いたものをT, A とすると， T, A, X- YA -Y の証明図が存在する．GE X なの
+  352
+  でII, CGである有限列IIによりII - Xである．従っ てT, A, II - YA -Y の証明図が存在する． T,A, CGなのでGは矛盾している． 2. 対偶を示す． T', A CG'である有限列T', ATMにつ
+  いてT'FYとA' Y の証明図があるとする． T',△'から-X を除いたものを1,△とすると， T, A,-X - YA Y の証明図が存在し，ゆえに T, A,X トの証明図が存在し，従ってT, AF Xの証 明図が存在する． T , A, CGなのでGE X となる．
+  353
+  補題 36. G C Proが極大無矛盾の時，任意の XE Proに対し次が成り立つ． 1. GE X ならXEGである． 2. XEGかつ-X EGということはない． 3. XEG又は-X EGである．
+  証明: 1. GE X かつXEGとする．G' GU{X} とすると補題35の1によりG' 2Gは無矛盾である． 従ってGは極大ではない． 2. もしそうであればGは矛盾している．
+  354
+  3. XEGであるとする．1よりGH Xである．
+  G'S GUI-X} とすると補題35の2より G'は無矛 盾である．Gの極大性からG' = Gであり，-XEG
+  である．
+  補題 37. GC Proが無矛盾であるとする．任意の XEProに対しXEGあるいは-X EGであれば， Gは極大無矛盾である．
+  証明: YEGとすると仮定より -YEGなので GU{Y}は矛盾する．
+  355
+  補題 38. GC Proが無矛盾であるとき，G'DGと なる極大無矛盾なG' C Proが存在する．
+  証明: Proを整列して番号をつけ，X1, X2, ... とする． これは命題変数の集合V が高々可算無限個という本稿 のような定式化の場合にはそのようにできる． まずGo G とする．これは無矛盾である． i>1について以下のようにしてGを定める．
+  a def JG-1U{X.} (G-1PX;)
+  1G-1U{x} (G-FX)
+  356
+  Gi-1が無矛盾であれば補題35によりGiも無矛盾であ り，数学的帰納法によりすべてのiについて Giは無矛 盾である．
+  G' YUN.G;としてG' を定義する．G'が矛盾して いるとするとその矛盾を導く有限個の前提を含む G, が あり，Gも矛盾していることになるのでG'は無矛盾 である． 列 X1, X2, ...にはすべての論理式が現れているので， G'の作り方から任意のYE ProについてYEG'ま たは-YE G'である．従って補題37 によりG'は極大 である．
+  357
+  結果として得られるG'は論理式の列の与え方に依存す ることに注意してほしい．ちょうど一回ずつProの各 論理式を X1, X2, ...として出力してゆく手続きが存在 する．つまり Proは帰納的可算である．有限で無矛盾 なGを与えると，それを含む極大無矛盾かつ決定可能 な集合G' を与えられることもわかる．Gが有限集合で あれば各Gも有限であり，GE X は命題論理なので 決定可能である．G' に含まれるかどうか判定するため に与えられた X が X; として現れるまでG;を生成し， XがGに含まれるか判定すればよい．
+  358
+  補題 39. GC Proを論理式の無矛盾な集合と する．
+  1. Gが極大無矛盾であれば，AEV に対し
+  vG(A) -
+  def JT (AEG)
+  F (AEG)
+  として付値vs を定義すると，VG-Gである． 2. Gのモデルが存在する．
+  359
+  補題 39. GC Proを論理式の無矛盾な集合と する．
+  1. Gが極大無矛盾であれば，AEV に対し
+  vG(A) -
+  def JT (AEG)
+  F (AEG)
+  として付値vs を定義すると，VG-Gである． 2. Gのモデルが存在する．
+  359
+  補題 39. GC Proを論理式の無矛盾な集合と
+  する．
+  1. Gが極大無矛盾であれば，AEVに対し
+  VG(A) def JT (AEG).
+  F (AEG)
+  として付値vGを定義すると，VG-Gである． 2. Gのモデルが存在する．
+  359
+  証明: 1. まず，Gが極大無矛盾だからAEVに 対しAEGか-AEGのどちらかなので VG: V → {T, F} が定義される．XE Proの構 成による帰納法によりXEG iff vg(X) = Tを 示す． まず，XcVのときにはルの定義から XEG iff vg(X) = Tである． X,Y E Prok 2612X E Giff vg(X) = TX YEG iff VG(Y) = Tが成り立つと仮定すると 以下が成り立つ．ただしiffが一番結合力が弱い． -X E G iff X & G iff VG(X) + Tiff vg(X) =
+  360
+  Fiff va(-X) = Tである． XAY E G iff X,Y E G iff vo(X) = VG(Y) = Tiff va(X AY) = Tである． XVY E G iff XE G&t=1&Y E G iff vg(X) = TまたはvG(Y) = Tiff VG(XvY) = Tである． X →Y EG iff X & GEEIZY E Giff VG(X) = TまたはvG(Y) = Tiff vo(X) = F £tsidug(Y) = Tiff vo(X + Y) = Tである． ここでそれぞれの最初の同値はGの極大無矛盾 性から導かれる．
+  361
+  2. 補題38よりGを含む極大無矛盾なG' C Pro が存在する．1よりVGLE G'であり，ゆえに VGEGである．
+  定理 40 (命題論理におけるコンパクト性). GCProとする．すべての有限なG' CGにつ いてG'が充足可能であれば，Gは充足可能で ある．
+  362
+  証明: Gが矛盾しているとすると，矛盾を導く論 理式の有限集合G' CGが存在するが，それは補 題34から充足不能であり，仮定に反する．従っ てGは無矛盾である．すると補題39よりGは充 足可能である． この定理をコンパクト性定理と呼ぶのは，位相空 間論におけるコンパクト性に対応するからであ る．この部分の理解には位相空間論の初歩の知識 が必要である．ただし理解できなくても本稿の他 の部分には影響しない．命題変数全体の集合V
+  363
+  からの附値の : V → TV 全体の集合TV'にカン トール位相を入れる．即ちTV = {T, F}, V = {A1, A2,...} ZU, SE TV* 13 *if B. {o: V → TV |() = S; for 1 < vi < length(s)}, Be" {B. | s E TV*} とする．ここ で s は列sのi番目の文字(この場合はTV の要 素)，length(s) は列sの長さである．Bを基本開 集合としてTV'に位相を入れると，コンパクト となることが知られている．この場合各基本開集 合は開閉(開集合かつ閉集合)となっている．
+  364
+  各命題論理式XE Proは有限個の命題変数を含 むのみでSx {TV | (X) = F} とする と開閉となる．式中のFをTとしても開閉であ る．GC Proが充足不能 iff UXccSx = TV' である．iffの右側はTV”がコンパクトなので EG' CG Go : finite AUXEG, Sx = TVV Za] 値である．Uvco Sx = TV iff G'が充足不能 なので，結局Gが充足不能 iff Gのある有限集合 G'が充足不能を示した．これの⇒方向の対偶を とったものが上の定理である．
+  365
+  3.11 エルブラン領域，エルブランの
+  定理
+  11111
+  EE Pret が恒真かどうかは，3.4のようにEの 恒真性が保存されるSNF (E)について調べれ ばわかる．ただしそれは任意の L構造を考えてそ れらすべてに対して(E) が成り立つこととして 定義される．数学的には意味があるが，計算機で そのままの形で確認することはできない．しかし 実は(E) に応じて特定の集合を領域とするL構 造を考えれば，(E)が恒真である「証拠」をそ
+  366
+  の中で見つけられることが示される．これは項モ デル(term model) と呼ばれる類のものであり， 定数記号と函数記号から形式的に作られるすべて の項として定義される．項の集合全体はすべてを 尽くす形で計算機で生成してゆけるため，これは 恒真性を計算機で確認する基礎となる． 言語L = 〈V, K, F, P) のエルブラン領域 (Herbrand Universe) とはLの基礎項全体の集合 HULのことである．ただしKが空集合の場合に そのままではHULが空集合になってしまうた
+  め，cを定数記号としてKに付け加え，
+  367
+  Ki = {C}として言語をL'に拡張した上で HUL HU, とする． Lのエルブラン基底(Herbrand base) とはLの原 子閉論理式全体の集合 HBrである．ただし
+  K = 0 の場合には上述のようなL'で考える．L のエルブラン構造(Herbrand structure) とは， DE HUと，Lのエルブラン解釈Iの対 〈HUL, I)である．ここでLのエルブラン解釈 (Herbrand interpretation) とは以下を満たすも
+  368
+  のである．
+  I(c) =c_ (CEK) I(f)(t1,.., th) = f(t1,..,tn) (f/n E F, t; E HUL)
+  ここで右辺やき は式ではなく，HULの要素で あって単なる記号列(或いは木) であることに注 意すること．この条件を満たすIをIHLと記す ことにする．IHLはKL, FLの部分については上 記のように定められているのでPrの部分だけが 自由度がある．GC Prer のエルブランモデル
+  369
+  (Herbrand model) とは，Gのモデルとなってい るエルブラン構造〈HUL,IHL〉のことである．
+  定理 41 (エルブランの定理). 以下でFには量化 子が現れないとする．
+  1. E = 32 1, ., 0n F [21, ..., in] < Pret が存在冠
+  頭閉論理式の時，次が成り立つ． - Eiff <t11,..tin), ... <tml,..., tmn> HUE が存在 LEF[t11, ..., tin] V...V F[tml, ..., tmn] Ć
+  なる． 2. E = V2 1, ..., T., F [21, ., an] E Pres が全称冠
+  370
+  頭閉論理式の時，次が成り立つ．ト -Eiff <t11, ., tin), ..., <tml,.., tmnE HUE が存在
+  し ト ー(F[t11, ... tin] ^ . ^ F[tml, ..., tmn]) となる．
+  証明:コを内側に移すことによる V , ヨの交換と ド・モルガンの法則により1と2は同値である． 2の(←) (111, ., tin), ... <tml,.., tmn> E HUE
+  が存在して，
+  -(F[t11, ...., tin] ^ . ^ F[tml , ...., tmn]) とす ると，ド・モルガンの法則から
+  371
+  + -F[t11, .... tan] V ... V -F[tml , ., tman]であ
+  る． F -F [t1,... tin] → - V.21 , ., In F[r1,.., in]な ので- .2 1, ., 0F[r1,.., in]である． 2の(⇒)の対偶．どのような <t11, ., tin) , .... <tml, ..., tmn> E HUEに対して もキ (F[t11,.., tin] ^ ..^ F[tml,..., tmn]) と $32, F[t11, ..., tin] A... 1 F[tml, ..., tmn] It 変数も量化子も含まないため命題論理の論理式と して充足可能となる．即ち，
+372
+VHB det {p(t1, ..., tk) |p/ke Pleti E HUL} { してp(t1,...,ts)が字面として同じであれば同じ 命題変数として，異なっていれば異なる命題変数 として扱うと充足可能となる．命題論理の場合の コンパクト性より G det {F[tı, ..., tnl | ti E HUL} Id
+h
+w 理式の集合として充足可能である．そこで命題論 理の意味でルー G とする．ここで
+:VHBr → {T, F}は命題論理の付値である． エルブラン解釈IHLのPLの部分を
+373
+IHL(p)(t1,...,to) "" v(pt1,..., ta))として定義 する．すると量化子のない閉論理式E' Pret K2V17, v E E' < (HUL, IHL) E E'ld
+E' EVHB, の場合にはIHL(p) の定義により同値 であり，その他の場合にもE' の構成に関して帰 納的にまったく同じように定義されるので 〈HUL, IHL> G となる．上の全称量化子に対 する定義から〈HUL,IHLEが成り立つ．則 ちEは充足可能で，.-Eである．
+374
+■エルブランの定理における恒真性の「証拠」 <t11, .... tin), ..., <tml,., tmn> HUS は，例え
+ば以下の恒真式の例のように一般には複数個必要 である．
+E, "ax(p(c1) V .. Vp(cn) → P(x)) この場合にはC1, ..., C, が「証拠」となる．
+375
+3.12 LKの強い意味での完全性 以下では，言語Lが可算な言語であるとする．一 階述語論理の場合にも，LKの体系の健全性と完 全性が証明できる． LKの健全性は次のような拡張した形で示すこと にする．
+補題 42 (F2). 理論Thがモデルを持てばThは 無矛盾である．特にLKは無矛盾である．
+証明: 背理法で証明する．THE FA -Fとなる
+376
+FEPreがあり，ある〈D, I〉,レですべての EETんについて 〈D,I),Eであるとする． するとTC ThでTEFA -F がLKで証明でき
+シーケントであり，LKの各推論規則は， 〈D,I,vで上の各シーケントが充足されていれば 下のシーケントも充足される(これの証明は省略 する．公理と大部分の推論規則については命題論 理の場合とほぼ同様に示せる)．したがって TH FA-Fも〈D,I),vによって充足されるはず である．ところがシーケントTE FA-Fの真理
+377
+値がFになることが，論理式の真理値の定義から いえるため，矛盾が生じる．
+(弱い意味の)完全性は，どのようなL構造と付値 によっても真である論理式，すなわち恒真式であ ればLKで証明できるということである．ただし 通常はこれよりもう少し強い形の完全性を示す．
+定理 43 (一階述語論理におけるLKの強い形の完 全性). 言語Lの理論Thが無矛盾であればThの 可算モデルが存在する．
+378
+強い形の完全性が成り立てば，次のように完全性
+の対偶を証明できる．
+補題 44. 一階述語論理のLKにおいてTPが証明 できることとTが矛盾していることは同値であ る．特に上が証明できることとLKが矛盾してい ることは同値である．
+証明: 命題論理の場合のLKと同じである． ロ
+補題 45 (F3). 強い形の完全性が成り立つとす
+る．すると，FEでなければ〈D,I,Eとな
+379
+る〈D,I),vが存在する．
+証明:強い形の完全性が成り立ち，論理式Eが証 明できないとする．まず論理式Eの閉包 F01...VIEをE'とすると，{-E'}が無矛盾でな ければ-E'-が証明できるので，これによりFE が証明可能となる．
+E' F E
+- (--right) ト E1, E' -E'
+Vr2, ..., IkE[r1/s1] - VI2...IKE - (cut)
+- (V-left) E E'
+21, ...,AE FI2....IKE
+(cut) E Vx2 ...xk E
+– (cut) (以上を k 回繰り返す) ...
+(cut) EE
+380
+したがって{-E'} は無矛盾である． {-E'} は無矛盾なので，強い形の完全性定理によ り{-E'}はモデルを持つ．すなわち，ある〈D,I) で〈D,I) -E'であり，〈D, I〉 = E' となる． したがって，適当なにより〈D, I, v E とな
+る．
+強い形の完全性により,次のコンパクト性定理が 成り立つ．この定理により数学的な理論の，通常 と異なるモデルの存在を示せる場合がある(その ようなモデルを超準モデル (nonstandard
+381
+したがって{-E'} は無矛盾である． {-E'} は無矛盾なので，強い形の完全性定理によ り {^E} はモデルを持つ．すなわち，ある〈D, I〉 で〈D,I) -E'であり，《D, I〉 = E' となる． したがって，適当なにより〈D,I), v = Eとな る．
+強い形の完全性により,次のコンパクト性定理が 成り立つ．この定理により数学的な理論の，通常 と異なるモデルの存在を示せる場合がある(その ようなモデルを超準モデル (nonstandard
+381
+model) という)．一方，数学者が通常想定してい るモデルを標準モデル (standard model) という． 段落の以下の部分は理解しなくても問題ない．自 然数論を含む理論(初等整数論をその中で実質的 に展開できるだけの強さがある言語とその理論) の場合には，ゲーデルの不完全性定理から，標準 モデルを完全に公理的に規定する方法は存在しな いことになる．この場合，個々の超準モデルにつ いてもそれを公理的に完全に規定することはやは りできない．しかし，標準モデルで成り立たない 方のゲーデル文を公理として付け加えると，それ
+382
+は超標モデルの方が満たす公理系となる．
+定理 46 (述語論理におけるコンパクト性). Th を言語Lの理論とする．Thの任意の有限部分集 合がモデルを持てば，Thは可算モデルを持つ．
+証明: Thの任意の有限部分集合がモデルを持つ のでThの任意の有限部分集合は無矛盾である． したがって次の補題47によりThは無矛盾であ
+る．Thは無矛盾であるから強い形の完全性によ り Thは可算モデルを持つ．
+383
+補題 47 (F4). 理論Thの任意の有限部分集合が 無矛盾であれば，Thは無矛盾である．
+証明: 対偶を証明する．ThE EA-Eとする．す るとTh,TE A の定義により，TC Thであるよ うな有限列TがあってTF EA-Eである． ロ 等号のある理論については次が成り立つ． 補題 48 (F2E). FL = 0，Pr = {=/2} とし， E1(23), E2(24)の閉包すべてから成る集合をBと すると，Bは無矛盾である．
+384
+証明: D = {}，I(=)を常に真とすると，Bのモ デルとなる．補題 42 より Bは無矛盾である．
+定理 49 (等号のある一階述語論理の場合のLKの 強い形の完全性). 言語Lに=/2があり，その理
+論 3 が等号のある理論で，なおかつ無矛盾であれ ば 3 の可算正規モデルが存在する．
+証明:Bは無矛盾なので先の強い形の完全性によ りBは可算モデルを持つ．補題31 よりBは可算 正規モデルを持つ．
+385
+定理 50 (等号のある一階述語論理の場合のコン パクト性). 等号のある理論の定義における E1, E2の閉包すべてが論理式の集合 B の元であ るとする．Bの任意の有限部分集合がモデルを持 てば，Bは可算正規モデルを持つ．
+証明: 先のコンパクト性定理によりBは可算モデ ルを持つ．補題31よりBは可算正規モデルを持
+つ．
+■LKのCUT除去定理について
+386
+完全性定理の証明から少し外れるが，一階述語論 理の無矛盾性の証明の別の方法ということで関連 があるのでCUT 除去定理についてここで触れて おく． 命題論理の場合と同じく，LKでは一階述語論理 の場合にもCUT 除去定理が成立する(その構文 論的証明は本稿の対象外である)．このことから， 命題論理の場合と同じく，シーケントトが証明で きないことがいえるので，LKの無矛盾性の構文 論的な証明が得られることになる． LKのCUT除去定理が成り立つことにより，論
+387
+1111
+理式Eが証明できるかどうかはEのCUTなしの 証明があるかどうかと同値である． 命題論理の場合には，少し工夫すればCUTなし の証明があるかどうかを決定するアルゴリズムを 作ることができ，構文論に基づいたトートロジー の判定アルゴリズムとなる (Wang のアルゴリズ ム)．ところが，述語論理の場合にはそのように はうまくいかない．CUT除去定理が成り立って いても，推論規則 V-left と ヨ-right で任意の項の 代入がありえるためである．ただし，CUT除去 定理により証明図の形がかなり制限されるのは確
+388
+かである． 実は，一階述語論理の論理式(あるいはシーケン ト)がその体系で証明できるかどうか(定理全体 の成す集合をここではThrm と表記する)は，決 定可能でないことが証明できる(チャーチの定 理)．ただしこれは，ゲーデルの不完全性定理と 関連し，その証明はやはりここでは範囲外であ る．もっとも Thrm は，半決定可能ではある． Thrmすなわち証明可能な(あるいは完全性定理 により恒真なとしても同値) シーケント全体の集 合は，すべての可能な証明図を生成していってそ
+389
+れの終式になっているときに yes という答えを出 して停止するような手続きにより半決定可能であ る．したがって，Thrm の補集合は半決定可能で ないことになる．Thrmに属していることをでき るだけ効率的に判定する手続きの例としては導出 がある． 完全性の証明のため，いくつかの定義を与える．
+■理論の拡張 言語 L'がLの拡張であるとする．このとき，言
+語Lの理論Thは言語 L' の理論でもある．同じ状
+390
+況で,言語Lの理論Th と言語L'の理論Th'が あって，Lの任意の論理式Eについて，THE E であるときTh FEが成り立つとする．このと き，理論Th'はThの拡張 (extension)であるとい う．特に, Th C Th'のときにはThはThの拡 張である．
+■Witnessed な理論」
+言語Lの理論 3 が witnessedであるというのは次 の条件を満たす時である:Lの論理式Eに1回以 上自由に出現する変数がrのみで，BF BEであ
+391
+れば，基礎項tがあって BE E[t/a]である．これ は，3rEが成り立つ時にはそれを示す具体的な 項が存在するという条件である． 一階述語論理の場合のLKの強い形の完全性は， 以下のような補題を用いて証明される．
+補題 51 (F5). 言語LのKに可算無限個の定数記 号を付け加えて拡張した言語 L' とその閉論理式 の集合♂が存在して，次の2つの性質を満たす: (1) 任意のLの無矛盾な理論 Bに対して B'BUSは無矛盾な理論となる．
+392
+(2)任意の L' の理論 3' が8の拡張であれば，B' は
+witnessed な理論である．
+補題 52 (F6(リンデンバウム(Lindenbaum)の補 題)). aを言語Lの無矛盾な理論とすると，言語 Lの無矛盾で完全な理論 a'でaの拡張になってい るものがある．
+ここでaが帰納的可算としても，a'は帰納的可算 とは限らないことに注意．
+補題 53 (F7). Bを言語Lの理論であるとする．
+393
+Bが無矛盾かつ完全でwitnessedであればBは
+D = HUL であるようなモデルを持つ．
+以上の準備の下に強い形の完全性の証明を行う．
+3.13 一階述語論理の場合のLKの強い
+形の完全性の証明
+定理 43 強い形の完全性の証明:Bを言語Lの無 矛盾な理論とする．補題51より，言語Lを拡張 してL' とし，Bを拡張して B' として，無矛盾で
+394
+witnessedな理論を得られる． B'はL' の理論であ る．これに補題52を適用して無矛盾かつ完全な 理論 3" を得る．3"はLの理論であり，SCB" なので補題51 より 3" も witnessedな理論である． すると補題53 より 3" は D = HULであるような モデルを持つ． 補題51 の証明: J( = {61, 62, 63, ...})を新しい定 数記号の可算無限集合とする．KLN J=0であ る．言語Lを拡張してKur = KLUJとし，他の 記号は変えないものを言語 L' とする．KLは高々
+395
+可算無限集合なので，KLも可算無限集合とな る．言語 L' の論理式でちょうど一つの変数が自 由に一回以上出現し，他の変数は自由に出現しな いようなものをEとする．ここでは VL, KL, FL, Prいずれもが高々可算無限集合 なのでE のような論理式は可算無限個存在する． それらを E1, E2, E3,... E Pres とし，それぞれ に自由に出現する変数を x1, 72,03, ... EV とす る．ここで，nを，bnがEに現れないような最 小のnとする．以下，nk-1 まで定められている として，bn が E1, E2, E3,.., Ek,に現れないよう
+396
+な最小のnをna とする． F ETC,E, → E, [6../.]として L' の閉論理式 Fiを定義する．= {Fi, F2, F3, ...} とする． {E; | i = 1, 2,3,...} は，ちょうど一つの変数のみ が自由に一回以上出現するL'の論理式を全て尽 くしているので，L' の理論 3' が の拡張であれば B' が witnessedであるのは明らかである． - ヨr Eであるような1自由変数のEはある)によ りE = E;で，t bm, とすればよい．則ち(2)が 成り立つ．
+397
+BをLの無矛盾な理論とするとき， の元はすべ て閉論理式なのでBUSがL' の理論であることは 明らかである．したがって BU♂が無矛盾である ことを示せば(1) を示したことになる． B093 とし，BA BK-1 U {Fx} とおくと，各 BK は理論 であり，BUS = U. BA となる． U, Bが矛盾し ていれば，ある有限のんで BK が矛盾しているの で，すべてのkについて BA が無矛盾であること を示せばBU3 が無矛盾であることがいえる．こ れを帰納法で示す．まず，Bo = Bなのでこれは
+398
+無矛盾である．次に，Bi-1 が無矛盾であるとし
+て Bi が無矛盾であることを背理法で示す． BFであると仮定する．帰納法の仮定より
+Bi-1トではないので，TC Bi-1 であるような論 理式の有限列TがあってFTPが証明できるは ずである． 従って以下のような証明図を作ることができる． ここで S1, S2はシーケントを表すメタ変数で，大 きい証明図を分割表示するために導入した．
+399
+E; [bn;/ xi] + E; [bni/xz]
+(-right) F-E;[bn;/X), E;[bn/X;] '
+- (weakening) Si 3x;E; + -E; [bni/x;], E; [bni/xi]
+S2
+3x;E; → E; [bn;/xi],[F
+400
+E,[z / 6] – Ei[/c]
+一 (--left) -Ei[z/vi], Ei [z/xi] ト
+(V-left) Vxi-Eį, Eį[z/xį].
+=(ヨ-left) Vi-Eị, dai E, F. ヨx;E; -veE;
+ー (--left)
+-
+- (weakening) 3riE- Voi Ei, Eilon; /xi]
+3riEi -VaiEi ^ -Ei[bnt /vi], Ei[bnt/vi]
+ト -Vai Ei ∧ - Ei[bnj/xi], ヨxi Ei → Ei[bnj/xi] (cut)
+TE -Væį-Eį1 -Eį[bni / xį]
+S1
+- (1-right)
+(→-right)」
+ght) S2
+この証明図に現れない変数記号をxとし，証明図 のbn, を全てに置換する．n; の与え方から6n, はTに現れないため，TE -VI-E; } -Erfac/acil の証明図となる．これを一般に以下が証明図の一
+401
+部となることと併せる．
+EFE ΓΕΕΔΕ, ΕΛΕ, ΕΕ
+- (^-left1)
+- (cut) THE TF -E; とTF -E[x/x; ] を証明できる．
+TEE; [x /Xi] (V-right)
+TE Vxi-E; となるので，TF -.E; と併せて Bi-1が無矛 盾であることに反する．
+402
+リンデンバウムの補題(補題52) の証明: まず準備として，a C Pret が無矛盾かつaより 真に大きいPres の部分集合が全て矛盾している 時，aは極大無矛盾であると言う．これは命題論 理の場合と同様の定義である． (極大)無矛盾な閉論理式の集合に対し，命題論理 の場合の補題35から補題38までと同様の補題が 成立する．但しGをa，ProをPres に置き替え たものである．証明はほとんど並行して記述でき る．但し補題38の証明の後に書いてある，元の 論理式Gを極大化したG' の決定可能性について
+403
+は成り立たない．証明中のG - X が決定可能で はないためである． 与えられた無矛盾な理論aに対し補題38(の Pres 版)を適用すると極大無矛盾な理論 a' を得
+る．補題36(同前)によりaは完全である． ロ 補題53の証明:BC Pret なので D = HULとお いて〈D, I〉 BとなるIを与えられればよい．
+I(c) ec, I(f)(t1,.., tu) 'f(t1,.., th).
+(95) (96)
+404
+として定数記号と函数の意味を定める(エルブラ ン解釈)．ここにI(C)のcはKの元としてのcで あり，右辺のcは HULの元としてのcである．同 様にIC(f)の f は F の元であり，t1,.... tと右辺の f(t1,...., ta)は HULの元である．また，
+I(p)(t1,..., th) =TE BE p(t1,..,tp)
+* (t1,..,th E HUL). (97) としてI(p)を定める．すると 〈D, I〉 = p(t1,.... th) iff B pt1,....,tn)となる．
+405
+以下では，閉論理式E' Pref について 〈D, I〉 E' iff BF E'であることをE'に現れる AV → - V3の数の合計 no(E') による帰納法によ り証明する．これが証明できれば，任意のFEB について，BE Fであることから〈D, I〉 — F と なり，《D, I〉が3のモデルになっていることが示 される． 1. no(E) = 0，すなわちEE AA のとき E = p(t1,.... th)の形である．t1,.., thは閉項な ので，先に見た通り I(p)(t1,..,ts) iff BE p(t1,..., )であり，帰納法のベースは満たさ
+406
+れている． 2a. E' = EAFの形の時，EもFも閉論理式で ある．no(E) < no(E')，no(F) < no(E') となる ので，帰納法の仮定により D, I〉 — Eiff BF E であり，《D, I〉 Fiff BF F である． ここで〈D, I〉 EAFを仮定すると〈D, I〉 E かつ〈D, I〉 Fなので，帰納法の仮定より BEEかつ BFFである．したがってTCBで あるような有限列TがあってTEEがLKで証明 でき，A, C B, △ Fについて同様のことが成 り立つ．すると以下のようにしてT, AF EAF
+S
+407
+が証明できるため，BA EAFとなる．
+TEE (weakening, AFF TAFE exchange) TALE (weakening)
+Γ, ΔΕΕΛF
+- (1-right)
+逆にsa C B, TF EAFであれば，以下のよう にしてTFEとなり，同様にしてTHFとなる．
+E-E_(^-left2)
+ΓΕΕΛF ΕΛFEE
+TEE
+408
+11111
+したがって BE Eかつ BE Fである．すると帰納 法の仮定より 〈D,I) E かつ〈D, I〉 F とな
+り，〈D,IEAFとなる． E'がEVF,E → F,-Eの形のときも同様の議論 により〈D, I> > E' iff BF E'となる．なお EAFの形の時には使わなかった事実として以下
+が成り立つことに注意すること:Bは無矛盾かつ 完全な理論なので，BJ Eiff BF -Eである． 2b. E' = VIEの形の時，Eが閉論理式の時と自 由変数としてのみが出現している時に分けられ る(この部分は，2つに分ずに以下の「後者の場
+409
+合」のみを考えて，後でEが閉の場合にはt= としてもよい)．
+■前者の場合
+no(E) < no(E')なので，帰納法の仮定より 〈D, I> Eiff BF Eが成り立つ．また，その場 合には〈D, I> VuEiff 〈D, I> > E であり，以 下の証明図から BF Eiff BF VEなので (D, I) E VxE iff B F VxE2t23.
+410
+TEE TE VE VV91810)
+- (V-right)
+_ELE_ (V-left)
+TE HE VxE E E
+TEE
+(cut)
+■後者の場合 Eに心の自由な出現が1回以上ある場合である． ((D, I) E VxE B E F#E) , BH VxEtc らば〈D, I〉 = VEを示す．Bは完全なので
+411
+BH VxE25 Z ZELO BE TVxE TO Z. 239TS CB,TE VxEZY 2 13.
+(F-right)
+E[z/x] + E[z/x]
+1 (--right) + E[z/x], – E[z/x]
+– (V-right, *27)
+- (--left) TE VxE VxE + 3x-E>
+(cut) TE 3x-E
+FE[z/x), 3.c-E
+412
+上の証明図より BF 3x-Eが証明できる．Bは witnessedなので，基礎項tがあって BF -E[t/] である．補題の仮定より3は無矛盾なので， By E[t/ar] である．すると， no(E[t/x]) = no(E) < no(VxE) = no(E') TMS ることと，tが基礎項でE[t/ac] Pret なので帰 納法の仮定を使って〈D, I〉 - E[t/x] となる．同 じ理由でどんなに対しても〈D, I> > E[t/ac] iff 〈D,I), v = E[t/ar] である故，どんなルに対して
+*27 zは下の行に現れない新しい変数．
+413
+も〈D,I), v = E[t/a] となる．D = HULなの で，任意の基礎項s E D，(95) ・ (96)等で定義し たI，任意のに対し 〈D,I),v[s/ac] Eiff 〈D,I),vE[s/2] が成り立つため，どんなに 対しても〈D, I),v[t/] E となる．上の定義よ b. (D, I), v =VxE iff & Code DK2117 〈D, I),v[d/x] Eだからどんなに対しても 〈D,I,VuEである．FEE Pref 故どんな ukatif L Tť (D, I) EVxE iff (D, I), v = VxE なので結局〈D, I〉 VIEが言える． (BF VIE ⇒ 〈D, I> VuE) 逆に，BF VuEの
+414
+Z & R (D, I) EVEXrt. (D, I) E VxE iff (D, I), V = VxE iff & Cote D = HULK Xif L <D,I),v[t/ar] = Eiff 全てのtE Dに対し (D, I), v = Est/x] iff È TOTED KXF U <D,I) E[t/a] 故，全てのtE D = HULに対
+し (D, IE[t/c] を示せばよい．
+TF VIE の証明があるので，任意のtE Dに対し て以下の証明図のように BE E[t/r] である． E[t/ar] は閉論理式なので，帰納法の仮定より 〈D, I> E[t/a] が成り立つ．
+415
+Elt/x] + Elt/X] (H-left)
+TEVE VxEF E[t/x]
+= (cut) TE E[t/x] 2c. EV - 3rEの形の時については省略する．2b の場合と似た道筋で証明できる (Vの場合と逆に， BF 3rEから 〈D, I〉 3rEを示す時に
+witnessed という性質を用いる)．
+416
+\end{comment}
+\end{document}

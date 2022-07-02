@@ -11,7 +11,7 @@
 \usepackage{tcolorbox}
 \usepackage{wrapfig}
 \usepackage{amsthm}
-\usepackage{newtxtext,newtxmath}
+%\usepackage{newtxtext,newtxmath}
 \usepackage{mathrsfs}
 %\renewcommand{\bf}{\bfseries\sffamily}
 \usepackage{empheq}
@@ -46,23 +46,34 @@
   lineskip=-0.5ex
 }
 
-\newtheoremstyle{mystyle1}% Name
-    {}% Space above
-    {}% Space below
-    {\normalfont}% Body font
-    {}% Indent amount
-    {\bfseries\sffamily}% Theorem head font
-    {\hspace{0.5em}}% Punctuation after theorem head
-    { }% Space after theorem head, ‘ ‘, or \newline
-    {\thmname{#1}\thmnumber{#2}\thmnote{（#3）\\}}% Theorem head spec (can be left empty, meaning `normal^\prime )
+\newtheoremstyle{mystyle1}% スタイル名
+  {}% 上部スペース
+  {}% 下部スペース
+  {\normalfont}% 本文フォント(\itshape:斜体，\bfseries:太字，\normalfont:普通)
+  {}% 1行目のインデント量(\parindent:普通の段落)
+  {\bfseries\sffamily}% 見出しフォント
+  {}% 見出し後の句読点
+  {\newline}% 見出し後のスペース(\newline:改行)
+  {\thmname{#1}\thmnumber{#2.}\thmnote{ #3}}% 見出しの書式
 \theoremstyle{mystyle1}
-\newtheorem{dfn}{定義}[part]
-\newtheorem{thm}[dfn]{定理}
+\newtheorem{dfn}{定義}[section]
 \newtheorem{axi}[dfn]{公理}
-\newtheorem{cor}[dfn]{系}
 \newtheorem{prop}[dfn]{命題}
-\newtheorem{lem}[dfn]{補題}
 \newtheorem{exs}[dfn]{例題}
+
+\newtheoremstyle{mystyle3}% スタイル名
+  {}% 上部スペース
+  {}% 下部スペース
+  {\normalfont}% 本文フォント(\itshape:斜体，\bfseries:太字，\normalfont:普通)
+  {}% 1行目のインデント量(\parindent:普通の段落)
+  {\bfseries\sffamily}% 見出しフォント
+  {.}% 見出し後の句読点
+  { }% 見出し後のスペース(\newline:改行)
+  {\thmname{#1}\thmnumber{#2}\thmnote{ (#3)}}% 見出しの書式
+\theoremstyle{mystyle3}
+\newtheorem{cor}{系}
+\newtheorem{lem}[cor]{補題}
+\newtheorem{thm}[cor]{定理}
 
 \newtheoremstyle{mystyle2}% Name
     {}% Space above
@@ -72,7 +83,7 @@
     {\bfseries\sffamily}% Theorem head font
     {\hspace{0.5em}}% Punctuation after theorem head
     { }% Space after theorem head, ‘ ‘, or \newline
-    {\thmname{#1}\thmnote{（#3）\\}}% Theorem head spec (can be left empty, meaning `normal^\prime )
+    {\thmname{#1}\thmnote{ #3\\}}% Theorem head spec (can be left empty, meaning `normal^\prime )
 \theoremstyle{mystyle2}
 \newtheorem{dfn*}{定義}
 \newtheorem{thm*}{定理}
@@ -235,8 +246,8 @@ NP完全性の部分については最初は飛ばしていただいても構わ
 予定している命題論理についての説明はとりあえず以上である．
 \subsection{論理式}
 古典命題論理(classical propositional logic)の論理式は以下のようにして定義される．ここでわざわざ古典と付けたのは古典的でない論理もあるからで，それらの場合には以下に出てくる以外の記号が入ってくる場合もある(以下で導入される演算子を用いて定義できない場合，それらは\red{様相演算子}(modal operator) と呼ばれる場合が多い)．ただし例えば\red{直観論理}(intuitionistic logic)は古典論理と異なる論理で論理式が表す意味も異なるが，利用される記号は以下の定義の場合とほぼ同じである．古典論理は歴史的に最も早く数学的に研究された論理であり，意味のつけ方も最も単純で，通常はこれを最初に学習する．
-\begin{dfn}\label{dfn:formula}
-  \textbf{命題論理式}\\$\bV$を可算無限集合(自然数全体の集合と要素達を一対一対応させられる集合)とするとき，命題論理の\red{論理式}(formula)の集合\textbf{Pro}を以下のように定義する．
+\begin{dfn}[命題論理式]\label{dfn:formula}
+$\bV$を可算無限集合(自然数全体の集合と要素達を一対一対応させられる集合)とするとき，命題論理の\red{論理式}(formula)の集合\textbf{Pro}を以下のように定義する．
 \end{dfn}
 \begin{enumerate}
   \item $\bV\subseteq\bPro$である．
@@ -316,6 +327,7 @@ $X$と$\uA$は両方とも変数だが，両者の違いは，前者は数学的
 ただし，メタ変数と対象言語の変数の表記上の区別を常に厳密につけると煩わしい面もある．読者(ともちろん著者)の意識の中ではっきりと区別が付いていれば十分なので，読者の文脈を読み取る力を信用して同じ記号を用いている教科書もよくある．
 \subsubsection*{演習問題}
 \begin{enumerate}
+  \setcounter{enumi}{2}
   \item[3.] ここまでに出現した，本文中の対象言語の変数とメタ変数を全て指摘せよ．
 \end{enumerate}
 \subsection{意味論}
@@ -375,18 +387,19 @@ $\bT,\bF$と論理定数のT,Fは別物なので注意してほしい．前者�
 \subsubsection*{演習問題}
 以下の論理式の真理値表を書け．
 \begin{enumerate}
-  \item[4.] $\neg\neg\uA$
-  \item[5.] $\uA$
-  \item[6.] $\neg\uA\wedge\neg\uB$
-  \item[7.] $\neg\left(\uA\vee\uB\right)$
-  \item[8.] $\uA\wedge\uB$
-  \item[9.] $\uB\wedge\uA$
-  \item[10.] $\uA\wedge\left(\uB\wedge\uC\right)$
-  \item[11.] $\left(\uA\wedge\uB\right)\wedge\uC$
-  \item[12.] $\uA\to\uA$
-  \item[13.] $\uA\vee\neg\uA$
-  \item[14.] $\uA\leftrightarrow\uB$
-  \item[15.] $\uA\veebar\uB$
+  \setcounter{enumi}{3}
+  \item $\neg\neg\uA$
+  \item $\uA$
+  \item $\neg\uA\wedge\neg\uB$
+  \item $\neg\left(\uA\vee\uB\right)$
+  \item $\uA\wedge\uB$
+  \item $\uB\wedge\uA$
+  \item $\uA\wedge\left(\uB\wedge\uC\right)$
+  \item $\left(\uA\wedge\uB\right)\wedge\uC$
+  \item $\uA\to\uA$
+  \item $\uA\vee\neg\uA$
+  \item $\uA\leftrightarrow\uB$
+  \item $\uA\veebar\uB$
 \end{enumerate}
 \subsection{付値}
 真理値表により論理式の真理函数を表現でき，それが元の論理式の性質を反映していると考えられることは前の小節で見た．ただし，真理函数は論理式に出現する命題変数によって引数の数が異なることになる．これを，一般にどのような命題論理式の真偽値も求められる形式に変更することを考え，$\phi:\bV\to\bT\bV$を導入する．このような数を\red{付値}(valuation) と呼ぶ．ここでは付置全体の集合を$\cF$で表すことにする．函数空間を表す通常の記法を使うと$\cF=\bT\bV^\bV$である．付値$\phi\in\cF$は元々は命題変数の真偽値を定めるものであるが，$\bPro$に対し拡張することが可能である．それは次のようにして行う．$X\in\bPro$とする．\begin{enumerate}
@@ -405,9 +418,10 @@ $\bT,\bF$と論理定数のT,Fは別物なので注意してほしい．前者�
 $X\in\bV$であれば$\phi'\left(X\right) =\phi\left(X\right)$が成り立つので， 拡張した$\phi'$の代わりに通常元の$\phi$を用いて表す．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[16.] 任意の$A\in\bV$に対し$\phi_\bT\left(A\right)\dequal\bT,\phi_\bF\left(A\right)\dequal\bF$として$\phi_\bT,\phi_\bF\in\cF$を定義する．\ref{sec:truth-value function}の演習問題の各論理式$X$について，$\phi_\bT\left(X\right),\phi_\bF\left(X\right)$を計算せよ．
-  \item[17.] 同じ各論理式$X$について，それぞれの$\phi\left(X\right)=\bT$となる$\phi\in\cF$は存在するか．具体的に示すか存在しないことを示せ．
-  \item[18.] $\phi\left(X\right)=\bF$の場合はどうか．
+  \setcounter{enumi}{15}
+  \item 任意の$A\in\bV$に対し$\phi_\bT\left(A\right)\dequal\bT,\phi_\bF\left(A\right)\dequal\bF$として$\phi_\bT,\phi_\bF\in\cF$を定義する．\ref{sec:truth-value function}の演習問題の各論理式$X$について，$\phi_\bT\left(X\right),\phi_\bF\left(X\right)$を計算せよ．
+  \item 同じ各論理式$X$について，それぞれの$\phi\left(X\right)=\bT$となる$\phi\in\cF$は存在するか．具体的に示すか存在しないことを示せ．
+  \item $\phi\left(X\right)=\bF$の場合はどうか．
 \end{enumerate}
 \subsection{モデル}
 ある論理式$X\in\bPro$と，付値$\phi$について$\phi\left(X\right)=\bT$となるとき，$\phi$は$X$を\red{充足する}(satisfy)と言う．またこのとき$\phi$を$X$の\red{モデル}(model)と呼び，\red{$\phi\models X$}と書く．そうでない場合には$\phi\not\models X$と書く．二値論理で$\bT\bV = \{\bT, \bF\}$のときには後者の場合，$\phi\left(X\right) = \bF$である．
@@ -415,7 +429,8 @@ $X\in\bV$であれば$\phi'\left(X\right) =\phi\left(X\right)$が成り立つの
 次にモデルの定義を論理式の集合に拡張する．$G\subseteq\bPro$とする．$G$は無限集合かもしれない．付値$\phi$が，$G$に属するすべての論理式のモデルになっているとき，$\phi$は$G$の\red{モデル}であると言い，\red{$\phi\models G$}と表記する．これは$G$が有限集合のときには，$G$のすべての論理式を$\wedge$で結んでできる論理式のモデルになっていることと同値である．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[19.]\ref{sec:truth-value function}の演習問題の各論理式について，そのモデルを具体的に示すか，存在しないことを示せ
+  \setcounter{enumi}{18}
+  \item \ref{sec:truth-value function}の演習問題の各論理式について，そのモデルを具体的に示すか，存在しないことを示せ
 \end{enumerate}
 \subsection{トートロジー，充足可能性}
 すべての付値がモデルであるような論理式$X\in\bPro$を\red{恒真}(valid)であると言う．特に命題論理の恒真な論理式を\red{トートロジー}(tautology)と呼ぶ．トートロジーとは元々同義語反復という意味である．
@@ -427,9 +442,10 @@ $X\in\bV$であれば$\phi'\left(X\right) =\phi\left(X\right)$が成り立つの
 また同様に，$X$が充足可能であるかどうかも決定可能であることがわかる．一般に二値命題論理の論理式の充足可能性を調べる問題をSATと呼んでいる．しかし，以上のような方法で充足可能性を調べるとすると，$2^{|\textrm{FV}(X)|}$種類の入力に対して$X$の真偽値を求める必要があり，原理的には結論を求められるとしても，|FV($X$)|が少し大きくなるととても実際的な時間で計算を行うことが不可能になってしまう．実は，SATは効率的な解法がないと一般に信じられている決定問題である．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[20.] \ref{sec:truth-value function}の演習問題の論理式について，トートロジーであるものと充足可能なものがそれぞれどれか答えよ．
-  \item[21.] $X\in\bPro$がトートロジーであることと，$\neg X$が充足不能であることが同値であることを示せ．
-  \item[22*.] プログラミング言語LISPを用い，命題論理式をリストで表す方法を定め，命題論理式を具体的に与えた時にそれの真理値表を求めるプログラムを記述せよ．(「情報処理の方法と演習A」の問題より．*付きの問題は難しかったり時間がかかるため，興味のある人のみが解いてみるのが良さそう)
+  \setcounter{enumi}{19}
+  \item \ref{sec:truth-value function}の演習問題の論理式について，トートロジーであるものと充足可能なものがそれぞれどれか答えよ．
+  \item $X\in\bPro$がトートロジーであることと，$\neg X$が充足不能であることが同値であることを示せ．
+  \item[22$^\ast$.] プログラミング言語LISPを用い，命題論理式をリストで表す方法を定め，命題論理式を具体的に与えた時にそれの真理値表を求めるプログラムを記述せよ．(「情報処理の方法と演習A」の問題より．*付きの問題は難しかったり時間がかかるため，興味のある人のみが解いてみるのが良さそう)
 \end{enumerate}
 \subsection{決定問題と決定可能性}\label{sec:decidable-and-decision problem}
 論理式を記号列として表す場合には，先に見たように記号列の中に，論理式を表すものとそうでないものがある．ここで重要なことの一つは，記号列が渡された場合に，それが論理式を表すかどうかを機械的に，つまりアルゴリズムにより判定可能であるということがある．正式には\red{決定可能}(decidable)であると言い，これは以下のように定義される概念である．
@@ -455,17 +471,18 @@ Hilbertの数学の算術化のプログラムでは，当初からアルゴリ�
 決定可能という言葉は数理論理学において他の文脈でも使われる場合がある．この資料の後半に出てくる一階述語論理の閉論理式$E$について，$\vdash E$か$\vdash\neg E$($E$の否定)のどちらかが理論$Th$から推論規則により証明できる時，$Th$において$E$は決定可能(命題)であると言う．これは決定問題$A\subseteq\Sigma^\ast$の決定可能性とは異なる概念であり，混同しないこと．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[23.] $\Sigma^\ast$の濃度を答えよ．
-  \item[24.] $2^{\Sigma^\ast}$の濃度を答えよ．
-  \item[25.] 空集合$\emptyset$や全体集合$\Sigma^\ast$や$\bN$の中で決定可能かどうか根拠付きで答えよ．
-  \item[26.] $\Sigma^\ast$や$\bN$のただ一つの元から成る集合がそれらの中で決定可能かどうか根拠付きで答えよ．
-  \item[27.] 決定可能な集合が少なくとも可算無限個存在することを示せ．
-  \item[28.] 決定可能な集合の濃度が高々可算無限であることを示せ．
-  \item[29.] 偶数全体の集合$\mathrm{Even}\subseteq\bN$が決定可能であることを示せ．
-  \item[30.] 素数全体の集合$\mathrm{Prime}\subseteq\bN$が決定可能であることを示せ．
-  \item[31.] 2つの決定可能集合$X,Y\subseteq\bN$の和集合$X\cup Y$が決定可能であることを示せ．
-  \item[32.] 31で$X\cap Y$が決定可能であることを示せ．
-  \item[33.] 決定可能集合$X\subseteq\bN$の補集合$\bN\backslash X$が決定可能であることを示せ．
+  \setcounter{enumi}{22}
+  \item $\Sigma^\ast$の濃度を答えよ．
+  \item $2^{\Sigma^\ast}$の濃度を答えよ．
+  \item 空集合$\emptyset$や全体集合$\Sigma^\ast$や$\bN$の中で決定可能かどうか根拠付きで答えよ．
+  \item $\Sigma^\ast$や$\bN$のただ一つの元から成る集合がそれらの中で決定可能かどうか根拠付きで答えよ．
+  \item 決定可能な集合が少なくとも可算無限個存在することを示せ．
+  \item 決定可能な集合の濃度が高々可算無限であることを示せ．
+  \item 偶数全体の集合$\mathrm{Even}\subseteq\bN$が決定可能であることを示せ．
+  \item 素数全体の集合$\mathrm{Prime}\subseteq\bN$が決定可能であることを示せ．
+  \item 2つの決定可能集合$X,Y\subseteq\bN$の和集合$X\cup Y$が決定可能であることを示せ．
+  \item 31で$X\cap Y$が決定可能であることを示せ．
+  \item 決定可能集合$X\subseteq\bN$の補集合$\bN\backslash X$が決定可能であることを示せ．
   \item[34$^\ast$.] 再帰函数の定義を調べよ．
   \item[35$^\ast$.] ブール代数の定義を調べよ．(これらの言葉が本文中に現れる．調べない場合，現れている文を無視して構わない．)
 \end{enumerate}
@@ -479,12 +496,13 @@ $A$が決定可能であることと，AとAの補集合が両方とも半決定
 帰納的可算性を自然数の部分集合や，記号列でコーディング出来る他のデータに対して定義することもやはり可能である．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[36.] $A$が決定可能であれば$A$が半決定可能であることを示せ．
-  \item[37.] $A$と$A$の補集合が両方とも半決定可能であるとき，$A$は決定可能であることを示せ．
-  \item[38.] 半決定可能な集合全体の集合の濃度が高々可算無限であることを示せ．
-  \item[39.] 半決定可能でない$\Sigma^\ast$の部分集合が存在することを示せ．(ヒント:$\Sigma^\ast$の部分集合全体の集合の濃度と，半決定可能な集合全体の集合の濃度を比較せよ．)
-  \item[40.] 2つの半決定可能集合の和集合が半決定可能であることを示せ．
-  \item[41.] 2つの半決定可能集合の交集合が半決定可能であることを示せ．
+  \setcounter{enumi}{35}
+  \item $A$が決定可能であれば$A$が半決定可能であることを示せ．
+  \item $A$と$A$の補集合が両方とも半決定可能であるとき，$A$は決定可能であることを示せ．
+  \item 半決定可能な集合全体の集合の濃度が高々可算無限であることを示せ．
+  \item 半決定可能でない$\Sigma^\ast$の部分集合が存在することを示せ．(ヒント:$\Sigma^\ast$の部分集合全体の集合の濃度と，半決定可能な集合全体の集合の濃度を比較せよ．)
+  \item 2つの半決定可能集合の和集合が半決定可能であることを示せ．
+  \item 2つの半決定可能集合の交集合が半決定可能であることを示せ．
 \end{enumerate}
 \subsection{非決定性チューリング機械}\label{sec:NDTM}
 計算機科学と関わりがあるSATに言及することとなったので，それの周辺について説明しておくことにする．ただし \ref{sec:NDTM}～\ref{sec:NP}は本稿での論理(logic)の理解のためには必ずしも必要ではないので，飛ばしてもよい．
@@ -508,8 +526,9 @@ SATは決定問題であり，答えはyesかnoかのどちらかなので，そ
 このように，P$\neq$NP予想とは，問題の答え(あるいはその証拠)をヒントなしで求めるのは，答えがわかっていてそれが正しいことを確かめるよりも真に難しいという常識的にはほとんど当然と思ってしまうことを数学的に表したものであるとも言える．しかしながらまだそれを証明できていないのである．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[42.] P$\subseteq$NPを示せ．
-  \item[43.] SAT$\in$NPを示せ．
+  \setcounter{enumi}{41}
+  \item P$\subseteq$NPを示せ．
+  \item SAT$\in$NPを示せ．
 \end{enumerate}
 \subsection{多項式時間帰着可能性}
 ある決定問題$A\subseteq\Sigma^\ast$を別の決定問題$B\subseteq\Sigma^\ast$に帰着できる場合がある．$x\in\Sigma^\ast$のときに，$x\in A$かどうか調べるとする．テープ上に$x$を書き込み，これを機械$M$により処理すると必ず停止してテープ上に記号列$f_M \left(x\right)$が得られるとする．ここで$f_M$は機械$M$が表す函数である．そして$X\in A$と$f_M\left(x\right)\in B$が同値となるとする．このとき，$A$は$M$により$B$に\red{帰着}(reduce)される，という．さらに$M$に$x$を与えた場合の計算時間が前の小節のように$x$の大きさの多項式で抑えられるとする．このとき，$A$は$M$により$B$に多項式時間で帰着される，という．また，そのようなDTM $M$が存在するとき，$A$は$B$に\red{多項式時間帰着可能}(polynomial-time reducible)であるという．
@@ -517,8 +536,9 @@ SATは決定問題であり，答えはyesかnoかのどちらかなので，そ
 一般に，$A$を$B$に$M$で帰着できる場合には，ある意味$A$の方が$B$よりも簡単であることを表している．ただしこれは$M$がどのようなものかが問題であり，どのような$M$を使ってもよければ， 任意の決定可能な問題$A$を，yesとnoの両方の結果があり得るような他の決定問題に帰着することが可能である(なぜか?)．したがって$M$を制限することが必要であり，多項式時間帰着可能とい うのは意味のある制限になっている．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[44.] 決定問題$A$を恒等TM$_\text{id}$\footnote{一般的な用語ではない}(すぐに停止して入力列をそのまま出力列とするTM$_\text{ia}$)により$A$自身に帰着できることを示せ．
-  \item[45.] 決定可能な決定問題$A$を一つ固定する．$\{0\}\subseteq\Sigma^\ast$(列0のみから成る集合)に帰着できる$M_A$が存在することを示せ．簡単のために0やyes,noの文字がどの元であると仮定してよい．
+  \setcounter{enumi}{43}
+  \item 決定問題$A$を恒等TM$_\text{id}$\footnote{一般的な用語ではない}(すぐに停止して入力列をそのまま出力列とするTM$_\text{ia}$)により$A$自身に帰着できることを示せ．
+  \item 決定可能な決定問題$A$を一つ固定する．$\{0\}\subseteq\Sigma^\ast$(列0のみから成る集合)に帰着できる$M_A$が存在することを示せ．簡単のために0やyes,noの文字がどの元であると仮定してよい．
   \item[46$^\ast$.] SATは3SAT\footnote{$\left(\underline{A_1}\vee\neg\underline{A_2}\vee\underline{A_3}\right)\wedge\cdots$のように，1個以上3個以下のリテラル(命題変数かそれに$\neg$が1つ付いたもの)を$\vee$で結んだものを，0個以上$\wedge$で結んだ形の命題論理式について充足可能性を考える決定問題．つまり論理式の形を制限したSAT問題．}に多項式時間帰着可能であることを示せ．
 \end{enumerate}
 \subsection{NP困難性，NP完全性}\label{sec:NP}
@@ -527,12 +547,13 @@ SATは決定問題であり，答えはyesかnoかのどちらかなので，そ
 歴史的にはNP完全であることを示された最初の具体的決定問題がSATである．これはCookにより示された．一つの決定問題$B$がNP完全であることが示されたとする．他のNPに属する決定問題$C$に$B$が多項式時間帰着可能であれば，$C$もNP完全であると言える(なぜか?)．そのようにして何千という問題がNP完全であることが示された．部分和問題，ハミルトン閉路問題などという名称を聞かれた人もいるだろう．そういった問題がSAT以外のNP完全問題として有名である(ただしこれらの問題の一部はそのままでは決定問題ではなく，同じ土俵の上で論じるには決定問題への変形が必要である)．それらのうち一つでも多項式時間で計算できないということを証明できればP$\neq$NPの証明となる．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[47.] NP困難な決定問題$A\subseteq\Sigma^\ast$を決定問題$B\subseteq\Sigma^\ast$に多項式時間帰着できるとする．この時，$B$もNP困難であることを示せ．
+  \setcounter{enumi}{46}
+  \item NP困難な決定問題$A\subseteq\Sigma^\ast$を決定問題$B\subseteq\Sigma^\ast$に多項式時間帰着できるとする．この時，$B$もNP困難であることを示せ．
 \end{enumerate}
 \subsection{論理的帰結}
 この節では意味論的に論理的帰結を定義し，それにより二値論理の$\to$が正しい推論を行うための条件を満たしていることを示す．ただしこれは結局，数学での「ならば」が実質含意であるということを示しているとも言えるかもしれない．
-\begin{dfn*}
-  論理的帰結$X\in\bPro,G\subseteq\bPro$とする．すべての付値$\phi$に対し，$\phi$が$G$のモデルであれば$\phi$が$X$のモデルであるとき，$X$を$G$の\red{論理的帰結}(logical consequence)と言う．
+\begin{dfn*}[論理的帰結]
+$X\in\bPro,G\subseteq\bPro$とする．すべての付値$\phi$に対し，$\phi$が$G$のモデルであれば$\phi$が$X$のモデルであるとき，$X$を$G$の\red{論理的帰結}(logical consequence)と言う．
 \end{dfn*}
 上記の論理的帰結は意味論的帰結とも言う．$X$が$G$の論理的帰結のときに\red{$G\models X$}と表記する．そうでない場合には$G\not\models X$と表記する．また，特に$G$が有限集合のときには$G$を論理式の列として記し，それを表すメタ変数としては$\Gamma$を用いることにする．特に$X$が$G = \emptyset$(空集合)，$\Gamma$で言えば空列の論理的帰結であることと，$X$がトートロジーであることは同値となる．
 
@@ -557,7 +578,8 @@ SATは決定問題であり，答えはyesかnoかのどちらかなので，そ
 \end{proof}
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[48.] $X\models Y$と$\models X\to Y$がそれぞれ成り立つかどうかを，$X$と$Y$に具体的な論理式を当てはめて確認せよ．論理式の組み合わせは3種類以上について確認すること．
+  \setcounter{enumi}{47}
+  \item $X\models Y$と$\models X\to Y$がそれぞれ成り立つかどうかを，$X$と$Y$に具体的な論理式を当てはめて確認せよ．論理式の組み合わせは3種類以上について確認すること．
 \end{enumerate}
 \subsection{論理的同値}
 $X,Y\in\bPro$の真理函数が等しいとき，言い換えるとすべての付値$\phi$に対し$\phi\models X$と$\phi\models Y$が同値であるとき，$X$と$Y$は\red{論理的同値}(logically equivalent)，あるいは\red{意味論的同値}(semantically equivalent)であると言う．論理的同値を表す記号は統一されていないが本稿では\red{$X\lequiv Y$}と表記することにする．
@@ -608,10 +630,11 @@ $X,Y\in\bPro$の真理函数が等しいとき，言い換えるとすべての�
 \end{enumerate}
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[49.] $X\models Y$かつ$Y\models X$と，$X\lequiv Y$が同値であることを示せ．
-  \item[50.] $X\lequiv Y$と$\models X\leftrightarrow Y$が同値であることを示せ．
-  \item[51.] 上記の例についてそれらが正しいことを個々に確認せよ．
-  \item[52.] 左側に一つ論理式がある場合に限定すると，$\models$は論理式の二項関係となる．$\models$が前半(まえはん)順序関係であることを確認せよ．即ち前半順序関係の以下の2つの公理を満たすことを示せ．\begin{enumerate}
+  \setcounter{enumi}{48}
+  \item $X\models Y$かつ$Y\models X$と，$X\lequiv Y$が同値であることを示せ．
+  \item $X\lequiv Y$と$\models X\leftrightarrow Y$が同値であることを示せ．
+  \item 上記の例についてそれらが正しいことを個々に確認せよ．
+  \item 左側に一つ論理式がある場合に限定すると，$\models$は論理式の二項関係となる．$\models$が前半(まえはん)順序関係であることを確認せよ．即ち前半順序関係の以下の2つの公理を満たすことを示せ．\begin{enumerate}
           \item[i.] $X\models X$
           \item[ii.] $X\models Y$かつ$Y\models Z\Rightarrow X\models Z$
         \end{enumerate}
@@ -636,13 +659,18 @@ $X'[]\dequiv\uA\to[]\in\bPro_{[]},Y \dequiv\uB\in\bPro$のとき，$X'[Y] \equiv
 \begin{proof}
   (概略) 論理式$X'[]$の構成に関する帰納法で証明できる．
 \end{proof}
-\textbf{補題 6.} $Y\lequiv Z$であれば$X'[Y] \lequiv X'[Z]$が成り立つ．\\
-証明: $Y\lequiv Z$を仮定すると，上の補題からすべての$\phi$について$\phi(X'[Y]) = \phi(X'[Z])$だから．$\square$
+\begin{lem}
+  $Y\lequiv Z$であれば$X'[Y] \lequiv X'[Z]$が成り立つ．
+\end{lem}
+\begin{proof}
+  $Y\lequiv Z$を仮定すると，上の補題からすべての$\phi$について$\phi(X'[Y]) = \phi(X'[Z])$だから．
+\end{proof}
 
 この補題を利用して，論理式の部分論理式をそれと論理的同値な論理式に置き換えてゆくことで，論理式をどんどん変形していくことが可能になる．なぜなら論理的同値性は同値関係だからであり，推移性が成り立つからである．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[55.] 補題5を証明せよ．
+  \setcounter{enumi}{54}
+  \item 補題5を証明せよ．
 \end{enumerate}
 \subsection{論理式の標準形}
 ここでは古典命題論理の2つの標準形について説明する．
@@ -660,12 +688,13 @@ $(\uA\vee\neg\uB)\wedge(\neg\uC\vee\neg\uB\vee\uD)\wedge\uB,\neg\uA\wedge(\uC\ve
 CNFにはこのままでは冗長性がある場合がある．CNF$X$に2つの節$C$と$D$があり，$C$に現れるリテラルがすべて$D$に現れている場合，$D$を取り除いても論理的に同値となる(なぜか?)．ある節に同じリテラルが現れる場合，それらを一つに減らしても論理的に同値である．また，同じ命題変数の正負リテラルが両方現れる節$L$はトートロジーであり，他のリテラルを取り除けるし，他にも節が存在する場合には$L$を取り除いても論理的に同値である．論理定数Tがある場合にはさらに$L$をTで置き換えられる．これらの操作を行えば，冗長性が取り除かれる．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[56.] $(X_1\vee\cdots\vee X_k\vee X_{k+1} \vee\cdots\vee X_n)\wedge(X_1\vee\cdots\vee X_k)\lequiv X_1\vee\cdots\vee X_k$を示せ．
-  \item[57.] リテラルの例を3つ挙げよ．
-  \item[58.] ホーン節の例を3つ挙げよ．
-  \item[59.] ホーン節でない節の例を3つ挙げよ．
-  \item[60.] CNFであるような論理式の例を3つ挙げよ．
-  \item[61.] CNFでない論理式の例を3つ挙げよ．
+  \setcounter{enumi}{55}
+  \item $(X_1\vee\cdots\vee X_k\vee X_{k+1} \vee\cdots\vee X_n)\wedge(X_1\vee\cdots\vee X_k)\lequiv X_1\vee\cdots\vee X_k$を示せ．
+  \item リテラルの例を3つ挙げよ．
+  \item ホーン節の例を3つ挙げよ．
+  \item ホーン節でない節の例を3つ挙げよ．
+  \item CNFであるような論理式の例を3つ挙げよ．
+  \item CNFでない論理式の例を3つ挙げよ．
   \item[62$^\ast$.] 導出について調べよ．
   \item[63$^\ast$.] 論理型プログラミング言語Prologについて調べよ．そこでは一つのプログラムが，函数型あるいは手続き型のプログラミング言語の場合には2通りの利用方法を持つ場合がある例を示せ(例えば2つのリストの結合と，1つのリストを2つのリストに分解するなど)．
 \end{enumerate}
@@ -681,8 +710,9 @@ CNFにはこのままでは冗長性がある場合がある．CNF$X$に2つの�
 このようにして求めたCNFには上の意味での冗長性はない．しかしさらに小さなCNFに置き換えられる場合がある．例えば$(P\vee A)\wedge(P\vee\neg A)$は$P$に置き換えることができる．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[64.] $C_l$が，$l$行目の命題変数に対する真偽値割り当ての場合にのみ$\bF$となることを確認せよ．
-  \item[65.] 幾つかの論理式に対し，まず真理値表を求め，上の方法によりCNFを求めよ．
+  \setcounter{enumi}{63}
+  \item $C_l$が，$l$行目の命題変数に対する真偽値割り当ての場合にのみ$\bF$となることを確認せよ．
+  \item 幾つかの論理式に対し，まず真理値表を求め，上の方法によりCNFを求めよ．
 \end{enumerate}
 \subsubsection{論理積標準形への同値変形}
 論理式$X$を次々に同値な論理式に置き換えてゆくことで$X$のCNFを求めることもできる．具体的には次のような操作を行う．ここで$A\Rightarrow B$は，$C\equiv C'[D']$の部分論理式$D'$が左側の$A$の形をしている場合，それを右側の$B$の形に書き換えて$C'[B]$とすることを表している．$A$と$B$が論理的同値であることに注意してほしい．また，各ステップでは左側の形をした全ての部分論理式に対し同様の操作を行う．
@@ -700,15 +730,17 @@ CNFにはこのままでは冗長性がある場合がある．CNF$X$に2つの�
 
 論理定数T,Fを導入している場合にはさらに以下の操作も必要である．
 \begin{enumerate}
-  \item[7.] $\neg \rT \Rightarrow \rF, \neg\rF\Rightarrow\rT$
-  \item[8.] $\rT\vee X\Rightarrow\rT, X\vee\rT\Rightarrow\rT, \rF\vee X\Rightarrow X,X\vee\rF\Rightarrow X$
-  \item[9.] $\rT\wedge X\Rightarrow X,X\wedge\rT\Rightarrow X, \rF\wedge X\Rightarrow\rF,X\wedge\rF\Rightarrow\rF$
+  \setcounter{enumi}{6}
+  \item $\neg \rT \Rightarrow \rF, \neg\rF\Rightarrow\rT$
+  \item $\rT\vee X\Rightarrow\rT, X\vee\rT\Rightarrow\rT, \rF\vee X\Rightarrow X,X\vee\rF\Rightarrow X$
+  \item $\rT\wedge X\Rightarrow X,X\wedge\rT\Rightarrow X, \rF\wedge X\Rightarrow\rF,X\wedge\rF\Rightarrow\rF$
 \end{enumerate}
 上記の書き換えの各ステップで，論理的な同値変形を行っているので，最終的に得られる論理式は$X$と論理的に同値である．この後，小節\ref{CNF}に記述してあるようにして冗長性の削減を行う．すると，トートロジーであれば$A\vee\neg A$などという形の論理式，あるいはTとなる．そのため上記の手続きは，言い換えると論理式がトートロジーであることの決定手続きであるとも言える．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[66.] 上の各変形の左右の論理式が論理的同値であることを確認せよ．
-  \item[67.] 幾つかの論理式のCNFを同値変形により求めてみよ．
+  \setcounter{enumi}{65}
+  \item 上の各変形の左右の論理式が論理的同値であることを確認せよ．
+  \item 幾つかの論理式のCNFを同値変形により求めてみよ．
   \item[68$^\ast$.] 論理式を記号列で表し，上記書き換えをDTMで行うことを考える．実行ステップ数の最大値が入力の大きさ$n$のどのような函数で抑えられるかを考察せよ．
 \end{enumerate}
 \subsubsection{論理和標準形}
@@ -721,23 +753,26 @@ CNFのときと双対的に，論理定数を導入していない場合には�
 論理和標準形の場合にも，対応する論理式(を表す集合)を節と呼ぶ場合がある．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[69.] $(X_1\wedge\cdots\wedge X_k\wedge X_{k+1}\wedge\cdots\wedge X_n)\vee(X_1\wedge\cdots\wedge X_k)\lequiv X_1\wedge\cdots\wedge X_k$を示せ．
-  \item[70.] DNFであるような論理式の例を3つ挙げよ．
-  \item[71.] DNFでない論理式の例を3つ挙げよ．
+  \setcounter{enumi}{68}
+  \item $(X_1\wedge\cdots\wedge X_k\wedge X_{k+1}\wedge\cdots\wedge X_n)\vee(X_1\wedge\cdots\wedge X_k)\lequiv X_1\wedge\cdots\wedge X_k$を示せ．
+  \item DNFであるような論理式の例を3つ挙げよ．
+  \item DNFでない論理式の例を3つ挙げよ．
 \end{enumerate}
 \subsubsection{真理値表から論理和標準形を求める}
 $\wedge$と$\vee$が双対の関係にあるので，CNFの場合と同様にして与えられた真理値表を持つDNFの論理式を求めることができる．文章中や論理式の$\wedge$と$\vee$，$\bT$と$\bF$，TとFを入れ替えることで同様の議論が成り立つ．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[72.] DNFの場合の$C_l$(CNFの場合の双対)が，$l$行目の命題変数に対する真偽値割り当ての場合にのみ$\bT$となることを確認せよ．
-  \item[73.] 上の方法で幾つかの論理式のDNFを求めてみよ．
+  \setcounter{enumi}{71}
+  \item DNFの場合の$C_l$(CNFの場合の双対)が，$l$行目の命題変数に対する真偽値割り当ての場合にのみ$\bT$となることを確認せよ．
+  \item 上の方法で幾つかの論理式のDNFを求めてみよ．
 \end{enumerate}
 \subsubsection{論理和標準形への同値変形}
 こちらも同様である．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[74.] 上の各変形の左右の論理式(CNFの場合の双対)が論理的同値であることを確認せよ．
-  \item[75.] 幾つかの論理式のDNFを同値変形により求めてみよ．
+  \setcounter{enumi}{73}
+  \item 上の各変形の左右の論理式(CNFの場合の双対)が論理的同値であることを確認せよ．
+  \item 幾つかの論理式のDNFを同値変形により求めてみよ．
 \end{enumerate}
 
 \subsection{形式的体系}
@@ -821,15 +856,16 @@ $\to$と$\neg$以外に$\wedge$と$\vee$も基本的な論理演算子とするH
 Hilbert流の体系で，様々なトートロジーを証明できることと，$K$と$S$をうまく組み合わせると，与えられた$\lambda$式と$\beta$同値な$\lambda$式となることが対応している．Peirce's lawについては，これは継続の型であり，継続は，古典論理を函数型言語に導入した場合の言語要素である．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[76.] $X\vee Y\to Y\vee X$の$\vee$を上記の定義に従って展開し，さらに展開後の論理式の証明図を示 せ．論理演算子は$\neg$と$\to$のみ，論理定数なし，公理スキーマは(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3})とする．\\解答例:展開すると$\left(\neg X\to Y\right)\to\left(\neg Y\to X\right)$．証明図は省略．
-  \item[77.] 二重否定除去$\neg\neg X\to X$の証明図を示せ．公理スキーマは(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3})とする．
-  \item[78.] 含意命題論理で考える．排中律$\neg X\vee X$と$X\vee\neg X$を展開し，それらの証明図をそれぞれ示せ．論理演算子は$\to$，論理定数は$\perp$，公理スキーマは(\ref{hilbert3})を展開した次のような(\ref{hilbert3'})\footnote{この問題の場合，実は(\ref{hilbert3'})は必要ない．}と，(\ref{hilbert1}),(\ref{hilbert2}),(\ref{perpToX}) とする．
+  \setcounter{enumi}{75}
+  \item $X\vee Y\to Y\vee X$の$\vee$を上記の定義に従って展開し，さらに展開後の論理式の証明図を示 せ．論理演算子は$\neg$と$\to$のみ，論理定数なし，公理スキーマは(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3})とする．\\解答例:展開すると$\left(\neg X\to Y\right)\to\left(\neg Y\to X\right)$．証明図は省略．
+  \item 二重否定除去$\neg\neg X\to X$の証明図を示せ．公理スキーマは(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3})とする．
+  \item 含意命題論理で考える．排中律$\neg X\vee X$と$X\vee\neg X$を展開し，それらの証明図をそれぞれ示せ．論理演算子は$\to$，論理定数は$\perp$，公理スキーマは(\ref{hilbert3})を展開した次のような(\ref{hilbert3'})\footnote{この問題の場合，実は(\ref{hilbert3'})は必要ない．}と，(\ref{hilbert1}),(\ref{hilbert2}),(\ref{perpToX}) とする．
         \begin{equation}
           \left(\left(X\to\perp\right)\to\left(Y\to\perp\right)\right)\to\left(Y\to X\right).\tag{15'}\label{hilbert3'}
         \end{equation}
-  \item[79.] 論理演算子は$\to$，論理定数は$\perp$とする．(\ref{PeircesLaw}),(\ref{perpToX})が，(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3'})から導けることを示せ\footnote{「導けることを示せ」と「証明図を示せ」が，求めていることが異なることに注意せよ．前者では具体的な証明図を示す必要が必ずしもなく，証明図の存在を示せば十分である．}．
-  \item[80.] 逆に(\ref{hilbert1}),(\ref{hilbert2}),(\ref{PeircesLaw}),(\ref{perpToX})から(\ref{hilbert3'})を導けることを示せ．
-  \item[81.] 上の問題で(\ref{perpToX})を除いた場合，(\ref{PeircesLaw})から(\ref{hilbert3'})を導けないことを示せ．(ヒント:まず(\ref{hilbert1}),(\ref{hilbert2}),(\ref{PeircesLaw})と(\ref{HilInfRule})から成る体系が健全，即ちこれらにより証明できる論理式が全てトートロジーであることをいう．次に，命題変数$A, B$に対し$\left(\left(A\to L\right)\to\left(B\to A\right)\right)\to\left(B\to A\right)$を導けるとしたら，命題変数$C$に対して$\left(\left(A\to C\right)\to\left(B\to C\right)\right)\to\left(B\to A\right)$が導けることを示し，それがトートロジーとならない場合があることを言う．)
+  \item 論理演算子は$\to$，論理定数は$\perp$とする．(\ref{PeircesLaw}),(\ref{perpToX})が，(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3'})から導けることを示せ\footnote{「導けることを示せ」と「証明図を示せ」が，求めていることが異なることに注意せよ．前者では具体的な証明図を示す必要が必ずしもなく，証明図の存在を示せば十分である．}．
+  \item 逆に(\ref{hilbert1}),(\ref{hilbert2}),(\ref{PeircesLaw}),(\ref{perpToX})から(\ref{hilbert3'})を導けることを示せ．
+  \item 上の問題で(\ref{perpToX})を除いた場合，(\ref{PeircesLaw})から(\ref{hilbert3'})を導けないことを示せ．(ヒント:まず(\ref{hilbert1}),(\ref{hilbert2}),(\ref{PeircesLaw})と(\ref{HilInfRule})から成る体系が健全，即ちこれらにより証明できる論理式が全てトートロジーであることをいう．次に，命題変数$A, B$に対し$\left(\left(A\to L\right)\to\left(B\to A\right)\right)\to\left(B\to A\right)$を導けるとしたら，命題変数$C$に対して$\left(\left(A\to C\right)\to\left(B\to C\right)\right)\to\left(B\to A\right)$が導けることを示し，それがトートロジーとならない場合があることを言う．)
 \end{enumerate}
 \subsection{自然演繹}
 以下はGentzenによる体系．論理定数$\perp$を導入する(Fと同じだと思ってよい)．
@@ -917,9 +953,10 @@ $X\vee\neg X_{\text{(excluded-middle)}}$\\日本語では\red{排中律}と言�
 証明図はやはり公理から始まって推論規則を積み重ねてできる木である．葉の部分はすべて公理であるか，[]で囲まれていなくてはならない．
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[82.] \L ukasiewiczの3つの公理スキーマを$A_1, A_2, A_3$とする．それぞれについて自然演繹による証明図を示せ．
-  \item[83.] 本稿中に現れた他のトートロジーについて証明図を示せ．
-  \item[84.] 本稿中に現れた命題論理式で，トートロジーでないものについて，証明図を構成できないことを確認せよ．
+  \setcounter{enumi}{81}
+  \item \L ukasiewiczの3つの公理スキーマを$A_1, A_2, A_3$とする．それぞれについて自然演繹による証明図を示せ．
+  \item 本稿中に現れた他のトートロジーについて証明図を示せ．
+  \item 本稿中に現れた命題論理式で，トートロジーでないものについて，証明図を構成できないことを確認せよ．
 \end{enumerate}
 
 \subsection{シーケント計算LK}
@@ -1122,12 +1159,12 @@ LKの推論規則をいくつか繋げて例えば次の様に証明図の断片
 \end{prooftree}
 \subsubsection*{演習問題}
 \begin{enumerate}
-  \item[85.] \L ukasiewiczの3つの公理スキーマを$A_1, A_2, A_3$とする．$\vdash A_1,\vdash A_2,\vdash A_3$がそれぞれLKで証明可能であることを示せ．
-  \item[86.] 排中律のスキーマ$X\vee\neg X$がLKで証明可能であ
+  \setcounter{enumi}{84}
+  \item \L ukasiewiczの3つの公理スキーマを$A_1, A_2, A_3$とする．$\vdash A_1,\vdash A_2,\vdash A_3$がそれぞれLKで証明可能であることを示せ．
+  \item 排中律のスキーマ$X\vee\neg X$がLKで証明可能であ
   ることを示せ．
-  \item[87.] 二重否定除去のスキーマ$\neg\neg X\to X$がLKで証明可能であることを示せ．
-  \item[88.] 上で導入されたそれぞれの派生規則を示す証明図
-  の断片で省略されている規則の数はいくつか．
+  \item 二重否定除去のスキーマ$\neg\neg X\to X$がLKで証明可能であることを示せ．
+  \item 上で導入されたそれぞれの派生規則を示す証明図の断片で省略されている規則の数はいくつか．
 \end{enumerate}
 \subsubsection{LKの特徴}
 $T$を命題論理のシーケントのLKにおける証明図で，規則cutが現れないものとする．すると，各規則の上の段に現れる論理式はすべて下の段に現れる論理式のうちどれかの部分論理式である．この事実を指して\red{部分論理式性}(subformula property)が成り立つと言う．しかも論理演算子に関する規則の場合には，真に小さい論理式となっている．これらは，各規則の形から直ちに確かめられることである．部分論理式性は重要な性質であり，命題論理の論理式がLKで証明可能であるかどうかを決定する決定手続きを，LKの推論規則たちを元にして作れることを意味している(後述)．このことと(別の)後述のLKの完全性と併せると，命題論理の論理式が恒真であるかどうかが決定可能であることの別証明を与える\footnote{一つ目の証明は，論理式の真偽値表を書いて結果の真偽値が全て$\bT$であればyes，そうでなければnoを答えるというものであった．}．
@@ -1145,98 +1182,162 @@ $\Gamma,A,\Delta\vdash\Pi,A,\Sigma$ (TC)
 
 これはLKの定理スキーマになっている．前述のようにシーケント中のすべての論理式を命題変数のみに制限している．
 \paragraph{aLKの構造に関する規則}
-P,,AFA
-TF A, A, P - (exchange-left'), - T.P.APAN
-TF A. P. A (excha
-211
-■aLKの論理演算子に関する規則
-P, Q, ΓΕΔ ΓΕ Δ, Ρ ΓΕΔ, Q ΡΛΟ.Γ.ΔΛ-left'), Γ-Δ.ΡΛΟ
-- (Λ-right),
-Ρ, ΓΕΔ Q, ΓΕΔ
-PVQ,TEA V
-ΓΗ Δ, P, Q, -left), TEAPV Ö (V-right),
-Ρ, ΓΕΔ
-ΓΕΔ,P ΕΡΓΕΛΗ-left),
-TEA -P (-right)
-212
-ΓΗ Δ, P
-Q, ΓΕΔ
-―(→-left'),
-Ρ, ΓΕΔ, Q
-(→-right)
-”が付いた規則はLKの派生規則になっており，付いて いない規則はLKの規則と同じである．つまりALKで 証明図を持つシーケントはLKでも証明図を持つ．
-2.24 形式的体系の性質
-ここで証明対象をシーケントとする形式的体系の性質 を幾つか定義し，LKと2LKについてそれらが成り立
-213
-つことを示す．証明対象を論理式とする形式的体系の 場合にもほぼ同様の定義を行い，示すことができる．
-2.24.1 無矛盾性
-シーケントについての形式的体系Sで，TPPと TH -P が両方証明図を持つような論理式Pが存在す るとき，TはSで矛盾している (inconsistent) という． そうでないとき，TはSで無矛盾(consistent)である という．特にTとして空列が矛盾している時にSは矛 盾しているという．
-214
-LKの場合，以下のようにTトが証明図を持つことと， TEPとTE -Pの両方が証明図を持つことは同値で あり，特にLKが無矛盾であるというのはシーケント 上が証明図を持たないことと同値である．Tが矛盾し
-ているとどのような論理式QについてもTE Qが証明 図を持つこともわかる．
-TE
-' -- (weakening-right,Q = P, -P の場合も OK)
-TEQ
-215
-PEP
-- (--left) -P, PE
-– (exchange-left) P, -PF
-- (-left1) PX -P,-PF
-- (exchange-left) →P, P  -PF
-- (-left2) PA-P, P  JPG
-(contraction-left) PA-PF
-(cut)
-TEP TF-P
-– (1-right) TF PA-P
-TE
-2.24.2 LKの健全性
-次に体系Sの健全性を定義する． 以下でTはTのすべての論理式をへで結んでできる論 理式である．また，TvはVで結んでできる論理式を表
-216
-す．ただし，「が空列の時にはT A → A, Tv = A-Aとしておく．
-■例:
-T = P,Q,Rのとき，T = PAQARとなる． T=Pのときには T = Pである．
-定義 シーケントの充足 付値ルとシーケント s=TF △があるとする．v(s) " v(T  → Av)とし てルによるsの真理値を定める．付値ルが論理式 TA → △vを充足するとき，ルはシーケントを充足す
-217
-るという．どのような付値によっても充足されるよう な古典命題論理のシーケントを恒真であるという． 」
-古典命題論理の恒真なシーケントをやはりトートロ ジーと呼ぶ．
-■例」
-v(P) = T, (Q) = F とすると， v=PAQ → TPVQなので，ル はシーケント P,Q - -P,Qを充足する．
-補題 7. 命題論理の論理式 X が恒真であることと，
-218
-シーケントト X が恒真であるのは同値である．
-証明: 定義より直ちに成り立つ．
-定義 健全性 形式的体系Sの定理，即ち証明図を持つ シーケントがすべて恒真である時，Sは(弱い意味で) 健全((weakly) sound)であると言う．
-健全でない体系Sを考えてもあまり意味はない．正し くない場合があるシーケントに証明図があるからで ある．
-補題 8. シーケントに関する体系Sが弱い意味で健全
-219
-であれば無矛盾である．
-証明:XとX が両方ともトートロジーとなることは
-ない．
-ただしこれは意味論的な概念を利用した無矛盾性の証 明である．
-定義 完全性 恒真なシーケントがすべて形式的体系S の定理である，即ち証明図を持つ時，Sは(弱い意味 で)完全((weakly) complete)であると言う． 」
-健全かつ完全であることを指して完全と言う場合もあ
-220
-る．最終的には後述するようにLKもaLKも弱い意味 で完全でもある．
-定理 9 (LKの健全性). LKは弱い意味で健全である． すなわち，LKでシーケントsが証明図を持つとすれ ば，sはトートロジーである．
-証明:(概略) 証明図の構成による帰納法によって証明 できる．まず各公理はトートロジーである．加えて 個々の推論規則について，上のシーケントがすべて トートロジーであれば，下のシーケントがトートロ ジーであることを示す．
-221
-系 10. LKは無矛盾である．
-証明:トはトートロジーではないからである．
-ロ
-一般に，体系 S' の公理(スキーマ)がすべて別の健全な 体系Sの定理(スキーマ)であり，S'の推論規則がSの 規則か派生規則であるとする．このとき，Sが健全で あればS'も健全となる．逆に S' が完全であればSも 完全である．
-補題 11 (aLKの健全性). aLKは弱い意味で健全で ある．
-222
-証明: TCはLKの定理スキーマであり，LKは健全な のでこれらはトートロジーのスキーマである．aLKの 各推論規則はLKの派生規則なので，上のシーケント がすべてトートロジーであれば下のシーケントもそう である．
+\begin{prooftree}
+  \AxiomC{$P,\Gamma,\Delta\vdash\Lambda$}
+  \RightLabel{\scriptsize (exchange-left'),}
+  \UnaryInfC{$\Gamma,P,\Delta\vdash\Lambda$}
+  \AxiomC{$\Gamma\vdash\Delta,\Lambda,P$}
+  \RightLabel{\scriptsize (exchange-right'),}
+  \UnaryInfC{$\Gamma\vdash\Delta,P,\Lambda$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\paragraph{aLKの論理演算子に関する規則}
+\begin{prooftree}
+  \AxiomC{$P,Q,\Gamma\vdash\Delta$}
+  \RightLabel{\scriptsize ($\wedge$-left'),}
+  \UnaryInfC{$P\wedge Q,\Gamma\vdash\Delta$}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \AxiomC{$\Gamma\vdash\Delta,Q$}
+  \RightLabel{\scriptsize ($\wedge$-right),}
+  \BinaryInfC{$\Gamma\vdash\Delta,P\wedge Q$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$P,\Gamma\vdash\Delta$}
+  \AxiomC{$Q,\Gamma\vdash\Delta$}
+  \RightLabel{\scriptsize ($\vee$-left),}
+  \BinaryInfC{$P\vee Q,\Gamma\vdash\Delta$}
+  \AxiomC{$\Gamma\vdash\Delta,P,Q$}
+  \RightLabel{\scriptsize ($\vee$-right'),}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\vee Q$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \RightLabel{\scriptsize ($\neg$-left),}
+  \UnaryInfC{$\neg P,\Gamma\vdash\Delta$}
+  \AxiomC{$P,\Gamma\vdash\Delta$}
+  \RightLabel{\scriptsize ($\neg$-right),}
+  \UnaryInfC{$\Gamma\vdash\Delta,\neg P$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash\Delta,P$}
+  \AxiomC{$Q,\Gamma\vdash\Delta$}
+  \RightLabel{\scriptsize ($\to$-left'),}
+  \BinaryInfC{$P,\Gamma\vdash\Delta,Q$}
+  \AxiomC{$\Gamma\vdash\Delta,P,Q$}
+  \RightLabel{\scriptsize ($\to$-right)}
+  \UnaryInfC{$\Gamma\vdash\Delta,P\to Q$}
+  \noLine
+  \BinaryInfC{}
+\end{prooftree}
+'が付いた規則はLKの派生規則になっており，付いていない規則はLKの規則と同じである．つまりaLKで証明図を持つシーケントはLKでも証明図を持つ．
+\subsection{形式的体系の性質}
+ここで証明対象をシーケントとする形式的体系の性質を幾つか定義し，LKとaLKについてそれらが成り立つことを示す．証明対象を論理式とする形式的体系の場合にもほぼ同様の定義を行い，示すことができる．
+\subsubsection{無矛盾性}
+シーケントについての形式的体系$S$で，$\Gamma\vdash P$と$\Gamma\vdash\neg P$が両方証明図を持つような論理式$P$が存在するとき，$\Gamma$は$S$で\red{矛盾している}(inconsistent)という．そうでないとき，$\Gamma$は$S$で無矛盾(consistent)であるという．特に$\Gamma$として空列が矛盾している時に$S$は矛盾しているという．
+
+LKの場合，以下のように$\Gamma\vdash$が証明図を持つことと， $\Gamma\vdash P$と$\Gamma\vdash\neg P$の両方が証明図を持つことは同値であり，特にLKが無矛盾であるというのはシーケント$\vdash$が証明図を持たないことと同値である．$\vdash$が矛盾しているとどのような論理式$Q$についても$\Gamma\vdash Q$が証明図を持つこともわかる．
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash$}
+  \RightLabel{\scriptsize (weakening-right,$Q\equiv P,\neg P$の場合もOK)}
+  \UnaryInfC{$\Gamma\vdash Q$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\Gamma\vdash P$}
+  \RightLabel{\scriptsize ($\wedge$-right)}
+  \UnaryInfC{$\Gamma\vdash P\wedge\neg P$}
+  \AxiomC{$P\vdash P$}
+  \RightLabel{\scriptsize ($\neg$-left)}
+  \UnaryInfC{$\neg P,P\vdash$}
+  \RightLabel{\scriptsize (exchange-left)}
+  \UnaryInfC{$P,\neg P\vdash$}
+  \RightLabel{\scriptsize ($\wedge$-left1)}
+  \UnaryInfC{$P\wedge\neg P,\neg P\vdash$}
+  \RightLabel{\scriptsize (exchange-right)}
+  \UnaryInfC{$\neg P,P\wedge\neg P\vdash$}
+  \RightLabel{\scriptsize ($\wedge$-left2)}
+  \UnaryInfC{$P\wedge\neg P,P\wedge\neg P\vdash$}
+  \RightLabel{\scriptsize (contraction-left)}
+  \UnaryInfC{$P\wedge\neg P\vdash$}
+  \RightLabel{\scriptsize (cut)}
+  \BinaryInfC{$\Gamma\vdash$}
+\end{prooftree}
+\subsubsection{LKの健全性}
+次に体系$S$の健全性を定義する．
+
+以下で$\Gamma_\wedge$は$\Gamma$のすべての論理式を$\wedge$で結んでできる論理式である．また，$\Gamma|\vee$は$\vee$で結んでできる論理式を表す．ただし，$\Gamma$が空列の時には$\Gamma_\wedge\equiv\uA\to\uA, \Gamma_\vee\equiv\uA\wedge\neg\uA$としておく．
+\paragraph{例:}
+$\Gamma\equiv P,Q,R$のとき，$\Gamma_\wedge\equiv P\wedge Q\wedge R$となる．
+
+$\Gamma\equiv P$のときには$\Gamma_\wedge\equiv P$である．
+
+\begin{dfn*}[シーケントの充足]
+  付値$\nu$とシーケント$s\equiv\Gamma\vdash\Delta$があるとする．$\nu\qty(s)\dequal\nu\qty(\Gamma_\wedge\to\Delta_\vee)$として$\nu$による$s$の真理値を定める．付値$\nu$が論理式$\Gamma_\wedge\to\Delta_\vee$を充足するとき，$\nu$はシーケント$s$を充足するという．どのような付値によっても充足されるような古典命題論理のシーケントを恒真であるという．
+\end{dfn*}
+古典命題論理の恒真なシーケントをやはりトートロジーと呼ぶ．
+\paragraph{例}
+$\nu\qty(P)=\bT, \nu\qty(Q)=\bF$とすると，$\nu\models P\wedge Q\to \neg P\vee Q$なので，$\nu$はシーケント$P,Q\vdash\neg P,Q$を充足する．
+\begin{lem}
+  命題論理の論理式$X$が恒真であることと，シーケント$\vdash X$が恒真であるのは同値である．
+\end{lem}
+\begin{proof}
+  定義より直ちに成り立つ．
+\end{proof}
+\begin{dfn*}[健全性]
+  形式的体系$S$の定理，即ち証明図を持つシーケントがすべて恒真である時，$S$は\red{(弱い意味で)健全}((weakly) sound)であると言う．
+\end{dfn*}
+健全でない体系$S$を考えてもあまり意味はない．正しくない場合があるシーケントに証明図があるからである．
+\begin{lem}
+  シーケントに関する体系$S$が弱い意味で健全であれば無矛盾である．
+\end{lem}
+\begin{proof}
+  $X$と$\neg X$が両方ともトートロジーとなることはない．
+\end{proof}
+ただしこれは意味論的な概念を利用した無矛盾性の証明である．
+\begin{dfn*}[完全性]
+  恒真なシーケントがすべて形式的体系$S$の定理である，即ち証明図を持つ時，$S$は\red{(弱い意味で)完全}((weakly) complete)であると言う．
+\end{dfn*}
+健全かつ完全であることを指して完全と言う場合もある．最終的には後述するようにLKもaLKも弱い意味で完全でもある．
+\begin{thm}[LKの健全性]\label{thm:LK-sound}
+  LKは弱い意味で健全である．すなわち，LKでシーケント$s$が証明図を持つとすれば，$s$はトートロジーである．
+\end{thm}
+\begin{proof}
+  (概略) 証明図の構成による帰納法によって証明できる．まず各公理はトートロジーである．加えて個々の推論規則について，上のシーケントがすべてトートロジーであれば，下のシーケントがトートロジーであることを示す．
+\end{proof}
+\begin{cor}
+  LKは無矛盾である．
+\end{cor}
+\begin{proof}
+  $\vdash$はトートロジーではないからである．
+\end{proof}
+一般に，体系$S^\prime$の公理(スキーマ)がすべて別の健全な体系$S$の定理(スキーマ)であり，$S^\prime$の推論規則が$S$の規則か派生規則であるとする．このとき，$S$が健全であれば$S^\prime$も健全となる．逆に$S6\prime$が完全であれば$S$も完全である．
+\begin{lem}[aLKの健全性]
+  aLKは弱い意味で健全である．
+\end{lem}
+\begin{proof}
+  TCはLKの定理スキーマであり，LKは健全なのでこれらはトートロジーのスキーマである．aLKの各推論規則はLKの派生規則なので，上のシーケントがすべてトートロジーであれば下のシーケントもそうである．
+\end{proof}
 しかしaLKについてはもう少し強い性質が成り立つ．
-補題 12. 付値のとaLKの各推論規則について，上の段 のシーケントを 81,.., Sn，下の段のシーケントをsと すると，ゆ(s;)がすべてTであることと，(s) がTで あることは同値である．
-のす
-223
-証明: aLKの各推論規則ごとに同値性を示す．例えば --left の場合，(-PATA → △v) = Tとなるのは の(-P) = F，(Tx) = F，(A) = Tの3つの場合 である．いずれの場合にも．(T → A VP) = Tで ある．(T → AV VP) = Tとなるのはゆ(P) = T，
-(Tx) = F，(v) = Tの3つの場合である． の(-P) = Fとめ(P) = Tは同値なので求める同値性 が成り立つことがわかる． 他の規則の場合も類似の議論により示される． ロ
-演習問題
-224
-89. 定理9の証明の細部を完成せよ． 90. 補題12の証明で，本文中で記述されていない他
-の規則の場合について補完せよ．
+\begin{lem}\label{lem:12}
+  付値$\phi$のとaLKの各推論規則について，上の段のシーケントを$s_1,\ldots,s_n$，下の段のシーケントを$s$とすると，$\phi\qty(s_i)$がすべて\bT であることと，$\phi\qty(s)$が\bT であることは同値である．
+\end{lem}
+\begin{proof}
+  aLKの各推論規則ごとに同値性を示す．例えば$\neg$-left の場合，$\phi\qty(\neg P\wedge\Gamma_\wedge\to\Delta_\vee)=\bT$となるのは$\phi\qty(\neg P)=\bF$，$\phi\qty(\Gamma_\wedge)=\bF$，$\phi\qty(A)=\bT$の3つの場合である．いずれの場合にも$\phi\qty(\Gamma_\wedge\to\Delta_\wedge\vee P)=\bT$である．$\phi\qty(\Gamma_\wedge\to\Delta_\vee\vee P)=\bT$となるのは$\phi\qty(P)=\bT$，$\phi\qty(\Gamma_\wedge)=\bF$，$\phi(\Delta_\vee)=\bT$の3つの場合である．\\
+  $\phi\qty(\neg P)=\bF$と$\phi\qty(P)=\bT$は同値なので求める同値性が成り立つことがわかる．\\
+  他の規則の場合も類似の議論により示される．
+\end{proof}
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \setcounter{enumi}{88}
+  \item 定理\ref{thm:LK-sound}の証明の細部を完成せよ．
+  \item 補題\ref{cor:12}の証明で，本文中で記述されていない他の規則の場合について補完せよ．
+\end{enumerate}
 2.25 証明図の構成手続き ここで，シーケントsに対して証明図の候補を作って ゆく手続きを与える．
 ■手続き W(Wangのアルゴリズムの変形)
 225

@@ -125,9 +125,10 @@
 \newcommand{\rT}{\ensuremath{\mathrm{T}}}
 \newcommand{\rF}{\ensuremath{\mathrm{F}}}
 \newcommand{\cF}{\ensuremath{\mathcal{F}}}
-\newcommand{\dequal}{\ensuremath{\stackrel{\rm{def}}{=}}}
-\newcommand{\dequiv}{\ensuremath{\stackrel{\rm{def}}{\equiv}}}
-\newcommand{\darrow}{\ensuremath{\stackrel{\rm{def}}{\Leftrightarrow}}}
+\newcommand{\dequal}{\ensuremath{\;{\buildrel{\rm{def}}\over{=}}\;}}
+\newcommand{\dequiv}{\ensuremath{\;{\buildrel{\rm{def}}\over{\equiv}}\;}}
+\newcommand{\darrow}{\ensuremath{\;{\buildrel{\rm{def}}\over{\Leftrightarrow}}\;}}
+\newcommand{\mop}{\ensuremath{\; op \;}}
 \newcommand{\lequiv}{\ensuremath{\models\!\mid}}
 \newcommand{\red}[1]{{\color{red} #1}}
 
@@ -1521,88 +1522,144 @@ $G\subseteq\bPro$とするとき，$G$の元から成る有限列$\Pi$があっ�
 
 各命題論理式$X\in\bPro$は有限個の命題変数を含むのみで$S_X\dequal\qty{\phi\in\bTV^V\mid\phi\qty(X)=\bF}$とすると開閉となる．式中の$\bF$を$\bT$としても開閉である．$G\subseteq\bPro$が充足不能 iff $\bigcup_{X\in G}S_X = \bTV^V$である．iffの右側は$\bTV^V$がコンパクトなので$\exists G^\prime\subseteq G\ G^\prime : \text{finite}\wedge\bigcup_{X\in G^\prime}S_X = \bTV^V$と同値である．$\bigcup_{X\in G^\prime}S_X = \bTV^V$ iff $G^\prime$が充足不能なので，結局$G$が充足不能 iff $G$のある有限集合$G^\prime$が充足不能を示した．これの$\Rightarrow$方向の対偶をとったものが上の定理である．
 \subsection{一般のSAT問題の3SATへの帰着}
-この小節では古典命題論理式X を，充足可能性 を保存しながらCNF S3に変換する手続きの例を 示す．ここで示す例では S3の各節が高々3つの リテラルから成る．各節のリテラルが3個以下の
-260
-CNFに限った決定問題を3SATと呼ぶ．即ちこ こで示すのは，CNFに限定しない一般のSAT か ら3SAT への変換手続きの例である． S3の大きさはX の大きさの或る線形函数で抑え られる．実現方法を工夫すれば変換の実行時間は やはり線形函数で抑えられる．なおSAT問題と いう言い方をするとCNFである場合に限ってい る場合も多いが，ここではXは一般の古典命題 論理式であり，更にA,V,→ 以外の二項論理演算 子を含んで構わない(次段落の一を除く．但し同 じ論理函数の演算子，例えば⇔を含んでよい)．
-261
-但しX は論理定数を含まないものとしている． もしも含む場合を考えたいのであれば多項式時間 の前処理により含まないように簡単化しておくこ とで対応できるし，あるいは以下の手続きを拡張 することでも対応できるだろう． 手続きを示す前に論理演算子を新たに1つ導入し て論理式の文法を拡張する．まず新しい二項論理 演算子三を付け加え元の文法を拡張する．但し この演算子は本小節内でのみ変換目的で用い， トップレベルにしか出現せず，しかもAXと いう形(Aは命題変数で，Xは拡張前の文法での
-262
-任意の論理式)でのみ現れるとする．演算子とし ての表示上の優先順位は最も低いとする．三に 対応する真理函数は々と同じであるとする．
-■変換の手続き: 最初に拡張前の文法の論理式(ごが出現しない論 理式) X に対し集合 So = {X} とする．Soに対し 以下の3つの段階の変換手続きを順に適用する． 第一段階 ではS = Soに対して次のような書き換 え(其々を書き換えの1ステップとする)を，当て はまるパターンがなくなるまで繰り返し行う (1
-263
-以外の記述では{と}US'の部分を略している)． opはニ 以外の二項演算子，A,Bは命題変数， A', B'は新しい(即ちS中に出現しない)互いに異 なる命題変数を表している．4の→の左側はリ テラル数3以下の節である場合を除く．例えば AV(-BVC)や-Aは書き換えられないが， AV (BV(CV-D))は書き換えられる．上方の 行の規則の方が優先適用される．
-1. {XY}US' ⇒ {X,Y} US', (S = {X AY
-}US'全体を{X,Y} US' に書き換える．略記
-264
-するとXXY → X,Y である), 2. -X → X, 3. -X ⇒ ■A', A' = X, 4. X opY ⇒ A', A' = X opY. 書き換えはS中の各論理式のトップレベルにのみ 適用される．S1 第一段階終了時のSとする． 第二段階では，S = SLに対し以下の書き換えを 同様に行う．但し cnf(X)はXのCNF(節の集合 扱いし，やはり列として表記している)を表す． cnf(X)には三が現れないことに注意．
-265
-1. A = -X → JAV-B', A V B', B' = X, 2. A = X opY ⇒
-cnf( A (B' op C')), B' = X, C' = Y. 第二段階を終了すると，S中のA Xというパ ターンの論理式について，Xは命題変数である (それ以外のパターンは1,2どちらかにマッチする ため)．S, 第二段階終了時のSとする． 第三段階ではS = Shに次の書き換えを同様に行
-う．終了時のSを変換結果 S3 とする．
-266
-1. A2 B → JAV B, AV -B,
-以下に第一段階の変換の例を示す．命題変数のア ンダーラインを略している．
-(AV B)((--(-A V (B V C)))  (-AV
-(BV(CV D)))) ⇒ AV B, (-(-AV (BVC)))(-AV (BV
-(CV D))) ⇒ AV B, --(-AV(BVC)), HAV(BV(CV D)) ⇒ AV B,-AV (BVC), JAV (BV (CV D)) ⇒ AVB,-AV(BVC), E, E = -AV(BV(CVD))
-267
-続いて第二段階ではコを含む式のみ変換される． その部分のみ表記する．含まない式はそのまま S2(及び S3)の要素となる．[]内はそのステップ で確定し，結果の S2が含む部分である．
-[A V B, -A V (BVC), E],
-E = -A V (B V (CVD)) → [-EV(FVG), E V -F, E V -G],
-F = A,G = BV (CVD) ⇒「-FV-H, FV H, H = A, G BV (CV D) ⇒ [-G V (IV J),G V -I, G V -J, I = B] , J =
-268
-CVD ⇒ [-JV(KVL), JV-K, JV-L, K = C, L = D]
-S2は上記の口の中身を全て合併したものである． 第三段階では2つの命題変数がこで結合された 論理式が全て書き換えられ，以下になる．S3 = {AV B, -A V (BVC), E, -E V (FVG), EV -F, E V -G,-F V -H, F V H, -H V A, HV-A, -G V (IV J),G V -I,G V -J, -IV B, IV-B, -JV (KVL),JV-K, JV-L,-K VC, KV-C, -L V D, LV-D}である．例を見てわ
-269
-かる様に，改良すれば効率化(即ち少ない追加命 題変数，少ない結果の節)可能である．
-補題 26.(上の)第一段階は停止する．
-証明:S中の，之を含まない論理式で，なおかつ リテラル個数が3以下の節以外のものについて， それらの中の演算子の出現個数の合計をnとする と有限であり，1ステップ毎に1以上減る． ロ
-補題 27. 第一段階の各ステップで充足可能性が 保存される．
-270
-証明: (省略していない)1ステップ書き換え {X}US' ⇒ SMUSに対し充足可能性につい て(⇒)を示す時の上{X}US"，(←)の時 WE STUS'とする． (1,2の場合) そのままの上 S" USMあるいは WE {X}US'である． (3⇒) X = -X'とすると の[F/A'] = { A', A' = X'}US'である．ここで ofu/A1(B) def  (B = A) .
-である． lo(B) (BEA)
-271
-(3~) そのままリー{X}US'である． (4→) X = X'op Y'とすると 小[T/A'] = {A', A' = X' opY'} US'である． (4←) そのままリー {X}USである． ロ 補題 28. S1の要素はリテラル数3以下の節であ るか，A X の形の式のどちらかである．
-証明: それら以外の論理式があると書き換えの対 象となるため手続きは終了していない．
-補題 29. 第二段階は停止する．
-272
-証明:S中のA Xの形の論理式の X の長さの 合計値がステップ毎に減るため．
-補題 30. 第二段階の各ステップで充足可能性が 保存される．
-証明:補題27 と同様に証明する． (1⇒) X = A = -X'とするとの「(A)/B'] = {-AV-B', A V B, B' = X'}US'である． (1~) そのまま充足する． (2) X = A = X' op Y' Z73% •[0(X')/B'] [(Y)/C"] = {cnf( A + (B'op C')), B' = X',
-273
-C EY"US'である． (2-) そのまま充足する．
-補題 31. 命題変数がn個の古典命題論理式 X の CNFX'の各節は，高々n個のリテラルから成る 或る節と同値である．
-証明: まずA, V 以外の二項演算子を一, へ, Vによ り表し，CNFX'を求められる．n+1個以上のリ テラルを含む X'の節をCとする．すると少なく とも一つの命題変数 Aについて Aと-A両方がC に出現するか，あるいはどちらかが重複してCに
-274
-出現している．それゆえCATであるか，Cの リテラルを減らして同じ推論を繰り返せる． ロ
-補題 32. S2はリテラル数3以下の節とA Bの 形の式から成る(A, BEV)．
-証明:補題28と，第二段階の書き換え1.2の結果 中の，A = X以外の形の論理式がリテラル数2 の節形式であること，3の場合にはcnf の部分の 命題変数の数が3に対し補題31を適用すること， A = X(XEV)の形の論理式がS中にある場合 には第二段階が終了していないことによる． 口
-275
-補題 33. S3はリテラル数3以下の節から成る．
-証明:上の補題と，第三段階でA 2Bが -AV B, AV -Bに書き換えられるため．
-ロ
-以下では論理式を計算機中でポインタにより木の 形で表現するとする．具体的にはC言語のポイン タと structを利用するか，あるいはLISPを利用 する場合を考えればよい．すると論理式のトップ レベルから定数レベル下までのパターンを分類し たり，論理式をトップレベルの論理演算子の引数 に分解したり，逆に特定の演算子の引数を与えて
-276
-組み立てたりするのはどれも定数時間で実行可能 である．ここではそのような実現方法と採ってい るとして各段階の実行時間と結果の大きさについ て考える．なお定数分余分に必要な点については 省略して記述している．例えば定数倍で抑えられ る，などと書いた場合，正確には或る一次式で抑 えられる，という意味である．
-補題 34. 第一段階の実行時間は So の大きさの定 数倍で抑えられる．結果のデータS」の大きさ(複 数の論理式を表すデータをリストとして表すのに
-277
-必要なメモリも含める)は So の大きさの定数で抑 えられる．
-証明: 第一段階の書き換えの回数は So中の演算 子の数以下である．パターンマッチにかかる時間 の合計は Soの大きさの定数倍である． 追加で利用するメモリの領域は書き換えの回数の 定数倍である．
-口
-補題 35. 第二段階の実行時間はSの大きさの定 数倍で抑えられる．結果のデータ S2の大きさは S1の大きさの定数で抑えられる．
-278
-証明:上と同様である．
-補題 36. 第三段階の実行時間は S2 の大きさの定 数倍で抑えられる．結果のデータ S3の大きさは S2 の大きさの定数で抑えられる．
-証明:これも同様である．
-結果的に以下が証明された．
-系 37. 一般の論理式 X についてのSAT問題を 3SATに変換する上の手続きについて，変換結果 の大きさは X の大きさの一次式で抑えられる．
-279
-仮定した実現方法を採った場合には，実行時間も 同様に一次式で抑えられる．
-系 38. 3SATはNP完全である．
-証明: 3SATの問題はSAT問題なので3SATはク ラス NPに属する．NP困難なSATが上の系によ り 3SATに線形時間帰着可能ゆえ3SATもNP困 難であり，併せるとNP完全である．
-口
-280
+この小節では古典命題論理式$X$を，充足可能性を保存しながらCNF $S_3$に変換する手続きの例を示す．ここで示す例では$S_3$の各節が高々3つのリテラルから成る．各節のリテラルが3個以下のCNFに限った決定問題を\red{3SAT}と呼ぶ．即ちここで示すのは，CNFに限定しない一般のSATから3SATへの変換手続きの例である．
 
+$S_3$の大きさは$X$の大きさの或る線形函数で抑えられる．実現方法を工夫すれば変換の実行時間はやはり線形函数で抑えられる．なおSAT問題という言い方をするとCNFである場合に限っている場合も多いが，ここでは$X$は一般の古典命題論理式であり，更に$\wedge,\vee,\to$以外の二項論理演算子を含んで構わない(次段落の$\leftrightarrows$を除く．但し同じ論理函数の演算子，例えば$\leftrightarrow$を含んでよい)．但し$X$は論理定数を含まないものとしている．
+
+もしも含む場合を考えたいのであれば多項式時間の前処理により含まないように簡単化しておくことで対応できるし，あるいは以下の手続きを拡張することでも対応できるだろう．
+
+手続きを示す前に論理演算子を新たに1つ導入して論理式の文法を拡張する．まず新しい二項論理演算子\red{$\leftrightarrows$}を付け加え元の文法を拡張する．但しこの演算子は本小節内でのみ変換目的で用い，トップレベルにしか出現せず，しかも$A\leftrightarrows X$という形($A$は命題変数で，$X$は拡張前の文法での任意の論理式)でのみ現れるとする．演算子としての表示上の優先順位は最も低いとする．$\leftrightarrows$に対応する真理函数は$\leftrightarrow$と同じであるとする．
+\paragraph{変換の手続き:}
+最初に拡張前の文法の論理式($\leftrightarrows$が出現しない論理式)$X$に対し集合$S_0\dequal\qty{X}$とする．$S_0$に対し以下の3つの段階の変換手続きを順に適用する．
+
+\red{第一段階}では$S = S_0$に対して次のような書き換え(其々を書き換えの1ステップとする)を，当てはまるパターンがなくなるまで繰り返し行う(1以外の記述では\{と$\}\cup S^\prime$の部分を略している)．$\mop$は$\leftrightarrows$以外の二項演算子，$A,B$は命題変数，$A^\prime, B^\prime$は新しい(即ち$S$中に出現しない)互いに異なる命題変数を表している．4の$\Rightarrow$の左側はリテラル数3以下の節である場合を除く．例えば$A\vee\qty(\neg B\vee C)$や$\neg A$は書き換えられないが，$A\vee\qty(B\vee\qty(C\vee\neg D))$は書き換えられる．上方の行の規則の方が優先適用される．
+\begin{enumerate}
+  \item $\qty{X\wedge Y}\cup S^\prime\Rightarrow\qty{X,Y}\cup S^\prime,$($S = \qty{X \wedge Y}\cup S^\prime$全体を$\qty{X,Y}\cup S^\prime$に書き換える．略記すると$X\wedge Y\to X,Y$である),
+  \item $\neg\neg X\Rightarrow X$,
+  \item $\neg X\Rightarrow\neg A^\prime,A^\prime\leftrightarrows X$,
+  \item $X \mop Y \Rightarrow A^\prime,A^\prime\leftrightarrows X \mop Y$.
+\end{enumerate}
+書き換えは$S$中の各論理式のトップレベルにのみ適用される．$S_1\dequal$第一段階終了時の$S$とする．
+
+\red{第二段階}では，$S = S_1$に対し以下の書き換えを同様に行う．但し$\text{cnf}\qty(X)$は$X$のCNF(節の集合扱いし，やはり列として表記している)を表す．$\text{cnf}\qty(X)$には$\leftrightarrows$が現れないことに注意．
+\begin{enumerate}
+  \item $A\leftrightarrows\neg X\Rightarrow\neg\vee B^\prime,A\vee B^\prime,B^\prime\leftrightarrows X$,
+  \item $A\leftrightarrows X \mop Y\Rightarrow\text{cnf}\qty(A\leftrightarrow\qty(B^\prime \mop C^\prime)),B^\prime\leftrightarrows X,C^\prime\leftrightarrows Y$
+\end{enumerate}
+第二段階を終了すると，$S$中の$A\leftrightarrows X$というパターンの論理式について，$X$は命題変数である(それ以外のパターンは1,2どちらかにマッチするため)．$S_2\dequal$第二段階終了時の$S$とする．
+\red{第三段階}では$S = S2$に次の書き換えを同様に行う．終了時の$S$を変換結果$S_3$とする．
+\begin{enumerate}
+  \item $A\leftrightarrows B\Rightarrow\neg A\vee B,A\vee\neg B$,
+\end{enumerate}
+以下に第一段階の変換の例を示す．命題変数のアンダーラインを略している．
+\begin{align*}
+  &\qty(A\vee B)\wedge\qty(\qty(\neg\neg\qty(\neg A\vee\qty(B\vee C)))\wedge\qty(\neg A\vee
+\qty(B\vee\qty(C\vee D))))\\
+  \Rightarrow & A\vee B,\qty(\neg\neg\qty(\neg A\vee\qty(B\vee C)))\wedge\qty(\neg A\vee\qty(B\vee\qty(C\vee D)))\\
+  \Rightarrow & A\vee B,\neg\neg\qty(\neg A\vee\qty(B\vee C)), \neg A\vee\qty(B\vee\qty(C\vee D))\\
+  \Rightarrow & A\vee B,\neg A\vee\qty(B\vee C),\neg A\vee\qty(B\vee\qty(C\vee D))\\
+  \Rightarrow & A\vee B,\neg A\vee\qty(B\vee C),E,E\leftrightarrows \neg A\vee \qty(B\vee\qty(C\vee D))
+\end{align*}
+続いて第二段階では$\leftrightarrows$を含む式のみ変換される．その部分のみ表記する．含まない式はそのまま$S_2$(及び$S_3$)の要素となる．[]内はそのステップで確定し，結果の$S_2$が含む部分である．
+\begin{align*}
+  &\qty[A\vee B,\neg A\vee\qty(B\vee C), E],E\leftrightarrows\neg A\vee\qty(B\vee\qty(C\vee D))\\
+  \Rightarrow&\qty[\neg E\vee\qty(F\vee G), E\vee\neg F, E\vee\neg G],F\leftrightarrows\neg A,G\leftrightarrows B\vee\qty(C\vee D)\\
+  \Rightarrow&\qty[\neg F\vee\neg H, F\vee H, H\leftrightarrows A], G\leftrightarrows B\vee\qty(C\vee D)\\
+  \Rightarrow&\qty[\neg G\vee\qty(I\vee J),G\vee\neg I, G\vee\neg J, I\leftrightarrows B], J\leftrightarrows C\vee D\\
+  \Rightarrow&\qty[\neg J\vee\qty(K\vee L), J\vee\neg K, J\vee\neg L, K\leftrightarrows C, L\leftrightarrows D]
+\end{align*}
+$S_2$は上記の[]の中身を全て合併したものである．第三段階では2つの命題変数が$\leftrightarrows$で結合された論理式が全て書き換えられ，以下になる．$S_3 = \qty{A\vee B, \neg A\vee \qty(B\vee C), E, \neg E \vee\qty(F\vee G), E\vee \neg F, E \vee \neg G,\neg F \vee\neg H, F\vee H, \neg H\vee A, H\vee\neg A, \neg G\vee\qty(I\vee J),G\vee\neg I,G\vee \neg J,\neg I\vee B, I\vee\neg B, \neg J\vee\qty(K\vee L),J\vee\neg K, J\vee\neg L,\neg K\vee C, K\vee\neg C, \neg L\vee D, L\vee\neg D}$である．例を見てわかる様に，改良すれば効率化(即ち少ない追加命題変数，少ない結果の節)可能である．
+\begin{lem}
+  (上の)第一段階は停止する．
+\end{lem}
+\begin{proof}
+  $S$中の，$\leftrightarrows$を含まない論理式で，なおかつリテラル個数が3以下の節以外のものについて，それらの中の演算子の出現個数の合計を$n$とすると有限であり，1ステップ毎に1以上減る．
+\end{proof}
+\begin{lem}
+  第一段階の各ステップで充足可能性が保存される．
+\end{lem}
+\begin{proof}
+  (省略していない)1ステップ書き換え$\qty{X}\cup S^\prime\Rightarrow S^{\prime\prime}\cup S^\prime$に対し充足可能性について$\qty(\Rightarrow)$を示す時$\phi\models\qty{X}\cup S^\prime$，$\qty(\Leftarrow)$の時$\psi\models S^{\prime\prime}\cup S^\prime$とする．\\
+  (1,2の場合)\ そのまま$\phi\models S^{\prime\prime}\cup S^\prime$あるいは$\psi\models\qty{X}\cup S^\prime$である．\\
+  (3$\Rightarrow$)\ $X \equiv\neg X^\prime$とすると$\phi\qty[\bF/A^\prime]\models\qty{\neg A^\prime, A^\prime\leftrightarrows X^\prime}\cup S^\prime$である．ここで
+  \[\phi\qty[v/A]\qty(B)\dequal\begin{cases}
+    v&\qty(B\equiv A)\\
+    \phi\qty(B)&\qty(B\not\equiv A)
+  \end{cases}\]
+である．\\
+  (3$\Leftarrow$)\ そのまま$\psi\models\qty{X}\cup S^\prime$である．\\
+  (4$\Rightarrow$)\ $X\equiv X^\prime \mop Y^\prime$とすると$\phi\qty[\bT/A^\prime]\models\qty{A^\prime, A^\prime\leftrightarrows X^\prime \mop Y^\prime}\cup S^\prime$である．\\
+  (4$\Leftarrow$)\ そのまま$\psi\models\qty{X}\cup S$である．
+\end{proof}
+\begin{lem}
+  $S_1$の要素はリテラル数3以下の節であるか，$A\leftrightarrows X$の形の式のどちらかである．
+\end{lem}
+\begin{proof}
+  それら以外の論理式があると書き換えの対象となるため手続きは終了していない．
+\end{proof}
+\begin{lem}
+  第二段階は停止する．
+\end{lem}
+\begin{proof}
+  $S$中の$A\leftrightarrows X$の形の論理式の$X$の長さの合計値がステップ毎に減るため．
+\end{proof}
+\begin{lem}
+  第二段階の各ステップで充足可能性が保存される．
+\end{lem}
+\begin{proof}
+  補題27と同様に証明する．\\
+  (1$\Rightarrow$)\ $X\equiv A\leftrightarrows\neg X^\prime$とすると$\phi\qty[\neg\phi\qty(A)/B^\prime]\models\qty{\neg A\vee\neg B^\prime, A\vee B, B^\prime\leftrightarrows X^\prime}\cup S^\prime$である．\\
+  (1$\Leftarrow$)\ そのまま充足する．\\
+  (2$\Rightarrow$)\ $X\equiv A\leftrightarrows X^\prime\mop Y^\prime$とすると$\phi\qty[\neg\phi\qty(X^\prime)/B^\prime]\qty[\phi\qty(Y^\prime)/C^\prime]\models\qty{\text{cnf}\qty(A \leftrightarrows\qty(B^\prime\mop C^\prime)), B^\prime\leftrightarrows X^\prime,C^\prime\leftrightarrows Y^\prime}\cup S^\prime$である．\\
+  (2$\Leftarrow$)\ そのまま充足する．
+\end{proof}
+\begin{lem}
+  命題変数が$n$個の古典命題論理式$X$のCNF$X^\prime$の各節は，高々$n$個のリテラルから成る或る節と同値である．
+\end{lem}
+\begin{proof}
+  まず$\wedge,\vee$以外の二項演算子を$\neg,\wedge,\vee$により表し，CNF$X^\prime$を求められる．$n+1$個以上のリテラルを含む$X^\prime$の節を$C$とする．すると少なくとも一つの命題変数$A$について$A$と$\neg A$両方が$C$に出現するか，あるいはどちらかが重複して$C$に出現している．それゆえ$C\lequiv T$であるか，$C$のリテラルを減らして同じ推論を繰り返せる．
+\end{proof}
+\begin{lem}
+  $S_2$はリテラル数3以下の節と$A\leftrightarrows B$の形の式から成る$\qty(A, B\in V)$．
+\end{lem}
+\begin{proof}
+  補題28と，第二段階の書き換え1.2の結果中の，$A\leftrightarrows X$以外の形の論理式がリテラル数2の節形式であること，3の場合にはcnfの部分の命題変数の数が3に対し補題31を適用すること，$A\leftrightarrows X\qty(X\not\in V)$の形の論理式が$S$中にある場合には第二段階が終了していないことによる．
+\end{proof}
+\begin{lem}
+  $S_3$はリテラル数3以下の節から成る．
+\end{lem}
+\begin{proof}
+  上の補題と，第三段階で$A\leftrightarrows B$が$\neg A\vee B, A\vee\neg B$に書き換えられるため．
+\end{proof}
+以下では論理式を計算機中でポインタにより木の形で表現するとする．具体的にはC言語のポインタとstructを利用するか，あるいはLISPを利用する場合を考えればよい．すると論理式のトップレベルから定数レベル下までのパターンを分類したり，論理式をトップレベルの論理演算子の引数に分解したり，逆に特定の演算子の引数を与えて組み立てたりするのはどれも定数時間で実行可能である．ここではそのような実現方法と採っているとして各段階の実行時間と結果の大きさについて考える．なお定数分余分に必要な点については省略して記述している．例えば定数倍で抑えられる，などと書いた場合，正確には或る一次式で抑えられる，という意味である．
+\begin{lem}
+  第一段階の実行時間は$S_0$の大きさの定数倍で抑えられる．結果のデータ$S_1$の大きさ(複数の論理式を表すデータをリストとして表すのに必要なメモリも含める)は$S_0$の大きさの定数で抑えられる．
+\end{lem}
+\begin{proof}
+  第一段階の書き換えの回数は$S_0$中の演算子の数以下である．パターンマッチにかかる時間の合計は$S_0$の大きさの定数倍である．追加で利用するメモリの領域は書き換えの回数の定数倍である．
+\end{proof}
+\begin{lem}
+  第二段階の実行時間は$S_1$の大きさの定数倍で抑えられる．結果のデータ$S_2$の大きさは$S_1$の大きさの定数で抑えられる．
+\end{lem}
+\begin{proof}
+  上と同様である．
+\end{proof}
+\begin{lem}
+  第三段階の実行時間は$S_2$の大きさの定数倍で抑えられる．結果のデータ$S_3$の大きさは$S_2$の大きさの定数で抑えられる．
+\end{lem}
+\begin{proof}
+  これも同様である．
+\end{proof}
+結果的に以下が証明された．
+\begin{cor}
+  一般の論理式$X$についてのSAT問題を3SATに変換する上の手続きについて，変換結果の大きさは$X$の大きさの一次式で抑えられる．仮定した実現方法を採った場合には，実行時間も同様に一次式で抑えられる．
+\end{cor}
+\begin{cor}
+  3SATはNP完全である．
+\end{cor}
+\begin{proof}
+  3SATの問題はSAT問題なので3SATはクラスNPに属する．NP困難なSATが上の系によりSATに線形時間帰着可能ゆえ3SATもNP困難であり，併せるとNP完全である．
+\end{proof}
 
 \section{古典一階述語論理}
 この節で\red{古典一階述語論理}(classical first-order predicate logic)に付いて述べる(以下，一階述語論理と記す)．この論理を用いると，ある種の数学を記号的・形式的に取り扱うことが可能になる．実際にはその領域の数学と議論を全て枠内で取り扱えるという保証があるわけではないが，経験的には問題がないし，そうできると信じられてもいる．

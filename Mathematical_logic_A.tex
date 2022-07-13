@@ -121,6 +121,7 @@
 \newcommand{\bV}{\ensuremath{\mathbf{V}}}
 \newcommand{\bN}{\ensuremath{\mathbf{N}}}
 \newcommand{\bPro}{\ensuremath{\mathbf{Pro}}}
+\newcommand{\bTV}{\ensuremath{\mathbf{TV}}}
 \newcommand{\rT}{\ensuremath{\mathrm{T}}}
 \newcommand{\rF}{\ensuremath{\mathrm{F}}}
 \newcommand{\cF}{\ensuremath{\mathcal{F}}}
@@ -1425,74 +1426,101 @@ LKのcut除去定理からLKの無矛盾性を証明できる．LKの無矛盾�
   \item 古典命題論理の場合には定理の集合は決定可能となる．
 \end{enumerate}
 
-2.27 命題論理のコンパクト性 ここで命題論理の場合のコンパクト性を示しておく． これは無限かもしれない命題論理式の集合GC Pro について，その任意の有限部分集合G'に対しG'に依 存する一つの付値によってG' の要素すべてが充足可 能であれば，Gの要素すべてが一つの付値によって充
-ここに
-243
-足可能になるという性質である．これは後で出てくる 一階述語論理についての定理であるエルブランの定理 (3.10節)を示すのに使うことができる．エルブランの 定理は命題論理と述語論理の橋渡しをする定理であ
-り，形式的体系の定理の計算機による自動証明の基礎 となる定理でもある．
-■論理式の集合からの演繹
-GC Proとするとき，Gの元から成る有限列IIがあっ て，II, TF △がLKで証明できるとき，TF △はGか ら演繹されるといい，G, TF △ あるいはT-G △と書
-244
-く (表記法の細かい部分の流儀はいろいろあるので授 業で用いた表記法が使われていない場合もある)．つ まり，
-TEG A iff ある有限なIICGによりII, TF A
-である． XE ProがあってGE X かつGE-X のとき，G は矛盾していると言う．そうでないとき，Gは無矛盾 であると言う．
-補題 19. GC Proとする．Gが充足可能であればG
-245
-は無矛盾である．
-証明:Gが充足可能であるとすると，ある付値が存 在してルー Gであり，従ってT．CGであるような任 意の有限列Tに対してもレトT である． するとGE Xであるような任意のXE Proについ
-て，LKの健全性よりルト X である．どのようなレに よってもレト X かつルト -X であることはないので， Gは無矛盾である．
-無矛盾なGC Proが，集合の包含関係で極大，即ち G' 2Gである任意のG' C Proが矛盾しているとき，
-246
-Gは極大無矛盾 (maximal consistent)であると言う．
-補題 20. GC Proが無矛盾かつ XE Proとする． 1. GE X ならばG' Gu{X}も無矛盾である． 2. G H X ならばG' Gu{-X}も無矛盾である．
-証明: 1. T , A CG'である有限列T', ATMについて T'EYとA' -Y の証明図があるとする． T', A から X を除いたものをT, △とすると， T, A,X - YA -Y の証明図が存在する．GA X なの でII，CGである有限列IIによりII - Xである．従っ
-247
-てT, A, II - YA -Y の証明図が存在する． TS,A,CGなのでGは矛盾している． 2. 対偶を示す． T., ACG'である有限列T', A'につ いてT'FYとA-Y の証明図があるとする． T', A' から -X を除いたものをT, △とすると， T, A,-X-YA Y の証明図が存在し，ゆえに T,,-X 上の証明図が存在し，従ってT, AF X の証 明図が存在する． TA, CGなのでGE X となる．
-補題 21. GC Proが極大無矛盾の時，任意の
-248
-XEProに対し次が成り立つ． 1. GE X ならXEGである． 2. XEGかつ -X EGということはない． 3. XEG又は-X EGである．
-証明: 1. GE X かつXEGとする． G' "GU{X} とすると補題20の1によりG'2Gは無矛盾である． 従ってGは極大ではない． 2. もしそうであればGは矛盾している． 3. XEGであるとする．1よりGJ Xである． G' GU{-X} とすると補題20の2よりG'は無矛
-249
-盾である．Gの極大性からG' = Gであり，-XEG である．
-補題 22. GC Proが無矛盾であるとする．任意の XE Proに対しXEGあるいは-X EGであれば， Gは極大無矛盾である．
-証明: YEGとすると仮定より -Y EGなので GU{Y}は矛盾する．
-補題 23. GC Proが無矛盾であるとき，G'SGと なる極大無矛盾なG' C Proが存在する．
-250
-証明: Proを整列して番号をつけ，X1, X2, ...とする． これは命題変数の集合V が高々可算無限個という本稿 のような定式化の場合にはそのようにできる． まずGoG とする．これは無矛盾である． i>1について以下のようにしてG;を定める．
-e def J Gi-1 U {-X;} (Gi-1 Xi)
-1G-U{X;} (Gi-FX)
-Gi-1が無矛盾であれば補題20によりGも無矛盾であ り，数学的帰納法によりすべてのiについて Giは無矛 盾である．
-251
-det
-G' SUXGとしてG' を定義する．G'が矛盾して いるとするとその矛盾を導く有限個の前提を含む Giが あり，G;も矛盾していることになるのでG'は無矛盾 である． 列 X1, X2, ...にはすべての論理式が現れているので， G'の作り方から任意のYE ProについてYEG'ま たは-YE G'である．従って補題 22 によりG'は極大 である．
-結果として得られるG'は論理式の列の与え方に依存す ることに注意してほしい．ちょうど一回ずつProの各
-252
-論理式を X1, X2, ... として出力してゆく手続きが存在 する．つまり Proは帰納的可算である．有限で無矛盾 なGを与えると，それを含む極大無矛盾かつ決定可能 な集合G' を与えられることもわかる．Gが有限集合で あれば各Giも有限であり，Gi Xは命題論理なので 決定可能である．G'に含まれるかどうか判定するため に与えられたXがX;として現れるまでGiを生成し， XがGに含まれるか判定すればよい．
-補題 24. GC Proを論理式の無矛盾な集合と
-する．
-253
-1. Gが極大無矛盾であれば，AEVに対し
-VG(A) ""
-1) def JT (AEG)
-F (AEG) として付値 vs を定義すると，VG FGである． 2. Gのモデルが存在する．
-証明: 1. まず，Gが極大無矛盾だからAEVに 対しAEGか-AEGのどちらかなので VG: V → {T, F}が定義される．XE Proの構 成による帰納法によりXEG if vg(X) = Tを
-254
-示す． まず，XEV のときにはルの定義から XE Giff vg(X) = Tである．
-X,Y E Prok 2017X E Giff vg(X) = TX YEG iff va(Y) = Tが成り立つと仮定すると 以下が成り立つ．ただしifが一番結合力が弱い． -X EG iff X  Giff vg(X) + T iff VG(X) = Fiff VG(-X) = Tである． XAY E G iff X,Y E G iff vo(X) = VG(Y) = Tiff VG(XY) = Tである． XVY E G iff XE G Hz 18 Y E G iff vg(X) =
-255
-TまたはvG(Y) = Tiff VG(X VY) = Tである． X + YEG iff X   G TIZY E Giff VG(X) = TまたはvG(Y) = Tiff vg(X) = FまたはvG(Y) = Tiff VG(X → Y) = Tである． ここでそれぞれの最初の同値はGの極大無矛盾 性から導かれる． 2. 補題23よりGを含む極大無矛盾なG' C Pro が存在する．1よりVGE G'であり，ゆえに VG PGである．
-256
-定理 25 (命題論理におけるコンパクト性). GC Proとする．すべての有限なG' CGにつ いてG' が充足可能であれば，Gは充足可能で ある．
-証明: Gが矛盾しているとすると，矛盾を導く論 理式の有限集合G' CGが存在するが，それは補 題19から充足不能であり，仮定に反する．従っ てGは無矛盾である．すると補題24よりGは充 足可能である．
-この定理をコンパクト性定理と呼ぶのは，位相空
-257
-間論におけるコンパクト性に対応するからであ る．この部分の理解には位相空間論の初歩の知識 が必要である．ただし理解できなくても本稿の他 の部分には影響しない．命題変数全体の集合V からの附値の : V → TV全体の集合TVにカン トール位相を入れる．即ちTV = {T, F}, V = {A1, A2, ... } とし，SE TV* に対し B, " { : V → TV|() = S; for 1 < vi < length(s)}, Beg" {B. | s E TV*} とする．ここ
-で s; は列sのi番目の文字(この場合はTVの要
-258
-素)，length(s)は列sの長さである．Bを基本開 集合としてTV に位相を入れると，コンパクト となることが知られている．この場合各基本開集 合は開閉(開集合かつ閉集合)となっている． 各命題論理式XE Proは有限個の命題変数を含 ŁOBU Sx def {0 € TVV | 0(X) =F} 453 と開閉となる．式中のFをTとしても開閉であ る．GC Proが充足不能 iff UnceSx = TV' である．iffの右側はTV”がコンパクトなので EG' C G G' : finite 1 UxEG, Sx = TV' ZH
-259
-値である．Uxce, Sx = TV' if G' が充足不能 なので，結局Gが充足不能 iff Gのある有限集合 G'が充足不能を示した．これの⇒方向の対偶を とったものが上の定理である．
-2.28 一般のSAT問題の3SAT への帰着
+\subsection{命題論理のコンパクト性}
+ここで命題論理の場合のコンパクト性を示しておく．これは無限かもしれない命題論理式の集合$G\subseteq\bPro$について，その任意の有限部分集合$G^\prime$に対し$G^\prime$に依存する一つの付値によって$G^\prime$の要素すべてが充足可能であれば，$G$の要素すべてが一つの付値によって充足可能になるという性質である．これは後で出てくる一階述語論理についての定理であるエルブランの定理(3.10節)を示すのに使うことができる．エルブランの定理は命題論理と述語論理の橋渡しをする定理であり，形式的体系の定理の計算機による自動証明の基礎となる定理でもある．
+\paragraph{論理式の集合からの演繹}
+$G\subseteq\bPro$とするとき，$G$の元から成る有限列$\Pi$があって，$\Pi,\Gamma\vdash\Delta$がLKで証明できるとき，$\Gamma\vdash\Delta$は$G$から\red{演繹される}といい，$G,\Gamma\vdash\Delta$あるいは$\Gamma\vdash_G\Delta$と書く(表記法の細かい部分の流儀はいろいろあるので授業で用いた表記法が使われていない場合もある)．つまり，
+
+\begin{center}
+  $\Gamma\vdash_G\Delta$ iff ある有限な$\Pi\subseteq G$により$\Pi,\Gamma\vdash\Delta$
+\end{center}
+
+である．$X\in\bPro$があって$G\vdash X$かつ$G\vdash\neg X$のとき，$G$は\red{矛盾している}と言う．そうでないとき，Gは\red{無矛盾である}と言う．
+\begin{lem}
+  $G\subseteq\bPro$とする．$G$が充足可能であれば$G$は無矛盾である．
+\end{lem}
+\begin{proof}
+  $G$が充足可能であるとすると，ある付値$\nu$が存在して$\nu\models G$であり，従って$\Gamma_s\subseteq G$であるような任意の有限列$\Gamma$に対しても$\nu\models\Gamma_\wedge$である．
+
+  すると$G\vdash X$であるような任意の$X\in\bPro$について，LKの健全性より$\nu\models X$である．どのような$\nu$によっても$\nu\models X$かつ$\nu\models\neg X$であることはないので，$G$は無矛盾である．
+\end{proof}
+無矛盾な$G\subseteq\bPro$が，集合の包含関係で極大，即ち$G^\prime\supsetneq G$である任意の$G^\prime\subseteq\bPro$が矛盾しているとき，$G$は\red{極大無矛盾}(maximal consistent)であると言う．
+\begin{lem}
+  $G\subseteq\bPro$が無矛盾かつ$X\in\bPro$とする．
+  \begin{enumerate}
+    \item $G\vdash X$ならば$G^\prime\dequal G\cup\qty{X}$も無矛盾である．
+    \item $G\not\vdash X$ならば$G^\prime\dequal G\cup\qty{\neg X}$も無矛盾である．
+  \end{enumerate}
+\end{lem}
+\begin{proof}
+  \begin{enumerate}
+    \item $\Gamma_s^\prime,\Delta_s^\prime\subseteq G^\prime$である有限列$\Gamma^\prime,\Delta^\prime$について$\Gamma^\prime\vdash Y$と$\Delta^\prime\vdash\neg Y$の証明図があるとする．$\Gamma^\prime,\Delta^\prime$から$X$を除いたものを$\Gamma,\Delta$とすると，$\Gamma,\Delta,X\vdash Y\wedge\neg Y$の証明図が存在する．$G\vdash X$なので$\Pi_s\subseteq G$である有限列$\Pi$により$\Pi\vdash X$である．従って$\gamma,\delta,\pi\vdash Y\wedge\neg Y$の証明図が存在する．$\Gamma_s,\Delta_s\subseteq G$zなので$G$は矛盾している．
+    \item 対偶を示す．$\Gamma_s^\prime,\Delta_s^\prime\subseteq G^\prime$である有限列$\Gamma^\prime,\Delta^\prime$について$\Gamma\vdash Y$と$\Delta^\prime\vdash\neg Y$の証明図があるとする．$\Gamma^\prime,\Delta^\prime$から$\neg X$を除いたものを$\Gamma,\Delta$とすると，$\Gamma,\Delta,\neg X\vdash Y\wedge\neg Y$の証明図が存在し，ゆえに$\Gamma,\Delta,\neg X\vdash$の証明図が存在し，従って$\Gamma,\Delta\vdash X$の証明図が存在する．$\Gamma_s,\Delta_s\subseteq G$なので$G\vdash X$となる．
+  \end{enumerate}
+\end{proof}
+\begin{lem}
+  $G\subseteq\bPro$が極大無矛盾の時，任意の$X\in\bPro$に対し次が成り立つ．
+  \begin{enumerate}
+    \item $G\vdash X$なら$X\in G$である．
+    \item $X\in G$かつ$\neg X\in G$ということはない．
+    \item $X\in G$又は$\neg X\in G$である．
+  \end{enumerate}
+\end{lem}
+\begin{proof}
+  \begin{enumerate}
+    \item $G\vdash X$かつ$X\not\in G$とする．$G^\prime\dequal G\cup\qty{X}$とすると補題20の1により$G^\prime\supsetneq G$は無矛盾である．従って$G$は極大ではない．
+    \item もしそうであれば$G$は矛盾している．
+    \item $X\not\in G$であるとする．1より$G\not\vdash X$である．$G^\prime\dequal G\cup\qty{\neg X}$とすると補題20の2より$G^\prime$は無矛盾である．$G$の極大性から$G^\prime = G$であり，$\neg X\in G$である．
+  \end{enumerate}
+\end{proof}
+\begin{lem}
+  $G\subseteq\bPro$が無矛盾であるとする．任意の$X\in\bPro$に対し$X\in G$あるいは$\neg X\in G$であれば，$G$は極大無矛盾である．
+\end{lem}
+\begin{proof}
+  $Y\not\in G$とすると仮定より$\neg Y\in G$なので$G\cup \qty{Y}$は矛盾する．
+\end{proof}
+\begin{lem}
+  $G\subseteq\bPro$が無矛盾であるとき，$G^\prime\supseteq G$となる極大無矛盾な$G^\prime\subseteq\bPro$が存在する．
+\end{lem}
+\begin{proof}
+  \bPro を整列して番号をつけ，$X_1,X_2,\ldots$とする．これは命題変数の集合$V$が高々可算無限個という本稿のような定式化の場合にはそのようにできる．まず$G_0\dequal G$とする．これは無矛盾である．$i\geq 1$について以下のようにして$G_i$を定める．
+  \begin{align*}
+    G_i\dequal\begin{cases}
+      G_{i-1}\cup\qty{\neg X_i} & \qty(G_{i-1}\not\vdash X_i) \\
+      G_{i-1}\cup\qty{X_i} & \qty(G_{i-1}\vdash X_i)
+    \end{cases}
+  \end{align*}
+  $G_{i-1}$が無矛盾であれば補題20により$G_i$も無矛盾であり，数学的帰納法によりすべての$i$について$G_i$は無矛盾である．$G^\prime\dequal\bigcup_{i=0}^\infty G_i$として$G^\prime$を定義する．$G^\prime$が矛盾しているとするとその矛盾を導く有限個の前提を含む$G_i$があり，$G_i$も矛盾していることになるので$G^\prime$は無矛盾である．列$X_1, X_2, \ldots$にはすべての論理式が現れているので，$G^\prime$の作り方から任意の$Y\in\bPro$について$Y\in G^\prime$または$\neg Y\in G^\prime$である．従って補題22により$G^\prime$は極大である．
+\end{proof}
+結果として得られる$G^\prime$は論理式の列の与え方に依存することに注意してほしい．ちょうど一回ずつ\bPro の各論理式を$X_1, X_2, \ldots$として出力してゆく手続きが存在する．つまり\bPro は帰納的可算である．有限で無矛盾な$G$を与えると，それを含む極大無矛盾かつ決定可能な集合$G^\prime$を与えられることもわかる．$G$が有限集合であれば各$G_i$も有限であり，$G_i\vdash X$は命題論理なので決定可能である．$G^\prime$に含まれるかどうか判定するために与えられた$X$が$X_i$として現れるまで$G_i$を生成し，$X$が$G_i$に含まれるか判定すればよい．
+\begin{lem}
+  $G\subseteq\bPro$を論理式の無矛盾な集合とする．
+  \begin{itemize}
+    \item $G$が極大無矛盾であれば，$A\in V$に対し
+    \[\nu_G\qty(A)\dequal\begin{cases}
+      \bT&\qty(A\in G)\\
+      \bF&\qty(\neg A\in G)
+    \end{cases}\]
+    として付値$\nu_G$を定義すると，$\nu_G\models G$である．
+    \item $G$のモデルが存在する．
+    \end{itemize}
+\end{lem}
+\begin{proof}
+  \begin{enumerate}
+    \item まず，$G$が極大無矛盾だから$A\in V$に対し$A\in G$か$\neg A\in G$のどちらかなので$\nu_G:V \to \qty{\bT, \bF}$が定義される．$X\in\bPro$の構成による帰納法により$X\in G$ iff $\nu_G\qty(X)=\bT$を示す．\\まず，$X\in V$のときには$\nu$の定義から$X\in G$ iff $\nu_G\qty(X) = \bT$である．$X,Y \in\bPro$について$X\in G$ iff $\nu_G\qty(X) = \bT$と$Y\in G$ iff $\nu_G(Y) = \bT$が成り立つと仮定すると以下が成り立つ．ただしiffが一番結合力が弱い．\\$\neg X\in G$ iff $X\not\in G$ iff $\nu_G\qty(X) \neq \bT$ iff $\nu_G\qty(X) = \bF$ iff $\nu_G\qty(\neg X) = \bT$である． \\$X\wedge Y\in G$ iff $X,Y \in G$ iff $\nu_G\qty(X) = \nu_G\qty(Y) = \bT$ iff $\nu_G\qty(X\wedge Y) = \bT$である．\\$X\vee Y\in G$ iff $X\in G$ または $Y\in G$ iff $\nu_G\qty(X) =\bT$または$\nu_G\qty(Y) = \bT$ iff $\nu_G\qty(X\vee Y) = \bT$である．\\$X\to Y\in G$ iff $X\not\in G$ または$Y\in G$ iff $\nu_G\qty(X) = \bT$または$\nu_G\qty(Y) = \bT$ iff $\nu_G\qty(X) = \bF$または$\nu_G\qty(Y) = \bT$ iff $\nu_G\qty(X\to Y) = \bT$である．\\ここでそれぞれの最初の同値は$G$の極大無矛盾性から導かれる．
+    \item 補題23より$G$を含む極大無矛盾な$^\prime\subseteq\bPro$が存在する．1より$\nu_{G^\prime}\models G^\prime$であり，ゆえに$\nu_{G^\prime}\models G$である．
+  \end{enumerate}
+\end{proof}
+\begin{thm}[命題論理におけるコンパクト性]
+  $G\subseteq\bPro$とする．すべての有限な$G^\prime \subseteq G$について$G^\prime$が充足可能であれば，$G$は充足可能である．
+\end{thm}
+\begin{proof}
+  $G$が矛盾しているとすると，矛盾を導く論理式の有限集合$G^\prime\subseteq G$が存在するが，それは補題19から充足不能であり，仮定に反する．従って$G$は無矛盾である．すると補題24より$G$は充足可能である．
+\end{proof}
+この定理をコンパクト性定理と呼ぶのは，位相空間論におけるコンパクト性に対応するからである．この部分の理解には位相空間論の初歩の知識が必要である．ただし理解できなくても本稿の他の部分には影響しない．命題変数全体の集合$V$からの附値の$\phi:V\to=\bTV$全体の集合$\bTV^V$にカントール位相を入れる．即ち$\bTV = \qty{\bT, \bF}, V = \qty{\underline{A_1}, \underline{A_2}, \ldots }$とし，$s\in\bTV^\ast$に対し$B_s\dequal\qty{\phi: V \to \bTV\mid\phi\qty(\underline{A_i}) = s_i\ for\ 1 \leq\forall i \leq \text{length}\qty(s)}, \mathcal{B}\dequal\qty{B_s\mid s\in \bTV^\ast}$とする．ここで$s_i$は列$s$の$i$番目の文字(この場合は$\bTV$の要素)，length$\qty(s)$は列$s$の長さである．$\mathcal{B}$を基本開集合として$\bTV^V$に位相を入れると，コンパクトとなることが知られている．この場合各基本開集合は開閉(開集合かつ閉集合)となっている．
+
+各命題論理式$X\in\bPro$は有限個の命題変数を含むのみで$S_X\dequal\qty{\phi\in\bTV^V\mid\phi\qty(X)=\bF}$とすると開閉となる．式中の$\bF$を$\bT$としても開閉である．$G\subseteq\bPro$が充足不能 iff $\bigcup_{X\in G}S_X = \bTV^V$である．iffの右側は$\bTV^V$がコンパクトなので$\exists G^\prime\subseteq G\ G^\prime : \text{finite}\wedge\bigcup_{X\in G^\prime}S_X = \bTV^V$と同値である．$\bigcup_{X\in G^\prime}S_X = \bTV^V$ iff $G^\prime$が充足不能なので，結局$G$が充足不能 iff $G$のある有限集合$G^\prime$が充足不能を示した．これの$\Rightarrow$方向の対偶をとったものが上の定理である．
+\subsection{一般のSAT問題の3SATへの帰着}
 この小節では古典命題論理式X を，充足可能性 を保存しながらCNF S3に変換する手続きの例を 示す．ここで示す例では S3の各節が高々3つの リテラルから成る．各節のリテラルが3個以下の
 260
 CNFに限った決定問題を3SATと呼ぶ．即ちこ こで示すのは，CNFに限定しない一般のSAT か ら3SAT への変換手続きの例である． S3の大きさはX の大きさの或る線形函数で抑え られる．実現方法を工夫すれば変換の実行時間は やはり線形函数で抑えられる．なおSAT問題と いう言い方をするとCNFである場合に限ってい る場合も多いが，ここではXは一般の古典命題 論理式であり，更にA,V,→ 以外の二項論理演算 子を含んで構わない(次段落の一を除く．但し同 じ論理函数の演算子，例えば⇔を含んでよい)．

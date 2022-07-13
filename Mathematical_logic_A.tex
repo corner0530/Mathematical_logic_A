@@ -111,23 +111,45 @@
 \renewcommand{\qedsymbol}{\ensuremath{\square}}
 \makeatother
 
+\makeatletter
+% インライン数式でカンマの後でも改行できるように
+\def\old@comma{,}
+\catcode`\,=13
+\def,{%
+  \ifmmode%
+    \old@comma\discretionary{}{}{}%
+  \else%
+    \old@comma%
+  \fi%
+}
+\makeatother
+
 \newcommand{\uA}{\underline{A}}
 \newcommand{\uB}{\underline{B}}
 \newcommand{\uC}{\underline{C}}
 \newcommand{\uD}{\underline{D}}
 \newcommand{\uE}{\underline{E}}
+\newcommand{\uf}{\underline{f}}
+\newcommand{\ug}{\underline{g}}
+\newcommand{\up}{\underline{p}}
+\newcommand{\uq}{\underline{q}}
+\newcommand{\ur}{\underline{r}}
+\newcommand{\ux}{\underline{x}}
+\newcommand{\uy}{\underline{y}}
+\newcommand{\uz}{\underline{z}}
 \newcommand{\bT}{\ensuremath{\mathbf{T}}}
 \newcommand{\bF}{\ensuremath{\mathbf{F}}}
 \newcommand{\bV}{\ensuremath{\mathbf{V}}}
 \newcommand{\bN}{\ensuremath{\mathbf{N}}}
 \newcommand{\bPro}{\ensuremath{\mathbf{Pro}}}
 \newcommand{\bTV}{\ensuremath{\mathbf{TV}}}
+\newcommand{\bPre}{\ensuremath{\mathbf{Pre}}}
 \newcommand{\rT}{\ensuremath{\mathrm{T}}}
 \newcommand{\rF}{\ensuremath{\mathrm{F}}}
 \newcommand{\cF}{\ensuremath{\mathcal{F}}}
-\newcommand{\dequal}{\ensuremath{\;{\buildrel{\rm{def}}\over{=}}\;}}
-\newcommand{\dequiv}{\ensuremath{\;{\buildrel{\rm{def}}\over{\equiv}}\;}}
-\newcommand{\darrow}{\ensuremath{\;{\buildrel{\rm{def}}\over{\Leftrightarrow}}\;}}
+\newcommand{\dequal}{\ensuremath{\;{\buildrel{\mathrm{def}}\over{=}}\;}}
+\newcommand{\dequiv}{\ensuremath{\;{\buildrel{\mathrm{def}}\over{\equiv}}\;}}
+\newcommand{\darrow}{\ensuremath{\;{\buildrel{\mathrm{def}}\over{\Leftrightarrow}}\;}}
 \newcommand{\mop}{\ensuremath{\; op \;}}
 \newcommand{\lequiv}{\ensuremath{\models\!\mid}}
 \newcommand{\red}[1]{{\color{red} #1}}
@@ -139,6 +161,9 @@
 \date{\today 現在}
 \maketitle
 
+\tableofcontents
+
+\newpage
 \setcounter{section}{-1}
 \section{数理論理学とは\footnote{本節の内容と各節の最初の部分は大まかな説明であり，其々に対応する細部の説明があれば参照すること． \red{赤}は強調部分或いは重要概念(の初出)である．}}
 以下の学問分野はある程度似た分野を意味する．
@@ -1524,32 +1549,32 @@ $G\subseteq\bPro$とするとき，$G$の元から成る有限列$\Pi$があっ�
 \subsection{一般のSAT問題の3SATへの帰着}
 この小節では古典命題論理式$X$を，充足可能性を保存しながらCNF $S_3$に変換する手続きの例を示す．ここで示す例では$S_3$の各節が高々3つのリテラルから成る．各節のリテラルが3個以下のCNFに限った決定問題を\red{3SAT}と呼ぶ．即ちここで示すのは，CNFに限定しない一般のSATから3SATへの変換手続きの例である．
 
-$S_3$の大きさは$X$の大きさの或る線形函数で抑えられる．実現方法を工夫すれば変換の実行時間はやはり線形函数で抑えられる．なおSAT問題という言い方をするとCNFである場合に限っている場合も多いが，ここでは$X$は一般の古典命題論理式であり，更に$\wedge,\vee,\to$以外の二項論理演算子を含んで構わない(次段落の$\leftrightarrows$を除く．但し同じ論理函数の演算子，例えば$\leftrightarrow$を含んでよい)．但し$X$は論理定数を含まないものとしている．
+$S_3$の大きさは$X$の大きさの或る線形函数で抑えられる．実現方法を工夫すれば変換の実行時間はやはり線形函数で抑えられる．なおSAT問題という言い方をするとCNFである場合に限っている場合も多いが，ここでは$X$は一般の古典命題論理式であり，更に$\wedge,\vee,\to$以外の二項論理演算子を含んで構わない(次段落の$\rightleftarrows$を除く．但し同じ論理函数の演算子，例えば$\leftrightarrow$を含んでよい)．但し$X$は論理定数を含まないものとしている．
 
 もしも含む場合を考えたいのであれば多項式時間の前処理により含まないように簡単化しておくことで対応できるし，あるいは以下の手続きを拡張することでも対応できるだろう．
 
-手続きを示す前に論理演算子を新たに1つ導入して論理式の文法を拡張する．まず新しい二項論理演算子\red{$\leftrightarrows$}を付け加え元の文法を拡張する．但しこの演算子は本小節内でのみ変換目的で用い，トップレベルにしか出現せず，しかも$A\leftrightarrows X$という形($A$は命題変数で，$X$は拡張前の文法での任意の論理式)でのみ現れるとする．演算子としての表示上の優先順位は最も低いとする．$\leftrightarrows$に対応する真理函数は$\leftrightarrow$と同じであるとする．
+手続きを示す前に論理演算子を新たに1つ導入して論理式の文法を拡張する．まず新しい二項論理演算子\red{$\rightleftarrows$}を付け加え元の文法を拡張する．但しこの演算子は本小節内でのみ変換目的で用い，トップレベルにしか出現せず，しかも$A\rightleftarrows X$という形($A$は命題変数で，$X$は拡張前の文法での任意の論理式)でのみ現れるとする．演算子としての表示上の優先順位は最も低いとする．$\rightleftarrows$に対応する真理函数は$\leftrightarrow$と同じであるとする．
 \paragraph{変換の手続き:}
-最初に拡張前の文法の論理式($\leftrightarrows$が出現しない論理式)$X$に対し集合$S_0\dequal\qty{X}$とする．$S_0$に対し以下の3つの段階の変換手続きを順に適用する．
+最初に拡張前の文法の論理式($\rightleftarrows$が出現しない論理式)$X$に対し集合$S_0\dequal\qty{X}$とする．$S_0$に対し以下の3つの段階の変換手続きを順に適用する．
 
-\red{第一段階}では$S = S_0$に対して次のような書き換え(其々を書き換えの1ステップとする)を，当てはまるパターンがなくなるまで繰り返し行う(1以外の記述では\{と$\}\cup S^\prime$の部分を略している)．$\mop$は$\leftrightarrows$以外の二項演算子，$A,B$は命題変数，$A^\prime, B^\prime$は新しい(即ち$S$中に出現しない)互いに異なる命題変数を表している．4の$\Rightarrow$の左側はリテラル数3以下の節である場合を除く．例えば$A\vee\qty(\neg B\vee C)$や$\neg A$は書き換えられないが，$A\vee\qty(B\vee\qty(C\vee\neg D))$は書き換えられる．上方の行の規則の方が優先適用される．
+\red{第一段階}では$S = S_0$に対して次のような書き換え(其々を書き換えの1ステップとする)を，当てはまるパターンがなくなるまで繰り返し行う(1以外の記述では\{と$\}\cup S^\prime$の部分を略している)．$\mop$は$\rightleftarrows$以外の二項演算子，$A,B$は命題変数，$A^\prime, B^\prime$は新しい(即ち$S$中に出現しない)互いに異なる命題変数を表している．4の$\Rightarrow$の左側はリテラル数3以下の節である場合を除く．例えば$A\vee\qty(\neg B\vee C)$や$\neg A$は書き換えられないが，$A\vee\qty(B\vee\qty(C\vee\neg D))$は書き換えられる．上方の行の規則の方が優先適用される．
 \begin{enumerate}
   \item $\qty{X\wedge Y}\cup S^\prime\Rightarrow\qty{X,Y}\cup S^\prime,$($S = \qty{X \wedge Y}\cup S^\prime$全体を$\qty{X,Y}\cup S^\prime$に書き換える．略記すると$X\wedge Y\to X,Y$である),
   \item $\neg\neg X\Rightarrow X$,
-  \item $\neg X\Rightarrow\neg A^\prime,A^\prime\leftrightarrows X$,
-  \item $X \mop Y \Rightarrow A^\prime,A^\prime\leftrightarrows X \mop Y$.
+  \item $\neg X\Rightarrow\neg A^\prime,A^\prime\rightleftarrows X$,
+  \item $X \mop Y \Rightarrow A^\prime,A^\prime\rightleftarrows X \mop Y$.
 \end{enumerate}
 書き換えは$S$中の各論理式のトップレベルにのみ適用される．$S_1\dequal$第一段階終了時の$S$とする．
 
-\red{第二段階}では，$S = S_1$に対し以下の書き換えを同様に行う．但し$\text{cnf}\qty(X)$は$X$のCNF(節の集合扱いし，やはり列として表記している)を表す．$\text{cnf}\qty(X)$には$\leftrightarrows$が現れないことに注意．
+\red{第二段階}では，$S = S_1$に対し以下の書き換えを同様に行う．但し$\text{cnf}\qty(X)$は$X$のCNF(節の集合扱いし，やはり列として表記している)を表す．$\text{cnf}\qty(X)$には$\rightleftarrows$が現れないことに注意．
 \begin{enumerate}
-  \item $A\leftrightarrows\neg X\Rightarrow\neg\vee B^\prime,A\vee B^\prime,B^\prime\leftrightarrows X$,
-  \item $A\leftrightarrows X \mop Y\Rightarrow\text{cnf}\qty(A\leftrightarrow\qty(B^\prime \mop C^\prime)),B^\prime\leftrightarrows X,C^\prime\leftrightarrows Y$
+  \item $A\rightleftarrows\neg X\Rightarrow\neg\vee B^\prime,A\vee B^\prime,B^\prime\rightleftarrows X$,
+  \item $A\rightleftarrows X \mop Y\Rightarrow\text{cnf}\qty(A\leftrightarrow\qty(B^\prime \mop C^\prime)),B^\prime\rightleftarrows X,C^\prime\rightleftarrows Y$
 \end{enumerate}
-第二段階を終了すると，$S$中の$A\leftrightarrows X$というパターンの論理式について，$X$は命題変数である(それ以外のパターンは1,2どちらかにマッチするため)．$S_2\dequal$第二段階終了時の$S$とする．
+第二段階を終了すると，$S$中の$A\rightleftarrows X$というパターンの論理式について，$X$は命題変数である(それ以外のパターンは1,2どちらかにマッチするため)．$S_2\dequal$第二段階終了時の$S$とする．
 \red{第三段階}では$S = S2$に次の書き換えを同様に行う．終了時の$S$を変換結果$S_3$とする．
 \begin{enumerate}
-  \item $A\leftrightarrows B\Rightarrow\neg A\vee B,A\vee\neg B$,
+  \item $A\rightleftarrows B\Rightarrow\neg A\vee B,A\vee\neg B$,
 \end{enumerate}
 以下に第一段階の変換の例を示す．命題変数のアンダーラインを略している．
 \begin{align*}
@@ -1558,22 +1583,22 @@ $S_3$の大きさは$X$の大きさの或る線形函数で抑えられる．実
   \Rightarrow & A\vee B,\qty(\neg\neg\qty(\neg A\vee\qty(B\vee C)))\wedge\qty(\neg A\vee\qty(B\vee\qty(C\vee D)))\\
   \Rightarrow & A\vee B,\neg\neg\qty(\neg A\vee\qty(B\vee C)), \neg A\vee\qty(B\vee\qty(C\vee D))\\
   \Rightarrow & A\vee B,\neg A\vee\qty(B\vee C),\neg A\vee\qty(B\vee\qty(C\vee D))\\
-  \Rightarrow & A\vee B,\neg A\vee\qty(B\vee C),E,E\leftrightarrows \neg A\vee \qty(B\vee\qty(C\vee D))
+  \Rightarrow & A\vee B,\neg A\vee\qty(B\vee C),E,E\rightleftarrows \neg A\vee \qty(B\vee\qty(C\vee D))
 \end{align*}
-続いて第二段階では$\leftrightarrows$を含む式のみ変換される．その部分のみ表記する．含まない式はそのまま$S_2$(及び$S_3$)の要素となる．[]内はそのステップで確定し，結果の$S_2$が含む部分である．
+続いて第二段階では$\rightleftarrows$を含む式のみ変換される．その部分のみ表記する．含まない式はそのまま$S_2$(及び$S_3$)の要素となる．[]内はそのステップで確定し，結果の$S_2$が含む部分である．
 \begin{align*}
-  &\qty[A\vee B,\neg A\vee\qty(B\vee C), E],E\leftrightarrows\neg A\vee\qty(B\vee\qty(C\vee D))\\
-  \Rightarrow&\qty[\neg E\vee\qty(F\vee G), E\vee\neg F, E\vee\neg G],F\leftrightarrows\neg A,G\leftrightarrows B\vee\qty(C\vee D)\\
-  \Rightarrow&\qty[\neg F\vee\neg H, F\vee H, H\leftrightarrows A], G\leftrightarrows B\vee\qty(C\vee D)\\
-  \Rightarrow&\qty[\neg G\vee\qty(I\vee J),G\vee\neg I, G\vee\neg J, I\leftrightarrows B], J\leftrightarrows C\vee D\\
-  \Rightarrow&\qty[\neg J\vee\qty(K\vee L), J\vee\neg K, J\vee\neg L, K\leftrightarrows C, L\leftrightarrows D]
+  &\qty[A\vee B,\neg A\vee\qty(B\vee C), E],E\rightleftarrows\neg A\vee\qty(B\vee\qty(C\vee D))\\
+  \Rightarrow&\qty[\neg E\vee\qty(F\vee G), E\vee\neg F, E\vee\neg G],F\rightleftarrows\neg A,G\rightleftarrows B\vee\qty(C\vee D)\\
+  \Rightarrow&\qty[\neg F\vee\neg H, F\vee H, H\rightleftarrows A], G\rightleftarrows B\vee\qty(C\vee D)\\
+  \Rightarrow&\qty[\neg G\vee\qty(I\vee J),G\vee\neg I, G\vee\neg J, I\rightleftarrows B], J\rightleftarrows C\vee D\\
+  \Rightarrow&\qty[\neg J\vee\qty(K\vee L), J\vee\neg K, J\vee\neg L, K\rightleftarrows C, L\rightleftarrows D]
 \end{align*}
-$S_2$は上記の[]の中身を全て合併したものである．第三段階では2つの命題変数が$\leftrightarrows$で結合された論理式が全て書き換えられ，以下になる．$S_3 = \qty{A\vee B, \neg A\vee \qty(B\vee C), E, \neg E \vee\qty(F\vee G), E\vee \neg F, E \vee \neg G,\neg F \vee\neg H, F\vee H, \neg H\vee A, H\vee\neg A, \neg G\vee\qty(I\vee J),G\vee\neg I,G\vee \neg J,\neg I\vee B, I\vee\neg B, \neg J\vee\qty(K\vee L),J\vee\neg K, J\vee\neg L,\neg K\vee C, K\vee\neg C, \neg L\vee D, L\vee\neg D}$である．例を見てわかる様に，改良すれば効率化(即ち少ない追加命題変数，少ない結果の節)可能である．
+$S_2$は上記の[]の中身を全て合併したものである．第三段階では2つの命題変数が$\rightleftarrows$で結合された論理式が全て書き換えられ，以下になる．$S_3 = \qty{A\vee B, \neg A\vee \qty(B\vee C), E, \neg E \vee\qty(F\vee G), E\vee\neg F, E \vee\neg G, \neg F \vee\neg H, F\vee H, \neg H\vee A, H\vee\neg A, \neg G\vee\qty(I\vee J), G\vee\neg I, G\vee \neg J, \neg I\vee B, I\vee\neg B, \neg J\vee\qty(K\vee L), J\vee\neg K, J\vee\neg L,\neg K\vee C, K\vee\neg C, \neg L\vee D, L\vee\neg D}$である．例を見てわかる様に，改良すれば効率化(即ち少ない追加命題変数，少ない結果の節)可能である．
 \begin{lem}
   (上の)第一段階は停止する．
 \end{lem}
 \begin{proof}
-  $S$中の，$\leftrightarrows$を含まない論理式で，なおかつリテラル個数が3以下の節以外のものについて，それらの中の演算子の出現個数の合計を$n$とすると有限であり，1ステップ毎に1以上減る．
+  $S$中の，$\rightleftarrows$を含まない論理式で，なおかつリテラル個数が3以下の節以外のものについて，それらの中の演算子の出現個数の合計を$n$とすると有限であり，1ステップ毎に1以上減る．
 \end{proof}
 \begin{lem}
   第一段階の各ステップで充足可能性が保存される．
@@ -1581,18 +1606,18 @@ $S_2$は上記の[]の中身を全て合併したものである．第三段階�
 \begin{proof}
   (省略していない)1ステップ書き換え$\qty{X}\cup S^\prime\Rightarrow S^{\prime\prime}\cup S^\prime$に対し充足可能性について$\qty(\Rightarrow)$を示す時$\phi\models\qty{X}\cup S^\prime$，$\qty(\Leftarrow)$の時$\psi\models S^{\prime\prime}\cup S^\prime$とする．\\
   (1,2の場合)\ そのまま$\phi\models S^{\prime\prime}\cup S^\prime$あるいは$\psi\models\qty{X}\cup S^\prime$である．\\
-  (3$\Rightarrow$)\ $X \equiv\neg X^\prime$とすると$\phi\qty[\bF/A^\prime]\models\qty{\neg A^\prime, A^\prime\leftrightarrows X^\prime}\cup S^\prime$である．ここで
+  (3$\Rightarrow$)\ $X \equiv\neg X^\prime$とすると$\phi\qty[\bF/A^\prime]\models\qty{\neg A^\prime, A^\prime\rightleftarrows X^\prime}\cup S^\prime$である．ここで
   \[\phi\qty[v/A]\qty(B)\dequal\begin{cases}
     v&\qty(B\equiv A)\\
     \phi\qty(B)&\qty(B\not\equiv A)
   \end{cases}\]
 である．\\
   (3$\Leftarrow$)\ そのまま$\psi\models\qty{X}\cup S^\prime$である．\\
-  (4$\Rightarrow$)\ $X\equiv X^\prime \mop Y^\prime$とすると$\phi\qty[\bT/A^\prime]\models\qty{A^\prime, A^\prime\leftrightarrows X^\prime \mop Y^\prime}\cup S^\prime$である．\\
+  (4$\Rightarrow$)\ $X\equiv X^\prime \mop Y^\prime$とすると$\phi\qty[\bT/A^\prime]\models\qty{A^\prime, A^\prime\rightleftarrows X^\prime \mop Y^\prime}\cup S^\prime$である．\\
   (4$\Leftarrow$)\ そのまま$\psi\models\qty{X}\cup S$である．
 \end{proof}
 \begin{lem}
-  $S_1$の要素はリテラル数3以下の節であるか，$A\leftrightarrows X$の形の式のどちらかである．
+  $S_1$の要素はリテラル数3以下の節であるか，$A\rightleftarrows X$の形の式のどちらかである．
 \end{lem}
 \begin{proof}
   それら以外の論理式があると書き換えの対象となるため手続きは終了していない．
@@ -1601,16 +1626,16 @@ $S_2$は上記の[]の中身を全て合併したものである．第三段階�
   第二段階は停止する．
 \end{lem}
 \begin{proof}
-  $S$中の$A\leftrightarrows X$の形の論理式の$X$の長さの合計値がステップ毎に減るため．
+  $S$中の$A\rightleftarrows X$の形の論理式の$X$の長さの合計値がステップ毎に減るため．
 \end{proof}
 \begin{lem}
   第二段階の各ステップで充足可能性が保存される．
 \end{lem}
 \begin{proof}
   補題27と同様に証明する．\\
-  (1$\Rightarrow$)\ $X\equiv A\leftrightarrows\neg X^\prime$とすると$\phi\qty[\neg\phi\qty(A)/B^\prime]\models\qty{\neg A\vee\neg B^\prime, A\vee B, B^\prime\leftrightarrows X^\prime}\cup S^\prime$である．\\
+  (1$\Rightarrow$)\ $X\equiv A\rightleftarrows\neg X^\prime$とすると$\phi\qty[\neg\phi\qty(A)/B^\prime]\models\qty{\neg A\vee\neg B^\prime, A\vee B, B^\prime\rightleftarrows X^\prime}\cup S^\prime$である．\\
   (1$\Leftarrow$)\ そのまま充足する．\\
-  (2$\Rightarrow$)\ $X\equiv A\leftrightarrows X^\prime\mop Y^\prime$とすると$\phi\qty[\neg\phi\qty(X^\prime)/B^\prime]\qty[\phi\qty(Y^\prime)/C^\prime]\models\qty{\text{cnf}\qty(A \leftrightarrows\qty(B^\prime\mop C^\prime)), B^\prime\leftrightarrows X^\prime,C^\prime\leftrightarrows Y^\prime}\cup S^\prime$である．\\
+  (2$\Rightarrow$)\ $X\equiv A\rightleftarrows X^\prime\mop Y^\prime$とすると$\phi\qty[\neg\phi\qty(X^\prime)/B^\prime]\qty[\phi\qty(Y^\prime)/C^\prime]\models\qty{\text{cnf}\qty(A \rightleftarrows\qty(B^\prime\mop C^\prime)), B^\prime\rightleftarrows X^\prime,C^\prime\rightleftarrows Y^\prime}\cup S^\prime$である．\\
   (2$\Leftarrow$)\ そのまま充足する．
 \end{proof}
 \begin{lem}
@@ -1620,16 +1645,16 @@ $S_2$は上記の[]の中身を全て合併したものである．第三段階�
   まず$\wedge,\vee$以外の二項演算子を$\neg,\wedge,\vee$により表し，CNF$X^\prime$を求められる．$n+1$個以上のリテラルを含む$X^\prime$の節を$C$とする．すると少なくとも一つの命題変数$A$について$A$と$\neg A$両方が$C$に出現するか，あるいはどちらかが重複して$C$に出現している．それゆえ$C\lequiv T$であるか，$C$のリテラルを減らして同じ推論を繰り返せる．
 \end{proof}
 \begin{lem}
-  $S_2$はリテラル数3以下の節と$A\leftrightarrows B$の形の式から成る$\qty(A, B\in V)$．
+  $S_2$はリテラル数3以下の節と$A\rightleftarrows B$の形の式から成る$\qty(A, B\in V)$．
 \end{lem}
 \begin{proof}
-  補題28と，第二段階の書き換え1.2の結果中の，$A\leftrightarrows X$以外の形の論理式がリテラル数2の節形式であること，3の場合にはcnfの部分の命題変数の数が3に対し補題31を適用すること，$A\leftrightarrows X\qty(X\not\in V)$の形の論理式が$S$中にある場合には第二段階が終了していないことによる．
+  補題28と，第二段階の書き換え1.2の結果中の，$A\rightleftarrows X$以外の形の論理式がリテラル数2の節形式であること，3の場合にはcnfの部分の命題変数の数が3に対し補題31を適用すること，$A\rightleftarrows X\qty(X\not\in V)$の形の論理式が$S$中にある場合には第二段階が終了していないことによる．
 \end{proof}
 \begin{lem}
   $S_3$はリテラル数3以下の節から成る．
 \end{lem}
 \begin{proof}
-  上の補題と，第三段階で$A\leftrightarrows B$が$\neg A\vee B, A\vee\neg B$に書き換えられるため．
+  上の補題と，第三段階で$A\rightleftarrows B$が$\neg A\vee B, A\vee\neg B$に書き換えられるため．
 \end{proof}
 以下では論理式を計算機中でポインタにより木の形で表現するとする．具体的にはC言語のポインタとstructを利用するか，あるいはLISPを利用する場合を考えればよい．すると論理式のトップレベルから定数レベル下までのパターンを分類したり，論理式をトップレベルの論理演算子の引数に分解したり，逆に特定の演算子の引数を与えて組み立てたりするのはどれも定数時間で実行可能である．ここではそのような実現方法と採っているとして各段階の実行時間と結果の大きさについて考える．なお定数分余分に必要な点については省略して記述している．例えば定数倍で抑えられる，などと書いた場合，正確には或る一次式で抑えられる，という意味である．
 \begin{lem}
@@ -1690,7 +1715,8 @@ $\wedge\ \vee\ \neg\ \to\ \forall\ \exists$
 \paragraph{変数記号}
 $V$: 可算無限個の\red{変数記号}(variable symbol)の集合．
 
-対象言語の変数記号: $\underline{x_1},\underline{x_2},\ldots,\underline{y_1},\underline{y_2},\ldots,\underline{z_1},\underline{z_2},\ldots$．変数記号を表すメタ変数としては$x_1,x_2,\ldots,y_1,y_2,\ldots,z_1,z_2,\ldots$を用いる．
+対象言語の変数記号: $\underline{x_1}, \underline{x_2}, \ldots, \underline{y_1}, \underline{y_2}, \ldots, \underline{z_1}, \underline{z_2}, \ldots$．変数記号を表すメタ変数としては\\ $x_1, x_2, \ldots, y_1, y_2, \ldots, z_1, z_2, \ldots$ を用いる．
+
 
 以下，$K, F, P$についての対象言語の記号も，それらの方に下線をつけて表す．また，誤解がない場合には下線を省略する場合もある．
 
@@ -1699,114 +1725,137 @@ $K$: \red{定数記号}(constant symbol)の集合．
 
 対象言語の定数記号:$\underline{c_1},\underline{c_2},\ldots,\underline{d_1},\underline{d_2},\ldots$．定数記号を表すメタ変数としては$c_1,c_2,\ldots,d_1,d_2,\ldots$を用いる．定数記号をarity(引数の数)が0の函数記号として扱う流儀もある．
 
+\paragraph{函数記号}
+$F$: \red{函数記号}(function symbol)の集合．
+
+arity: $F\to\bm{N} \backslash\qty{0}$が定義され，引数の数を表すとする．
+
+対象言語の函数記号:$\underline{f_1},\underline{f_2},\ldots,\underline{g_1},\underline{g_2},\ldots,\underline{h_1},\underline{h_2},\ldots$．函数記号を表すメタ変数としては$f,g,h,f_1,f_2,\ldots,g_1,g_2,\ldots,h_1,h_2,\ldots$を用いる．
+
+$F = \qty{\uf/2,\ug/1}$などと表記して，$\text{arity}\qty(\uf) = 2, \text{arity}\qty(\ug) = 1$を表すことにする．
+
+\paragraph{述語記号}
+$P$: \red{述語記号}(predicate symbol) の集合．空でないとする．arity:$P \to\bm{N}$が定義されているとする．対象言語の述語記号:$\underline{p_1},\underline{p_2}, \ldots, \underline{q_1},\underline{q_2},\ldots, \underline{r_1},\underline{r_2}, \ldots$．述語記号を表すメタ変数として$p, q, r, \ldots, p_1,p_2, \ldots, q_1, q_2, \ldots$を用いる．$F$の場合と同様にしてarityを表すことにする．
+
+
+上記3種類の定数・函数・述語記号は，述語記号が空集合でないという条件が付いている以外，一般には追加条件はない．述語記号が空集合だと，後で定義する論理式の集合が空集合となってしまうため，意味がない．但し一階述語論理で取り扱える一般の数学の場合，これら3種類の記号は通常有限集合とする場合がほとんどである．無限集合の場合も考えるのは，そのように一般化してもそれほど問題がないことと，理論展開上必要な場合が出てくるのに備えてのことである．
+
+\paragraph{補助記号}
+(,) などの補助的に用いる記号．
+
+\paragraph{一階述語論理の言語}
+$V, K, F, P$がすべて定まると一階述語論理の構成要素の記号やそれらの列あるいは木がすべて定まるので，$L =\langle V, K, F, P\rangle$で一階述語論理の言語を表すことにする．逆に，$L$の$V, K, F, P$をそれぞれ$V_L, K_L, F_L, P_L$と書いて，言語$L$の変数記号，定数記号，函数記号，述語記号の集合を表すことにする．以下の項，原子論理式，論理式の集合は，組$L$が定まると決まるので，それぞれ添え字$L$を付けている．
+\paragraph{項}
+以下のように帰納的に定義される集合$TT_L$の元を\red{項}(term)という．
+\begin{enumerate}
+  \item[(1)] 変数記号と定数記号は$TT_L$の元である．
+  \item[(2)] $t_1,\ldots, t_n$を$TT_L$の元とし，$f$をarity $n$の函数記号とするとき，$f\qty(t_1,\ldots,t_n)$も$TT_L$の元である．$s, t, s_1, s_2, \ldots, t_1, t_2, \ldots$を項のメタ変数として用いる．
+\end{enumerate}
+函数記号を四則演算の+や-，$\cdot$のように演算子として項を表記する場合がある．演算子の優先順位は，通常は単項の方が他よりも優先順位が高いとする．
+\paragraph{原子論理式}
+$t_1,\ldots, t_n$を項とし，$p$をarityが$n$の述語記号とするとき，$p\qty(t_1,\ldots,t_n)$は\red{原子論理式}(atomic formula)の集合$AA_L$の元である．
+
+原子論理式も，述語記号を演算子として表記する場合がある．例えば等号$=/2$は二項演算子として表記する場合が多い．
+
+\paragraph{量化子}
+$x\in V_L$のとき，$\forall x$を\red{全称量化子}(universal quantifyer)，$\exists x$を\red{存在量化子}(existential quantifyer)と言い，両者を併せて\red{量化子}(quantifyer)と呼ぶ．本稿では$x$をその量化子の変数記号と言う．
+
+\paragraph{論理式}
+次のように定義される集合$\bPre_L$の元を\red{論理式}(formula)という．論理式を表すメタ変数として$E, F$などを用いる．
+\begin{enumerate}
+  \item 原子論理式は$\bPre_L$の元である．
+  \item $E,F$を$\bPre_L$の元，$x$を変数記号とするとき，以下は論理式である．
+  \begin{enumerate}
+    \item $\neg E$
+    \item $E\wedge F$
+    \item $E\vee F$
+    \item $E\to F$
+    \item $\forall xE$
+    \item $\exists xE$
+  \end{enumerate}
+\end{enumerate}
+$\forall x_1\forall x_2\ldots\forall x_n$を省略して$\forall x_1, x_2,\ldots, x_n$と書く場合がある．$\exists$についても同様である．量化子の右側の論理式に括弧が付けられていない場合，切れ目がわかりにくくなりやすい．そこに若干の空白を入れる，あるいは.を入れるなどして切れ目をわかりやすくしたりする場合がある．
+
+原子論理式と，その前に$\neg$を一つ付けたものを\red{リテラル}(literal)と呼ぶ．リテラルを$\vee$で有限個結んだものを\red{節}(clause)と呼ぶ．これらは命題論理の場合と同じである．
+
+()の使用を減らすため，論理記号の間に優先順位をつける．本稿では$\neg,\wedge,\vee,\to$についてはお互いの優先順位は命題論理の場合(2.1節の最後の部分を参照)と 同じで，量化子，即ち$\forall x,\exists x$の優先順位は$\wedge,\vee$と$\to$の間であるとする．即ち本稿では以下の2つの論理式は同等である．
+\begin{align*}
+  \forall x\;p\qty(x)\wedge q\qty(x)&\to\neg\exists y\neg p\qty(y)\vee q\qty(y)\\
+  \qty(\forall x\qty(p\qty(x)\wedge q\qty(x)))&\to\neg\exists y\qty(\qty(\neg p\qty(y))\vee q\qty(y))\\
+\end{align*}
+
+量化子の優先順位を$\neg$と同じとする流儀もあるし，$\to$が連なった場合に右側の$\to$の式が括弧で囲まれていなくてもそちらが優先される流儀もあるので，注意してほしい．
+
+$K_L, F_L, P_L$が高々可算無限集合のとき，$\bPre_L$は可算無限集合，$TT_L,AA_L$は高々可算無限集合となる．このような言語$L$を\red{可算な言語}(countable language)という．
+
+2つの言語$L_1, L_2$があり，$V_{L_1} = V_{L_2} , K_{L_1}\subseteq K_{L_2}$，さらにarityを含めて$F_{L_1}\subseteq F_{L_2}, P_{L_1}\subseteq P_{L_2}$のとき，$L_2$を$L_1$の\red{拡大}(extension)という．このとき，$TT_{L_1}$の元はそのまま$TT_{L_2}$の元とみなせるし，$\bPre_{L_1}$の元はそのまま$\bPre_{L_2}$の元とみなせる．
+
+なおここで$E\leftrightarrow F\dequiv\qty(E\to F)\wedge\qty(F\to E)$として，同値の記号\red{$\leftrightarrow$}を命題論理と同じように略記法として導入することができる．$\leftrightarrow$の優先順位は$\to$と同じである．
+
+以下では,特に別の言語や言語の拡張を考えない場合には，一つの言語$L$を固定し，添え字の$L$を適宜略す．
+
+\paragraph{出現}
+論理式あるいは項の中に変数記号や定数記号，函数記号，述語記号が現れている場合，それらをそれぞれの\red{出現}(occurrence)と呼ぶ．出現と言う場合には，同じ記号が複数回出現している場合，それぞれを区別する．本稿では，量化子$\forall x,\exists x$の変数記号は変数の出現と言わないことにする．ただし(変数記号を$x$とする)量化子の出現ではあるとする．
+
+変数が出現しない項を\red{基礎項}(ground term)，あるいはグラウンドな項と言う(分野によってはこういった項を閉(closed)であるという場合もある)．
+
+\paragraph{部分項}
+項は以上のように帰納的に定義される．ある項$t$を帰納的に作っていく際に途中で出てくる項$s$，言い換えると$t$の一部になっている項$s$を$t$の\red{部分項}(subterm)と呼ぶ．本稿では$t$自身も$t$の部分項であるとする．
+
+\paragraph{部分論理式}
+論理式も以上のように帰納的に定義される．ある論理式$E$を帰納的に作っていく際に途中で出てくる論理式$F$，言い換えると$E$の一部になっている$F$を$E$の\red{部分論理式}(subformula)と呼ぶ．本稿では$E$自身も$E$の部分論理式であるとする．
+
+\paragraph{変数の束縛と自由な出現}
+変数$x$が量化子$\forall x$または$\exists x$の内側に出現している場合，その出現は\red{束縛されている}(bound)と言う．以下で例えば括弧内の$x$は左側の$\forall x$や$\exists x$により束縛されている．ここで$\forall x\qty(\cdots x\cdots)$は$E$の部分論理式である．
+\begin{align*}
+  E&\equiv\cdots\forall x\qty(\cdots x\cdots)\cdots\\
+  F&\equiv\cdots\exists x\qty(\cdots x\cdots)\cdots
+\end{align*}
+束縛されている変数の出現からみて，最も内側にある同じ変数記号の量化子の出現が，その変数の出現を束縛する．つまり束縛されている変数の出現には，一意的にそれを束縛する量化子の出現が対応する．量化子の同じ出現に束縛されている変数は，それらと，対応する量化子の変数記号を組織的に別の変数記号に置き換えても，後でわかるように論理式の意味や証明可能性は変わらない\footnote{但し他に出現している変数名に置き換えて，置き換え後の量化子でその出現を束縛するのはまずい．}．これはプログラムで仮引数や局所変数の名前を変えてもプログラムの動作や意味に変化がないことに相当する．論理式$E$中で，いずれの量化子の出現によっても束縛されない変数$x$が出現している時，その出現を$x$の\red{自由}(free)な出現と呼び，$x$は$E$に自由に出現する，と言う．
+
+例:
+\begin{align*}
+  \up(\uf(\stackrel{1}{\ux},\stackrel{2}{\uy}))\wedge\stackrel{3}{\forall\ux}\;(\uq(\stackrel{4}{\ux},\stackrel{5}{\uy})\to(\stackrel{6}{\exists\ux}\;\ur(\stackrel{7}{\ux},\stackrel{8}{\uy})\vee\up(\stackrel{9}{\ux}))\wedge\up(\stackrel{10}{\ux}))\\
+  \up\qty(\uf\qty(\ux,\uy))\wedge\forall\ux\;\qty(\uq\qty(\ux,\uy)\to\qty(\qty(\exists\ux\qty(\ur\qty(\ux,\uy)\vee\up\qty(\ux)))\wedge\up\qty(\ux)))
+\end{align*}
+まず，上式は各論理演算子等の優先順位により，括弧付きで表すと下のような式である．1は$\ux$の自由な出現であり，2,5,8は$\uy$の自由な出現である．4と10は3に，7と9は6に束縛されている．つまり 4,7,9,10は$\ux$の束縛された出現である．
+
+後でわかるように，3の変数記号と 4, 10をすべて$\uz$に，6の変数記号と7,9をすべて$\underline{x_1}$に置き換えても論理式の意味は変わらない．ただしそれらの一部のみを置き換えたり，$\uz$ではなく$\uy$に置き換えたりするのはだめである．
+
+$\text{FV}\qty(E)\dequal\qty{x\in V\mid x\text{は式}E\text{中に自由に出現する}}$として$\text{FV} : \bPre_L\to 2^V$を定義する．$\text{FV}\qty(E) = \emptyset$の時，$E$は\red{閉}(closed)であると言う．あるいは\red{文}(sentence)とも言う．$\bPre_L^c\subset \bPre_L$を閉論理式全体の集合とする．変数も量化子も出現しない論理式を\red{グラウンド}であると言うことにする．以下，幾つか定義を行う．
+
+\paragraph{閉包}
+$\text{FV}\qty(E) = \qty{x_1, \ldots, x_n}$のとき$\forall x_1, \ldots, x_n\; E$を$E$の\red{全称閉包}(universal closure)，$\exists x_1,\ldots, x_n\; E$を$E$の\red{存在閉包}(existencial closure)と呼ぶ．閉包は両方とも閉論理式となる．
+
+\paragraph{代入}
+論理式$E$中の変数$x$の自由な出現をすべて項$t$で置き換える操作を，変数$x$への$t$の\red{代入}(substitution)と言い，代入の結果を$E\qty[t/z]$と表記する．ただし，$t$に出現する変数達が$E$の量化子によって束縛されてはならない(そのような場合には，$t$に現れる変数記号と衝突する，$E$の量化子の変数記号達と，それに束縛される変数の出現達をまったく新しい(つまり$E$に出現しない)変数記号達に置き換える操作を行ってから代入することになる)．$E\qty[x/x]\equiv E$であり，$x$が$E$に自由に出現しない場合には$E\qty[t/x]\equiv E$であることに注意してほしい．
+\paragraph{置き換え}
+$i$ごとにそれぞれ定数記号あるいは述語記号として$K_L$に$[]_i$，あるいは$P_L$に$[]_i/0$を$i = 1, \ldots, k$まで付け加えて言語$L^\prime$とし，論理式の集合$\bPre_L$を改めて定義し，$\bPre_{L, k}$と記す．また$\bPre_{L,k}$の元を$E[]_k$などと表記し，$E[]_k$の中の記号$[]_i$をすべて$L$の項または論理式$u_i$で置き換えたものを$E\qty[u_1,\ldots, u_k]$と表記することにする．ただし$u_i$は$[]_i$が定数記号であれば項，述語記号であれば論理式でなければならない．$E\qty[u_1,\ldots, u_k]\in\bPre_L$となる．$u_i$が自由変数を含んでいる場合には，それらの変数が代入によって束縛されてはならない($u_i$が項の場合は$u_i$中のすべての変数が自由変数である)．
+
+なお，本稿では記号$[]_i$を導入して論理式の置き換えを以上のように定義し，記法$E\qty[u_1,\ldots,u_k]$を定義したが，直観的な説明で$E\qty[u_1, \ldots, u_k]$を導入してもよいかもしれない．
+
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \setcounter{enumi}{93}
+  \item 以下の言語を$L_{peano}$と表記する．\begin{align*}
+    K_{peano}\dequal\qty{0}&,&F_{peano}\dequal\qty{s/1,+/2,\cdot/2}&,&P_{peano}\dequal\qty{=/2},
+  \end{align*}
+  \begin{enumerate}
+    \item 基礎項の例，基礎項でない項の例をそれぞれ3つ挙げよ．ここで$+,\cdot, =$は演算子として記述する
+    こと．
+    \item 項と使用する記号は同じだが，項とはならない記号列を3つ挙げよ．
+    \item 原子論理式の例を3つ挙げよ．
+    \item $\neg,\wedge,\vee,\to$をそれぞれ一つ以上含んで量化子を含まない，閉論理式の例と自由変数を含む論理式の例をそれぞれ3つ挙げよ．ただし括弧をできる限り省略すること．
+    \item 上の問題の回答の全称閉包を求めよ．
+    \item $\neg,\wedge,\vee,\to,\forall,\exists$をそれぞれ一つ以上含む，閉論理式の例と自由変数を含む論理式の例をそれぞれ3つ挙げよ．ただし括弧をできる限り省略すること．
+    \item 上の問題の回答の存在閉包を求めよ．
+  \end{enumerate}
+  \item $\qty(s\qty(x) = s\qty(y)\to x = y)\qty[s\qty(x)/z]\qty[s\qty(y)/y]$を求めよ．
+  \item $\qty(\qty(\qty[]_1+\qty[]_1)+x=x+\qty[]_2\wedge\qty[]_3)\qty[0, s\qty(0), 1 = 1, \neg 0 = 1]$を求めよ．
+  \item 使用している記号は同じだが，論理式ではない記号列の例を3つ挙げよ．
+\end{enumerate}
+
 \begin{comment}
-■函数記号
-2311
-F: 函数記号(function symbol)の集合． arity: F → N \ {0} が定義され，引数の数を表すと する． 対象言語の函数記号:fi, f2, ... 91, 92, ... h1, h2, ...． 函数記号を表すメタ変数としては f,g,h, fi, fe, .... g1, 92, ..., h1, h2, ... を用いる． F = {f/2,g/1}などと表 記して，arity(f) = 2, arity(g) = 1を表すことに
-する．
-述語記号
-232
-P: 述語記号(predicate symbol) の集合．空でないと する．arity: P → N が定義されているとする． 対象言語の述語記号:p1,p2, ..., 41,42, ..., r1, 72, ...．述 語記号を表すメタ変数として p, g, r, ..., p1,p2, ..., 91, 92, ... を用いる．Fの場合と同 様にしてarity を表すことにする．
-上記3種類の定数・函数・述語記号は，述語記号が空集 合でないという条件が付いている以外，一般には追加 条件はない．述語記号が空集合だと，後で定義する論 理式の集合が空集合となってしまうため，意味がない．
-233
-但し一階述語論理で取り扱える一般の数学の場合，こ れら3種類の記号は通常有限集合とする場合がほとん どである．無限集合の場合も考えるのは，そのように 一般化してもそれほど問題がないことと，理論展開上 必要な場合が出てくるのに備えてのことである．
-■補助記号 (,) などの補助的に用いる記号．
-■一階述語論理の言語
-234
-V, K, F, Pがすべて定まると一階述語論理の構成要素 の記号やそれらの列あるいは木がすべて定まるので， L = (V, K, F, P) で一階述語論理の言語を表すことに する．逆に，LのV, K, F, Pをそれぞれ VL, KL, FL, PL と書いて，言語Lの変数記号，定数記 号，函数記号，述語記号の集合を表すことにする．以 下の項，原子論理式，論理式の集合は，組 Lが定まる と決まるので，それぞれ添え字Lを付けている．
-Phone
-www
-項
-235
-以下のように帰納的に定義される集合TTL の元を項 (term) という． (1) 変数記号と定数記号はTTLの元である． (2) ti, ... twをTTLの元とし, f を arity nの函数記号
-とするとき，f(t1,..,tn) も TTLの元である． S, t, S1, S2, ..., t1, te, ...を項のメタ変数として用いる． 函数記号を四則演算の+や-，・のように演算子として 項を表記する場合がある．演算子の優先順位は，通常 は単項の方が他よりも優先順位が高いとする．
-■原子論理式
-236
-t1,.., thを項とし, pを arity が n の述語記号とすると き，p(t1,..,tn)は原子論理式(atomic formula) の集 合 AALの元である． 原子論理式も，述語記号を演算子として表記する場合
-がある．例えば等号=/2は二項演算子として表記する 場合が多い．
-■量化子
-CE VL のとき，V.cを全称量化子(universal quantifyer)，3.を存在量化子(existential quantifyer)と言い，両者を併せて量化子(quantifyer)
-237
-と呼ぶ．本稿ではxをその量化子の変数記号と言う．
-■論理式 次のように定義される集合Prer の元を論理式 (formula) という．論理式を表すメタ変数としてE, F などを用いる． 1. 原子論理式はPreL の元である． 2. E,F を Pres の元,xを変数記号とするとき,以下
-は論理式である． (a)→E (b) E A F
-238
-(c) EVF (d) E → F
-(e) VxE (f) 3xE FX1 V02....Vinを省略して『201, 22, ..., Onと書く場合が ある．ヨについても同様である．量化子の右側の論理 式に括弧が付けられていない場合，切れ目がわかりに くくなりやすい．そこに若干の空白を入れる，あるい は.を入れるなどして切れ目をわかりやすくしたりす る場合がある ． 原子論理式と，その前に-を一つ付けたものをリテラ
-239
-ル(literal) と呼ぶ．リテラルをVで有限個結んだもの を節(clause) と呼ぶ．これらは命題論理の場合と同じ である． () の使用を減らすため，論理記号の間に優先順位をつ ける．本稿では-, へ, V, → についてはお互いの優先 順位は命題論理の場合(2.1節の最後の部分を参照) と 同じで，量化子，即ちFax, 3の優先順位はA, V と → の間であるとする．即ち本稿では以下の2つの論理式
-240
-は同等である．
-Var p(ac) ^ q(ac) → Jayp(y) V g(y) (Vx(p(x) ^ q(x))) → -ヨy((-p(y)) Vg(y))
-量化子の優先順位をっと同じとする流儀もあるし，→
-が連なった場合に右側の → の式が括弧で囲まれていな くてもそちらが優先される流儀もあるので，注意して ほしい． KL, FL, PL が高々可算無限集合のとき，TTL, PreL は可算無限集合，AAL は高々可算無限集合となる．こ のような言語Lを可算な言語(countable language) と
-241
-いう． 2つの言語 L1, Lがあり，VL1 = VL , KLACKL2， さらにarity を含めて FL C FL2, PL C PL, のとき， L2 を L1の拡張(extension)という．このとき，TTL の元はそのままTTL,の元とみなせるし，PreL」の元 はそのままPreLの元とみなせる．
-なおここでE → F(E → F) ^ ( F → E) として， 同値の記号令を命題論理と同じように略記法として導 入することができる．→の優先順位は → と同じで
-242
-ある．
-以下では,特に別の言語や言語の拡張を考えない場合 には，一つの言語Lを固定し，添え字のLを適宜略す．
-■出現
-論理式あるいは項の中に変数記号や定数記号，函数記 号，述語記号が現れている場合，それらをそれぞれ の出現(occurrence) と呼ぶ．出現と言う場合には，同 じ記号が複数回出現している場合，それぞれを区別す る．本稿では，量化子V2, 32 の変数記号は変数の出 現と言わないことにする．ただし (変数記号をxとす
-wwwwwwwww
-243
-る)量化子の出現ではあるとする． 変数が出現しない項を基礎項(ground term)，あるい はグラウンドな項と言う(分野によってはこういった 項を閉(closed)であるという場合もある)．
-■部分項
-項は以上のように帰納的に定義される．ある項tを帰 納的に作っていく際に途中で出てくる項s，言い換え るとt の一部になっている項sをtの部分項(subterm) と呼ぶ．本稿ではt自身ももの部分項であるとする．
-244
-■部分論理式
-論理式も以上のように帰納的に定義される．ある論理 式Eを帰納的に作っていく際に途中で出てくる論理式 F，言い換えるとEの一部になっているFをEの部分 論理式(subformula) と呼ぶ．本稿ではE自身もEの 部分論理式であるとする．
-■変数の束縛と自由な出現 変数xが量化子∀cまたはヨンの内側に出現している場 合，その出現は束縛されている (bound) と言う．以下
-245
-で例えば括弧内のxは左側の▼xやヨンにより束縛され ている．ここでFac(・・・0...)はEの部分論理式で ある．
-E= F =
-"VE(.C.). ... ヨa(...)..
-束縛されている変数の出現からみて，最も内側にある 同じ変数記号の量化子の出現が，その変数の出現を束 縛する．つまり束縛されている変数の出現には，一意 的にそれを束縛する量化子の出現が対応する．量化子 の同じ出現に束縛されている変数は，それらと，対応
-246
-する量化子の変数記号を組織的に別の変数記号に置き 換えても，後でわかるように論理式の意味や証明可能 性は変わらない*25．これはプログラムで仮引数や局所 変数の名前を変えてもプログラムの動作や意味に変化 がないことに相当する．論理式E中で，いずれの量化 子の出現によっても束縛されない変数 x が出現してい る時，その出現を の自由(free) な出現と呼び，xはE に自由に出現する，と言う．
-*25 但し他に出現している変数名に置き換えて，置き換え
-後の量化子でその出現を束縛するのはまずい．
-247
-ps(i, Ann Vez qt, ) → (r(i, }) vpla) • p("))
-p(f(x, y)) ^ Ta((x, y) → ((3z(z(z, y) V p(z))) ^ p(z))) まず，上式は各論理演算子等の優先順位により，括弧 付きで表すと下のような式である．1はどの自由な出 現であり，2,5,8はyの自由な出現である．4と10は3
-に，7と9は6に束縛されている．つまり 4,7,9,10はx の束縛された出現である．後でわかるように，3の変 数記号と 4, 10をすべて とに，6の変数記号と7,9をす べて に置き換えても論理式の意味は変わらない．た だしそれらの一部のみを置き換えたり，2ではなく，に
-248
-置き換えたりするのはだめである． FV(E) '" {x ∈ V |2cは式E中に自由に出現する}と してFV : PreL → 2' を定義する．FV(E) = 0 の時， Eは閉(closed)であると言う．あるいは文(sentence) とも言う．Pret C PreLを閉論理式全体の集合とす る．変数も量化子も出現しない論理式をグラウンドで あると言うことにする．以下，幾つか定義を行う．
-249
-■閉包 FV(E) = {21, ..., Xn}OZ & VX1, ..., Un E & E D FH2 (universal closure). 3x1, ..., Un E & E
-の存在閉包 (existencial closure) と呼ぶ．閉包は両方 とも閉論理式となる．
-■代入 論理式E中の変数 x の自由な出現をすべて項tで置き 換える操作を，変数 x への t の代入 (substitution) と言 い，代入の結果をE[t/z] と表記する．ただし，tに出
-250
-現する変数達がEの量化子によって束縛されてはなら ない(そのような場合には，tに現れる変数記号と衝突 する，Eの量化子の変数記号達と，それに束縛される 変数の出現達をまったく新しい(つまりEに出現しな い)変数記号達に置き換える操作を行ってから代入す ることになる)．E[ac/ac] = E であり，xがEに自由に 出現しない場合にはE[t/a] = Eであることに注意し てほしい．
-■置き換え
-251
-iごとにそれぞれ定数記号あるいは述語記号として KL に [，あるいはPL に [12/0を i = 1, ...., kまで付け加え て言語 L'とし，論理式の集合PreLを改めて定義し， Preu, k と記す．またPreL,k の元を E[] などと表記 し，E[]の中の記号 1: をすべてLの項または論理式u で置き換えたものを E[u1, ..., uk] と表記することにす る．ただし は liが定数記号であれば項，述語記号で あれば論理式でなければならない． E[u1, ..., uk] PreL となる． u, が自由変数を含んで いる場合には，それらの変数が代入によって束縛され てはならない (ui が項の場合は ur 中のすべての変数が
-252
-eeeeee
-自由変数である)． なお，本稿では記号 [] を導入して論理式の置き換えを 以上のように定義し，記法 E[u1, ., UK] を定義したが， 直観的な説明でE[u1, ..., ux]を導入してもよいかもし
-れない．
-1.12.0
-演習問題 94. 以下の言語を Lpeanoと表記する．
-Kpeanslat {0}, Fpeans {s/1, 4/2, -/2}, Ppeano {=/2},
-253
-1. 基礎項の例，基礎項でない項の例をそれぞれ3つ
-挙げよ．ここで+, ., =は演算子として記述する
-こと． 2. 項と使用する記号は同じだが，項とはならない記
-号列を3つ挙げよ． 3. 原子論理式の例を3つ挙げよ． 4. , A,V,→ をそれぞれ一つ以上含んで量化子を含
-まない，閉論理式の例と自由変数を含む論理式の 例をそれぞれ3つ挙げよ．ただし括弧をできる限
-り省略すること． 5. 上の問題の回答の全称閉包を求めよ．
-254
-MARCONeeeeeeeed.
-6. T, へ, V, →, V, 3をそれぞれ一つ以上含む，閉論理
-式の例と自由変数を含む論理式の例をそれぞれ3 つ挙げよ．ただし括弧をできる限り省略する
-こと． 7. 上の問題の回答の存在閉包を求めよ． 95. (s(x) = s(y) → c = y)[s(c)/z][s(y)/y] を求
-めよ． 96.
-(([]+ []1)+2 = 7+ []2^[])[0, s(0), 1 = 1, -0 = 1]
-を求めよ． 97. 使用している記号は同じだが，論理式ではない記
-255
-号列の例を3つ挙げよ．
-五口
-W0
 3.2 一階述語論理の意味論
 一般に形式的体系の言語に対し，それが何を意味する かを別の数学的対象を使って表すことを意味論 (semantics)と呼ぶ．一階述語論理の言語Lに対して は，それの意味を集合論を使って表すことが行われて きた．これを Tarski意味論と呼ぶ．他には例えば圏論 (catogory theory)を使った意味論もある．この意味 論で論理を研究する分野を圏論理(categorical logic)
 256

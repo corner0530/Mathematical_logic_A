@@ -1744,7 +1744,7 @@ $P$: \red{述語記号}(predicate symbol) の集合．空でないとする．ar
 (,) などの補助的に用いる記号．
 
 \paragraph{一階述語論理の言語}
-$V, K, F, P$がすべて定まると一階述語論理の構成要素の記号やそれらの列あるいは木がすべて定まるので，$L =\langle V, K, F, P\rangle$で一階述語論理の言語を表すことにする．逆に，$L$の$V, K, F, P$をそれぞれ$V_L, K_L, F_L, P_L$と書いて，言語$L$の変数記号，定数記号，函数記号，述語記号の集合を表すことにする．以下の項，原子論理式，論理式の集合は，組$L$が定まると決まるので，それぞれ添え字$L$を付けている．
+$V, K, F, P$がすべて定まると一階述語論理の構成要素の記号やそれらの列あるいは木がすべて定まるので，$L =\left\langle V, K, F, P\right\rangle$で一階述語論理の言語を表すことにする．逆に，$L$の$V, K, F, P$をそれぞれ$V_L, K_L, F_L, P_L$と書いて，言語$L$の変数記号，定数記号，函数記号，述語記号の集合を表すことにする．以下の項，原子論理式，論理式の集合は，組$L$が定まると決まるので，それぞれ添え字$L$を付けている．
 \paragraph{項}
 以下のように帰納的に定義される集合$TT_L$の元を\red{項}(term)という．
 \begin{enumerate}
@@ -1855,146 +1855,191 @@ $i$ごとにそれぞれ定数記号あるいは述語記号として$K_L$に$[]
   \item 使用している記号は同じだが，論理式ではない記号列の例を3つ挙げよ．
 \end{enumerate}
 
-\begin{comment}
-3.2 一階述語論理の意味論
-一般に形式的体系の言語に対し，それが何を意味する かを別の数学的対象を使って表すことを意味論 (semantics)と呼ぶ．一階述語論理の言語Lに対して は，それの意味を集合論を使って表すことが行われて きた．これを Tarski意味論と呼ぶ．他には例えば圏論 (catogory theory)を使った意味論もある．この意味 論で論理を研究する分野を圏論理(categorical logic)
-256
-と呼ぶ． ここから一階述語論理の Tarski方式の意味論に入る．
-3.2.1 L構造
-一階述語論理の言語Lに対し，以下のようなDとIの 対〈D,IのことをL構造(L-structure) と呼ぶ(単に構 造と呼ぶ文献もある)．Dは変数や函数の値の取り得 る集合であり，Iは定数記号，変数記号，述語記号の意 味を定めるものである． ・Dは空でない集合で，Dのことを対象領域
-TELLE
-257
-(domain) という． ・IはKL UFLU PL からの函数で，次を満たすもの
+\subsection{一階述語論理の意味論}
+一般に形式的体系の言語に対し，それが何を意味するかを別の数学的対象を使って表すことを\red{意味論}z(semantics)と呼ぶ．一階述語論理の言語$L$に対しては，それの意味を集合論を使って表すことが行われてきた．これをTarski意味論と呼ぶ．他には例えば\red{圏論}(catogory theory)を使った意味論もある．この意味論で論理を研究する分野を\red{圏論理}(categorical logic)と呼ぶ．ここから一階述語論理の Tarski方式の意味論に入る．
+\subsubsection{L構造}
+一階述語論理の言語$L$に対し，以下のような$D$と$I$の対$\left\langle D,I\right\rangle$のことを$L$構造($L$-structure)と呼ぶ(単に構造と呼ぶ文献もある)．$D$は変数や函数の値の取り得る集合であり，$I$は定数記号，変数記号，述語記号の意味を定めるものである．
+\begin{itemize}
+  \item $D$は\textbf{空でない集合}で，$D$のことを\red{対象領域}(domain)という．
+  \item $I$は$K_L\cup F_L\cup P_L$からの函数で，次を満たすものである．\begin{align*}
+    I\qty(c)&\in D,\\
+    I\qty(f)&\in D^{arity\qty(f)}\to D,\\
+    I\qty(p)&\in D^{arity\qty(P)}\to \bTV.
+  \end{align*}
+\end{itemize}
+$I\qty(c)$は具体的な$D$の値であり，$I\qty(f)$は$D$上の$\text{arity}\qty(f)$引数の函数，$I\qty(p)$ は$D$上の$\text{arity}\qty(p)$引数の特性函数である．$I$のことを\red{解釈}(interpretaton)と呼ぶ．ここでは$I\qty(p)$を特性函数として与えたが，$I\qty(p)\subseteq D^{\text{arity}\qty(p)}$として与えても同等である．
+
+$D$を空ではないとするのが標準的な方法だが，空の場合も許す方式もある．ただしその場合には後述する恒性や形式的体系が変化することになる．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \setcounter{enumi}{97}
+  \item 言語$L_{peano}$に対し$L_{peano}$構造を少なくとも2種類与えよ．
+\end{enumerate}
+
+\subsubsection{付値}
+本稿では論理式の意味を与えるのに，付値を用いる方法を採用する．これを用いない方法も何種類かあり，文献によって異なる．後述の注意参照．
+
+$V_L$から$D$への函数を\red{付値}(valuation) と呼ぶ．付値は変数の値を与える．束縛された変数の値を定めて量化子の意味を与える道具でもある．$I$が与えられているとき$\nu$を付値とすると，$\nu$を$TT_L$に拡張することができる．これは命題論理の場合に，命題変数のみに対して付値を定義すれば任意の命題論理式に対して真理値を与えるように拡張できたことと類似している．即ち，$t\in TT_L$に対し，$\nu_I:TT_L\to D$を以下のように帰納的に定義する．
+\begin{enumerate}
+  \item $\nu_I\qty(x)\dequal\nu\qty(x)$,
+  \item $\nu_I\qty(c)\dequal I\qty(c)$,
+  \item $\nu_I\qty(f\qty(t_1,\ldots,t_n))\dequal I\qty(f)\qty(\nu_I\qty(t_1),\ldots,\nu_I\qty(t_n))$
+\end{enumerate}
+$\nu_I\qty(x) = \nu\qty(x)$が成り立つので，文脈から$I$が何であるか決まっていて区別する必要がなければ$\nu_I$を$\nu$と書くこともある．
+
+一階述語論理の場合の対象言語の変数に対する付値が，命題変数に対する付値と類似した面があると書いたが，役割としてはむしろ解釈$I$の方が命題論理の場合の付値に近いので注意してほしい．実際，引数のない述語を$n$個用意してそれら原子論理式からできる量化子のない論理式を考えると，出現している述語記号をそれぞれ異なる命題変数記号に置き換えることで，命題論理の論理式を得る．この場合，命題変数に対する付値に対応するのは(後述の)$I\qty(p)$である．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \setcounter{enumi}{98}
+  \item 言語$L_{peano}$の場合に対象領域$D$と解釈$I$，2つの異なる付値$\nu_1, \nu_2$を具体的に与えてみよ．
+  \item $\nu_1\qty(t_1)\neq\nu_2\qty(t_1)$，$\nu_1\qty(t_2) = \nu_2\qty(t2)$となる項$t_1, t_2$を与え，$\nu_1\qty(t_1)$と$\nu_1\qty(t_2)$，$\nu_2\qty(t_1)$を求めよ．ただし項にはそれぞれ1つ以上の函数記号を含めること．
+\end{enumerate}
+
+\subsubsection{論理式の真理値}
+$L$構造$\left\langle D, I\right\rangle$と$\nu:V_L\to D$が与えられると，$L$の原子論理式，ひいては論理式の真理値を以下のように定めることができる．ただしここで$\left\langle D,I\right\rangle,\nu$を与えた場合に論理式$E$の真偽値が$\bT$であることを$\left\langle D,I\right\rangle,\nu\models E$，そうでない場合，即ち$\bF$である場合を$\left\langle D,I\right\rangle,\nu\not\models E$と書いている．二値論理なので$\left\langle D,I\right\rangle,\nu\models E$か$\left\langle D,I\right\rangle,\nu\not\models E$どちらか一方が成り立つことに注意してほしい．
+\begin{enumerate}
+  \item $\left\langle D,I\right\rangle,\nu\models p\qty(t_1,\ldots,t_n)$ iff $I\qty(p)\qty(\nu\qty(t_1),\ldots,\nu\qty(t_n))=\bT$,
+  \item $\left\langle D,I\right\rangle,\nu\models\neg E$ iff $\left\langle D,I\right\rangle,\nu\not\models E$.
+  \item $\left\langle D,I\right\rangle,\nu\models E\wedge F$ iff $\left\langle D,I\right\rangle,\nu\models E$ かつ $\left\langle D,I\right\rangle,\nu\models F$,
+  \item $\left\langle D,I\right\rangle,\nu\models E\vee F$ iff $\left\langle D,I\right\rangle,\nu\models E$ または $\left\langle D,I\right\rangle,\nu\models F$,
+  \item $\left\langle D,I\right\rangle,\nu\models E\to F$ iff $\left\langle D,I\right\rangle,\nu\not\models E$ または $\left\langle D,I\right\rangle,\nu\models F$,
+  \item $\left\langle D,I\right\rangle,\nu\models\forall x\;E$ iff すべての$d\in D$により$\left\langle D,I\right\rangle,\nu\qty[d/x]\models E$,
+  \item $\left\langle D,I\right\rangle,\nu\models\exists x\;E$ iff ある$d\in D$により$\left\langle D,I\right\rangle,\nu\qty[d/x]\models E$.
+\end{enumerate}
+\[\nu\qty[d/x]\qty(y)\dequal\begin{cases}
+  d&\qty(y\equiv x)\\
+  \nu\qty(y)&\qty(y\not\equiv x)
+\end{cases}\]
 である．
-I(c) ED, I(f) Derity(f) → D, I(p) < Derity(P) → TV.
-I(c) は具体的なDの値であり，I(f) は D上のarity(f) 引数の函数，I(p) は D上のarity(p) 引数の特性函数で ある．Iのことを解釈 (interpretaton) と呼ぶ．ここで
-258
-はI(p)を特性函数として与えたが，I(p) C Darity(p) として与えても同等である． Dを空ではないとするのが標準的な方法だが，空の場 合も許す方式もある．ただしその場合には後述する恒 真性や形式的体系が変化することになる．
-演習問題
-98. 言語 Lpeanoに対し Lpeano構造を少なくとも2種
-類与えよ．
-1.19
-3.2.2 付値
-259
-e-momeogree
-本稿では論理式の意味を与えるのに，付値を用いる方 法を採用する．これを用いない方法も何種類かあり， 文献によって異なる．後述の注意参照．
-VLからDへの回数を付値(valuation) と呼ぶ．付値は 変数の値を与える．束縛された変数の値を定めて量化 子の意味を与える道具でもある．Iが与えられている ときを付値とすると，レをTTLに拡張することがで きる．これは命題論理の場合に，命題変数のみに対し て付値を定義すれば任意の命題論理式に対して真理値 を与えるように拡張できたことと類似している．即 ち，tETTLに対し，VI:TTL → Dを以下のように
-260
-帰納的に定義する． 1. Vi (c) "" v(z), 2. VI(c) 1(C), 3. Vi(f(t1,.... tr)) - I(f)(vi(t1), ..., Vi(tm))
-Vi(c) = v(a)が成り立つので，文脈からIが何である か決まっていて区別する必要がなければ」をvと書く こともある． 一階述語論理の場合の対象言語の変数に対する付値 が，命題変数に対する付値と類似した面があると書い たが，役割としてはむしろ解釈 I の方が命題論理の場
-261
-合の付値に近いので注意してほしい．実際，引数のな い述語をn個用意してそれら原子論理式からできる量 化子のない論理式を考えると，出現している述語記号 をそれぞれ異なる命題変数記号に置き換えることで， 命題論理の論理式を得る．この場合，命題変数に対す る付値に対応するのは(後述の)I(p)である．
-演習問題
-99. 言語 Lpeanoの場合に対象領域 D と解釈I，2つの
-異なる付値V1, V2 を具体的に与えてみよ． 100. V1(t1) = va(t1)，V1(t2) = V2(t2) となる項
-262
-t1, tz を与え，VA(t1) と vi(tp)，V2(t1)を求めよ．た だし項にはそれぞれ1つ以上の函数記号を含める こと．
-3.2.3 論理式の真理値
-L構造(D, I〉 と :VL → Dが与えられると，Lの原 子論理式，ひいては論理式の真理値を以下のように定 めることができる．ただしここで〈D,I),vを与えた場 合に論理式Eの真偽値がTであることを 〈D,I), D E E，そうでない場合，即ちFである場合を
-263
-t1, t2 を与え，VA(t1) と un (tp)，Vクt1)を求めよ．た
-だし項にはそれぞれ1つ以上の函数記号を含める こと．
-3.2.3 論理式の真理値
-L構造〈D, I〉 と v : VL → Dが与えられると，Lの原 子論理式，ひいては論理式の真理値を以下のように定
-めることができる．ただしここで〈D,I),vを与えた場 合に論理式Eの真偽値がTであることを 〈D,I), v = E，そうでない場合，即ちFである場合を
-263
-t1, t2 を与え，V1(t1) と vi(tp)，V2(t1)を求めよ．た だし項にはそれぞれ1つ以上の函数記号を含める
-こと．
-3.2.3 論理式の真理値
-L構造〈D, I〉 とv:VL → Dが与えられると，Lの原 子論理式，ひいては論理式の真理値を以下のように定 めることができる．ただしここで〈D, I),vを与えた場 合に論理式Eの真偽値がTであることを 〈D,I), E，そうでない場合，即ちFである場合を
-263
-〈D,I), v = E と書いている．二値論理なので 〈D,I), E か D,I), v = E どちらか一方が成り立
-つことに注意してほしい． 1. 〈D,I), v = p(th, ...,tn) iff * I(p)(v(t1), ...,V(tm)) = T,
-2.〈D,I),v -Eiff <D,I), E, 3. 《D, I〉, vEX Fiff 〈D, I〉, E かつ
-《D,I),v F, 4. (D, I), v = EV F iff (D, I), v = E 7018
-D,I), F, 5. 《D,I), v = E → Fiff 〈D, I〉, E または
-264
-(D, 1), v EF, 6. (D,I), v E VxE iff Fm Tode DIII b
-(D,I), v[d/x] = E, 7. (D,1),v + 3x E iff $3 de Dikb
-  (D, I), v[d/x] = E.
-  ld
-  (y = x) 6 to be
-  v[d/x](y) det {.
-  |(y)
-  (y + x)
-  265
-  本稿では，対象領域 D, 解釈 I, 変数への付値により 自由変数が現れているかもしれない論理式Eの真偽値 を定める方式を取っている．即ち，自由変数の意味を ルにより定めている．この方法，あるいはレの代わり にDの無限列を用いる同等な方法はある程度使われて いる．しかし例えばChang and LeeによるSymbolic Logic and Mechanical Theorem Proving Culinis れている真偽値の定め方は本稿で使われている方法と 異なる．その他の注意事項としては，対象領域 Dが空 集合ではないという条件を強調しておく．
-  266
-  人
-  27日日日
-  演習問題
-  101. 言語 Lpeanoの場合に，前節の演習問題で答えた 対象領域Dと付値11, V2について，〈D,I),v1 — E かつ〈D, I), v2 Eとなる論理式Eを与えてみよ． ただしEは論理演算子と量化子をそれぞれ2つ以上 含むこと．
-  3.2.4 充足
-  言語Lの論理式Eに対し，L構造 〈D, I〉 と付値によ
-  り 〈D,I),v> Eとなるとき，〈D,I),vは Eを充足する
-  267
-  (satisfy) と言う．ある〈D,I),vが存在してEを充足す るとき，Eは充足可能 (satisfiable) と言う．そうでな いとき，充足不能(unsatisfiable) と言う．Eが充足可 能であることを本稿ではメタレベルで記号的に 3D, I〉, ヨvEと記すことにする(上という記号が 入っているので対象言語と混同する可能性が低い)． 言語Lの論理式の集合GC PreLとL構造 〈D, I〉 と付 値ルがあって，任意のEEGに対し，〈D,I),E であるとする．このとき，〈D,I),vはGを充足すると いい，《D,I),G と書く (注意: シーケントの上の 右側は直観的にはORで結ばれた意味となるが，集合
-  268
-  であるGの場合には AND で結ばれた意味となるので 誤解の原因になるかもしれない)．
-  補題 19. 任意のcE FV(E)に対しv(x) = '' (x)の 時，〈D,I), v = Eiff <D, I〉, ' FEである．特にE が閉論理式の時，任意の , V に対し 〈D, I), v Eiff 〈D, I,V' Eである．
-  つまり，ルは論理式Eの自由変数の意味を定めるので， Eに自由変数がなければルに関わらず真偽値が定まる ということである． なお，命題論理の場合には論理式が充足可能かどうか
-  269
-  は決定可能だったが，述語論理の場合には決定可能で はない(Church の定理)が，本稿では触れない．ただ し充足不能であることは半決定可能である．
-  演習問題
-  102. 補題19を証明せよ． 103. Eが充足可能であることと，Eの存在閉包が充
-  足可能であることが同値であることを示せ．
-  270
-  3.2.5 モデルと恒真式
-  #い出
-  言語Lの論理式EとL構造 〈D, I〉に対し，すべての付 値ルについて 〈D, I〉, E E となるとき，〈D, I〉 は E のモデル (model)であると言い，〈D,I) Eと書く． すべてのL構造 〈D, I〉がEのモデルであるとき，E は恒真(valid) あるいは妥当であると言い，FEと書 く．以下では手でないとき，手と書くことにする．逆 にどのようなL構造と付値によっても常にFとなる論 理式を恒偽式と言う． GC PreL とする．任意のEEGに対し 〈D, I〉 E
-  271
-  であるとき，《D, I〉はGのモデルであると言い， <D,I> G と書く． Dが高々可算無限集合であるようなモデル 〈D, I〉を可 算モデル(countable model) という．
-  補題 20. E E PreL とすると以下が成り立つ． 1. Eiff -E が充足不能 2. = Eiff E DIEETE 3. Eiff -Eが充足可能 4. -Eiff E が充足可能
-  証明: それぞれの定義から直ちに導かれる．
-  272
-  これにより，Eが恒真式であるかどうかを見るには， →Eが充足不能かどうかを調べればよいことがわかる． また，Eが充足可能なことを記号的にヨ(D,I)ヨv = E の代わりにキ Eと書くことにしても自然なことがわ かる．
-  補題 21 (F1). EE PreL とし，E'をEの全称閉包と すると，FEとE'は同値である．また，E”をE の存在閉包とすると, 3D,I)Eと 3〈D, I〉Eは同値である．
-  証明: 上の定義から直ちに出る．
-  273
-  補題 22. EE Pref の時， (D, I) E E iff to Bulidu (D, I), v E E iff 任意のルにより〈D,I), VEEである．
-  証明: 上の定義から直ちに出る．
-  演習問題
-  104. 補題20から22 の証明を詳しく書け．
-  274
-  3.2.6 恒真式の例
-  見方を変えれば以下の論理式でトップレベルが今に なっているものは，後述する論理的に同値な論理式の 例も与えている． 1. 命題論理のトートロジーの各命題変数を，述語論理 この論理式で置き換えてできる論理式
-  2. VrE → E 3. 3xE → E 4. VuE → VyE[y/2z] 5. BuE → ByE[y/ze]
-  275
-  6. E A VxF H Vx E AF 7. E^3x F H 3x E AF 8. EV VXF 4 Vx EV F 9. Ev 3xF H 3x EVF 10. (E → VxF) # Vx(E → F) 11. (E + 3xF) H 3x(E + F) 12. (VxF + E) + 3x(F + E) 13. (ExF + E) # Vx(F + E) 14. 7VxE 4+ 3x-E 15. -3x E H Vx-E 16. Vc, đE + Vg, cE
-  276
-  17. 3x,yE → By, cE 18. VI EAF ←→ (VxE) / VcF 19. 3x EVF H (ExE) V 3xF 20. 3x(E → F) → (VarE → 3cF) 21. Exty E + Vyš. E 22. Vz(E → F) → (VcE → VxF) 23. va(E → F) →(JxE → 3xF)
-  2, 3, 6~13については Eにはxが自由に出現しないこ と．4,5については，yは新しい変数であることが条 件となる．1の形の論理式をトートロジーと呼ぶこと
-  にする．2以下はトートロジーではない恒真式である．
-  277
-  演習問題 言語 Lpeanoを今回も使用する．
-  105. 上記リスト中の3つ以上の項目についてスキー
-  マでなく具体的な恒真式を挙げよ． 106. 上記リスト中の各項目についてそれが恒真であ
-  ることを証明せよ 107. リストの後に書いてある条件を満たなさい場
-  合，恒真にならない例をそれぞれの項目について挙
-  げ，条件が必要であることを示せ．
-  278
-  3.2.7 論理的帰結
-  一階述語論理の場合にも命題論理の場合と同じように 論理的帰結を定義できる．
-  定義 論理的帰結 一階述語論理の言語をLとし， EE Preu,G C PreLとする．すべてのL構造 <D,I),vに対し，どのFEGに対しても 〈D,I), v = Fであるとすると，《D,I), v = Eである とき，EをGの論理的帰結 (logical consequence)と言 い，GEEあるいはEG Eと書く．
-  279
-  上記の論理的帰結は意味論的帰結とも言う．GLEで GEEでないことを表す．また，特にGが有限集合 のときにはGを論理式の列として記すこともできる． 列を表すメタ変数としてはやはりT,A等を用いること にする．特にEがG = 0(空集合)，Tで言えば空列の 論理的帰結であることと，Eが恒真であることは同値 となる．
-  補題 23. Tが空列以外の時，TE Eiff → Eで ある．
-  ここではTの各論理式をへで結んだ論理式である．
-  280
-  Tが一つの論理式から成る時に制限すると，上は
-  PreL 上の二項関係となる．
-  補題 24. 二項関係上は前半順序である．即ち反射律 と推移律を満たす．
-  二項関係上の右側に来る方が大きいと見ると，すべて の恒真式が最大元であり，すべての恒偽式が最小元で ある．次の論理的同値目は前半順序上から定義され る同値関係であり，月で同値類を作ると -, へ, V が well-defined となり，これらの演算によりPreL/月 はブール代数となる．
-  281
-  ■論理的同値
-  E,FE Prer の充足性が等しいとき，即ちすべてのL 構造〈D, I〉 と付値に対し 〈D, I〉, Eと 《D, I), F が同値であるとき，EとFは論理的同 値 (logically equivalent)，あるいは意味論的同値であ ると言う．ここではEFFと表記することにする．
-  補題 25. E Fiff (E F かつ FE E) iff (FE + FD2 EF + E) iff E EHF
-  つまり先の恒真式で E → F の形のものは，EU Fと
-  282
-  読み替えることができる．
-  補題 26. 日はPreL上の同値関係である．即ち反射 律，対称律，推移律を満たす．
-  演習問題 108. 補題 23から26を証明せよ．
-  283
+
+\paragraph{注意:}
+本稿では，対象領域$D$, 解釈$I$, 変数への付値$\nu$により自由変数が現れているかもしれない論理式$E$の真偽値を定める方式を取っている．即ち，自由変数の意味を$\nu$により定めている．この方法，あるいは$\nu$の代わりに$D$の無限列を用いる同等な方法はある程度使われている．しかし例えばChang and LeeによるSymbolic Logic and Mechanical Theorem Proving Culinis で述べられている真偽値の定め方は本稿で使われている方法と異なる．その他の注意事項としては，対象領域$D$が空集合ではないという条件を強調しておく．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \setcounter{enumi}{100}
+  \item 言語$L_{peano}$の場合に，前節の演習問題で答えた対象領域$D$と付値$\nu_1,\nu_2$について，$\left\langle D,I\right\rangle,\nu_1\models E$かつ$\left\langle D, I\right\rangle,\nu_2\models E$となる論理式$E$を与えてみよ．ただし$E$は論理演算子と量化子をそれぞれ2つ以上含むこと．
+\end{enumerate}
+
+\subsubsection{充足}
+言語$L$の論理式$E$に対し，$L$構造$\left\langle D, I\right\rangle$と付値$\nu$により$\left\langle D,I\right\rangle,\nu\models E$となるとき，$\left\langle D,I\right\rangle,\nu$は$E$を\red{充足する}(satisfy) と言う．ある$\left\langle D,I\right\rangle,\nu$が存在して$E$を充足するとき，Eは\red{充足可能}(satisfiable)と言う．そうでないとき，\red{充足不能}(unsatisfiable)と言う．Eが充足可能であることを本稿ではメタレベルで記号的に$\exists\left\langle D,I\right\rangle\exists\nu\models E$と記すことにする($\models$という記号が入っているので対象言語と混同する可能性が低い)．
+
+言語$L$の論理式の集合$G\subseteq\bPre_L$と$L$構造$\left\langle D, I\right\rangle$と付値$\nu$があって，任意の$E\in G$に対し，$\left\langle D,I\right\rangle,\nu\models E$であるとする．このとき，$\left\langle D,I\right\rangle,\nu$は$G$を充足するといい，$\left\langle D,I\right\rangle,\nu\models G$と書く(注意:シーケントの$\vdash$の右側は直観的にはORで結ばれた意味となるが，集合である$G$の場合にはANDで結ばれた意味となるので 誤解の原因になるかもしれない)．
+\begin{lem}
+  任意の$x\in FV\qty(E)$に対し$\nu\qty(x) = \nu^\prime\qty(x)$の時，$\left\langle D,I\right\rangle,\nu\models E$ iff $\left\langle D,I\right\rangle,\nu^\prime\models E$である．特に$E$が閉論理式の時，任意の$\nu,\nu^\prime$に対し$\left\langle D,I\right\rangle,\nu\models E$ iff $\left\langle D,I\right\rangle,\nu^\prime\models E$である．
+\end{lem}
+つまり，$\nu$は論理式$E$の自由変数の意味を定めるので，$E$に自由変数がなければ$\nu$に関わらず真偽値が定まるということである．
+
+なお，命題論理の場合には論理式が充足可能かどうかは決定可能だったが，述語論理の場合には決定可能ではない(Churchの定理)が，本稿では触れない．ただし充足不能であることは半決定可能である．
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \setcounter{enumi}{101}
+  \item 補題39を証明せよ．
+  \item $E$が充足可能であることと，$E$の存在閉包が充足可能であることが同値であることを示せ．
+\end{enumerate}
+
+\subsubsection{モデルと恒真式}
+言語$L$の論理式$E$と$L$構造$\left\langle D, I\right\rangle$に対し，すべての付値$\nu$について$\left\langle D,I\right\rangle,\nu\models E$となるとき，$\left\langle D,I\right\rangle$は$E$の\red{モデル}(model)であると言い，$\left\langle D,I\right\rangle\models E$と書く．すべての$L$構造 $\left\langle D,I\right\rangle$が$E$のモデルであるとき，$E$は\red{恒真}(valid)あるいは妥当であると言い，$\models E$と書く．以下では$\models$でないとき，$\not\models$と書くことにする．逆にどのような$L$構造と付値によっても常に$\bF$となる論理式を恒偽式と言う．
+
+$G\subseteq\bPre_L$とする．任意の$E\in G$に対し$\left\langle D,I\right\rangle,\nu\models E$であるとき，$\left\langle D,I\right\rangle$は$G$のモデルであると言い，$\left\langle D,I\right\rangle\models G$と書く．
+
+$D$が高々可算無限集合であるようなモデル$\left\langle D,I\right\rangle$\red{可算モデル}(countable model) という．
+\begin{lem}
+  $E\in\bPre_L$とすると以下が成り立つ．
+  \begin{enumerate}
+    \item $\models E$ iff $\neg E$が充足不能
+    \item $\models \neg E$ iff $E$が充足不能
+    \item $\not\models E$ iff $\neg E$が充足可能
+    \item $\not\models \neg E$ iff $E$が充足可能
+  \end{enumerate}
+\end{lem}
+\begin{proof}
+  それぞれの定義から直ちに導かれる．
+\end{proof}
+これにより，$E$が恒真式であるかどうかを見るには，$\neg E$が充足不能かどうかを調べればよいことがわかる．また，$E$が充足可能なことを記号的に$\exists\left\langle D,I\right\rangle\exists\nu\models E$の代わりに$\not\models\neg E$と書くことにしても自然なことがわかる．
+\begin{lem}
+  $E\in\bPre_L$とし，$E^\prime$を$E$の全称閉包とすると，$\models E$と$\models E^\prime$は同値である．また，$E^{\prime\prime}$を$E$の存在閉包とすると,$\exists\left\langle D,I\right\rangle\exists\nu\models E$と$\exists\left\langle D,I\right\rangle\exists\nu\models E^{\prime\prime}$は同値である．
+\end{lem}
+\begin{proof}
+  上の定義から直ちに出る．
+\end{proof}
+\begin{lem}
+  $E\in\bPre_L^c$の時，$\left\langle D,I\right\rangle\models E$ iff ある$\nu$により$\left\langle D,I\right\rangle,\nu\models E$ iff 任意の$\nu$により$\left\langle D,I\right\rangle,\nu\models E$である．
+\end{lem}
+\begin{proof}
+  $\models$の定義から直ちに出る．
+\end{proof}
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \item 補題40から42の証明を詳しく書け．
+\end{enumerate}
+
+\subsubsection{恒真式の例}
+見方を変えれば以下の論理式でトップレベルが$\leftrightarrow$になっているものは，後述する論理的に同値な論理式の例も与えている．
+\begin{enumerate}
+  \item 命題論理のトートロジーの各命題変数を，述語論理の論理式で置き換えてできる論理式
+  \item $\forall x\;E\leftrightarrow E$
+  \item $\exists x\;E\leftrightarrow E$
+  \item $\forall x\;E\leftrightarrow\forall y\;E\qty[y/x]$
+  \item $\exists x\;E\leftrightarrow\exists y\;E\qty[y/x]$
+  \item $E\wedge\forall x\;F\leftrightarrow\forall x\;E\wedge F$
+  \item $E\wedge\exists x\;F\leftrightarrow\exists x\;E\wedge F$
+  \item $E\vee\forall x\;F\leftrightarrow\forall x\;E\vee F$
+  \item $E\vee\exists x\;F\leftrightarrow\exists x\;E\vee F$
+  \item $\qty(E\to\forall x\;F)\leftrightarrow\forall x\;\qty(E\to F)$
+  \item $\qty(E\to\exists x\;F)\leftrightarrow\exists x\;\qty(E\to F)$
+  \item $\qty(\forall x\;F\to E)\leftrightarrow\exists x\;\qty(F\to E)$
+  \item $\qty(\exists x\;F\to E)\leftrightarrow\forall x\;\qty(F\to E)$
+  \item $\neg\forall x\;E\leftrightarrow\exists x\neg E$
+  \item $\neg\exists x\;E\leftrightarrow\forall x\neg E$
+  \item $\forall x\;yE\leftrightarrow\forall y,xE$
+  \item $\exists x\;yE\leftrightarrow\exists y,xE$
+  \item $\forall x\;E\wedge F\leftrightarrow\qty(\forall x\;E)\wedge\forall x\;F$
+  \item $\exists x\;E\vee F\leftrightarrow\qty(\exists x\;E)\vee\exists x\;F$
+  \item $\exists x\qty(E\to F)\leftrightarrow\qty(\forall x\;E\to\exists x\;F)$
+  \item $\exists x\forall y\;E\to\forall y\exists x\;E$
+  \item $\forall x\qty(E\to F)\to\qty(\forall x\;E\to\forall x\;F)$
+  \item $\forall x\qty(E\to F)\to\qty(\exists x\;E\to\exists x\;F)$
+\end{enumerate}
+2, 3, 6$\sim$13については$E$には$x$が自由に出現しないこと．4,5については，$y$は新しい変数であることが条件となる．1の形の論理式をトートロジーと呼ぶことにする．2以下はトートロジーではない恒真式である．
+\subsubsection*{演習問題}
+言語$L_{peano}$を今回も使用する．
+\begin{enumerate}
+  \setcounter{enumi}{104}
+  \item 上記リスト中の3つ以上の項目についてスキーマでなく具体的な恒真式を挙げよ．
+  \item 上記リスト中の各項目についてそれが恒真であることを証明せよ
+  \item リストの後に書いてある条件を満たなさい場合，恒真にならない例をそれぞれの項目について挙げ，条件が必要であることを示せ．
+\end{enumerate}
+
+\subsubsection{論理的帰結}
+一階述語論理の場合にも命題論理の場合と同じように 論理的帰結を定義できる．
+\begin{dfn*}[論理的帰結]
+  一階述語論理の言語を$L$とし，$E\in\bPre_L,G\subseteq\bPre_L$とする．すべての$L$構造$\left\langle D,I\right\rangle,\nu$に対し，どの$F\in G$に対しても$\left\langle D,I\right\rangle,\nu\models F$であるとすると，$\left\langle D,I\right\rangle,\nu\models E$であるとき，$E$を$G$の論理的帰結(logical consequence)と言い，$G\models E$あるいは$\models_G E$と書く．
+\end{dfn*}
+上記の論理的帰結は意味論的帰結とも言う．$G\not\models E$で$G\models E$でないことを表す．また，特に$G$が有限集合のときには$G$を論理式の列として記すこともできる．列を表すメタ変数としてはやはり$\Gamma,\Delta$等を用いることにする．特に$E$が$G=\emptyset$(空集合)，$\Gamma$で言えば空列の論理的帰結であることと，$E$が恒真であることは同値となる．
+\begin{lem}
+  $\Gamma$が空列以外の時，$\Gamma\models E$ iff $\models\Gamma_\wedge\to E$である．
+\end{lem}
+ここで$\Gamma_\wedge$は$\Gamma$の各論理式を$\wedge$で結んだ論理式である．$\Gamma$が一つの論理式から成る時に制限すると，$\models$は$\bPre_L$上の二項関係となる．
+\begin{proof}
+  二項関係$\models$は前半順序である．即ち反射律と推移律を満たす．
+\end{proof}
+二項関係$\models$の右側に来る方が大きいと見ると，すべての恒真式が最大元であり，すべての恒偽式が最小元である．次の論理的同値$\lequiv$は前半順序$\models$から定義される同値関係であり，$\lequiv$で同値類を作ると$\neg,\wedge,\vee$がwell-definedとなり，これらの演算により$\bPre_L/\lequiv$はブール代数となる．
+\paragraph{論理的同値}
+$E,F\in\bPre_L$の充足性が等しいとき，即ちすべての$L$構造$\left\langle D, I\right\rangle$と付値$\nu$に対し$\left\langle D,I\right\rangle,\nu\models E$と$\left\langle D,I\right\rangle,\nu\models F$が同値であるとき，$E$と$F$は\red{論理的同値}(logically equivalent)，あるいは意味論的同値であると言う．ここでは$E\lequiv F$と表記することにする．
+\begin{lem}
+  $E\lequiv F$ iff ($E\models F$ かつ $F\models E$) iff ($\models E\to F$ かつ $\models F\to E$) iff $\models E\leftrightarrow F$
+\end{lem}
+つまり先の恒真式で$E\leftrightarrow F$の形のものは，$E\lequiv F$と読み替えることができる．
+\begin{lem}
+  $\lequiv$は$\bPre_L$上の同値関係である．即ち反射律，対称律，推移律を満たす．
+\end{lem}
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \setcounter{enumi}{107}
+  \item 補題43から46を証明せよ．
+\end{enumerate}
+
+\begin{comment}
   3.3 冠頭標準形 EE PreLが以下の形をした論理式の時，冠頭論理式 という．
   Q1.QmF
   ただし，は量化子でFは量化子が現れない論理式で， 量化子の変数記号はすべて異なるとする．特に冠頭論 理式のうち，量化子がすべて全称量化子のものを全称 冠頭論理式，存在量化子のものを存在冠頭論理式と 言う． Eと論理的に同値な冠頭論理式E' をEの冠頭標準形

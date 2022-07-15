@@ -154,6 +154,9 @@
 \newcommand{\mop}{\ensuremath{\; op \;}}
 \newcommand{\lequiv}{\ensuremath{\models\!\mid}}
 \newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\dom}{\ensuremath{\text{dom}\,}}
+\newcommand{\codom}{\ensuremath{\text{codom}\,}}
+\newcommand{\ccp}{\ensuremath{\text{cp}\,}}
 
 \begin{document}
 
@@ -302,7 +305,7 @@ $X$と$\uA$は両方とも変数だが，両者の違いは，前者は数学的
    & \uA\wedge\left(\uB\vee\neg\uC\to\uD\right),                           \\
    & \uA\wedge\left(\left(\uB\vee\left(\neg\uC\right)\right)\to\uD\right),
 \end{align}
-\begin{center}
+\begin{equation}
   \begin{tikzpicture}
     \node{$\wedge$}
     child {node{$\uA$}}
@@ -313,7 +316,7 @@ $X$と$\uA$は両方とも変数だが，両者の違いは，前者は数学的
                 child{node{$\uC$}}}}
         child{node{$\uD$}}};
   \end{tikzpicture}
-\end{center}
+\end{equation}
 
 
 ただし本稿に限らず紙面上に論理式を表記する場合には大部分の場合，記号列として表している．
@@ -823,10 +826,10 @@ $\wedge$と$\vee$が双対の関係にあるので，CNFの場合と同様にし
 初めから正しいとわかっている証明対象のことを\red{公理}(axiom)という．論理式などを表すメタ変数を含んだ\red{公理スキーマ}(axiom schema)で与えられる場合も多い．公理は，次の推論規則の$n =0$となっている特殊ケースであると見ることもできる．
 \paragraph{推論規則}
 すでに正しいことがわかっているいくつかの証明対象$o_1,\ldots,o_n$から別の正しい証明対象$o$を導く方法を記述するのが\red{推論規則}(inference rule)である．通常はやはりスキーマの形で与えられる(ので推論規則スキーマとは言わない)．
-\begin{prooftree}
-  \AxiomC{$o_1\cdots o_n$}
-  \UnaryInfC{$o$}
-\end{prooftree}
+\setcounter{equation}{15}
+\begin{equation}
+  \frac{o_1\ \cdots\ o_n}{o}
+\end{equation}
 
 \paragraph{証明図}
 \ \red{証明図}(proof figure)とは，公理から始まってその下に推論規則を連ねた木のことをいう．木全体を，木の一番下，すなわち根の位置にくる証明対象$o$の証明図，あるいは証明木，単に証明という．$o$の証明図が存在するとき，$o$は\red{証明可能}(provable)であるという．またそのような$o$を\red{定理}(theorem)\footnote{文脈によってはメタレベルの定理と紛らわしい．証明されたのが対象レベルのスキーマであれば，「定理スキーマ」という言い方なら殆どの場合紛らわしくない．}ということにする．
@@ -851,12 +854,9 @@ $\wedge$と$\vee$が双対の関係にあるので，CNFの場合と同様にし
 $\to$と$\neg$以外に$\wedge$と$\vee$も基本的な論理演算子とするHilbert流の形式的体系もあり，この場合には公理の数がさらに多くなる．
 \paragraph{推論規則}
 推論規則は一つだけである．
-\begin{prooftree}
-  \AxiomC{$X$}
-  \AxiomC{$X\to Y$}
-  \BinaryInfC{$Y$}
-  \label{HilInfRule}
-\end{prooftree}
+\begin{equation}
+  \frac{X\ X\to Y}{Y}
+\end{equation}
 \paragraph{証明図}
 証明図は，公理から始まって推論規則を積み重ねた木であり，すべての葉が公理でなければならない．例えば以下は定理スキーマ$X\to X$の証明図である．
 \begin{prooftree}
@@ -889,7 +889,7 @@ Hilbert流の体系で，様々なトートロジーを証明できることと�
   \item 二重否定除去$\neg\neg X\to X$の証明図を示せ．公理スキーマは(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3})とする．
   \item 含意命題論理で考える．排中律$\neg X\vee X$と$X\vee\neg X$を展開し，それらの証明図をそれぞれ示せ．論理演算子は$\to$，論理定数は$\perp$，公理スキーマは(\ref{hilbert3})を展開した次のような(\ref{hilbert3'})\footnote{この問題の場合，実は(\ref{hilbert3'})は必要ない．}と，(\ref{hilbert1}),(\ref{hilbert2}),(\ref{perpToX}) とする．
         \begin{equation}
-          \left(\left(X\to\perp\right)\to\left(Y\to\perp\right)\right)\to\left(Y\to X\right).\tag{15'}\label{hilbert3'}
+          \left(\left(X\to\perp\right)\to\left(Y\to\perp\right)\right)\to\left(Y\to X\right).\tag{19'}\label{hilbert3'}
         \end{equation}
   \item 論理演算子は$\to$，論理定数は$\perp$とする．(\ref{PeircesLaw}),(\ref{perpToX})が，(\ref{hilbert1}),(\ref{hilbert2}),(\ref{hilbert3'})から導けることを示せ\footnote{「導けることを示せ」と「証明図を示せ」が，求めていることが異なることに注意せよ．前者では具体的な証明図を示す必要が必ずしもなく，証明図の存在を示せば十分である．}．
   \item 逆に(\ref{hilbert1}),(\ref{hilbert2}),(\ref{PeircesLaw}),(\ref{perpToX})から(\ref{hilbert3'})を導けることを示せ．
@@ -2107,7 +2107,7 @@ $\Leftarrow$を証明するためのアイディアの概要: $E\in\bPre_L^c$と
   ($\Rightarrow$) 自明である．\\
   ($\Leftarrow$) $\qty(E)_{c\forall}$で$E$の全称閉包を表すことにする．$\left\langle D, I\right\rangle\models E$とする．これは$\left\langle D, I\right\rangle\models\qty(E)_{c\forall}$と同値である．$\qty(\qty(E)_{c\forall})_{s\forall}$を求め，$I^\prime$と$L^\prime$を補題48の証明のも のとする(この部分で選択公理が必要)．$D_i\subseteq D$を次により構成する．
 
-  $D_0\dequal\qty\{I^\prime\qty(c)\mid c\in K_{L^\prime}\}$，$i > 0$に対し$D_i\dequal\qty\{I^\prime\qty(f)\qty(d_1,\ldots, d_{\text{arity}\qty(t)})\mid f\in F_{L^\prime},d_j\in D_{i-1}\}\cup D_{i-1}$．$D_\infty\dequal\bigcup_{i=0}^\infty D_i$として$D_\infty$を定義する．但し$K_{L^\prime} = \emptyset$の場合には$d_0\in D$を一つ選んで$D_0 = \qty\{d_0\}$とし，$D_\infty =\emptyset$とならないようにする．$K_{L^\prime}$，$F_{L^\prime}$は有限故各$D_i$は有限であり，$D_\infty$は高々可算無限集合である．$D_\infty$は定義から定数$I^\prime\qty(c)$，函数$I^\prime\qty(f)$の適用について閉じている(この事実を(A)とする)．
+  $D_0\dequal\qty{I^\prime\qty(c)\mid c\in K_{L^\prime}}$，$i > 0$に対し$D_i\dequal\qty{I^\prime\qty(f)\qty(d_1,\ldots, d_{\text{arity}\qty(t)})\mid f\in F_{L^\prime},d_j\in D_{i-1}}\cup D_{i-1}$．$D_\infty\dequal\bigcup_{i=0}^\infty D_i$として$D_\infty$を定義する．但し$K_{L^\prime} = \emptyset$の場合には$d_0\in D$を一つ選んで$D_0 = \qty{d_0}$とし，$D_\infty =\emptyset$とならないようにする．$K_{L^\prime}$，$F_{L^\prime}$は有限故各$D_i$は有限であり，$D_\infty$は高々可算無限集合である．$D_\infty$は定義から定数$I^\prime\qty(c)$，函数$I^\prime\qty(f)$の適用について閉じている(この事実を(A)とする)．
 
   $\left\langle D, I\right\rangle\models\qty(E)_{c\forall}$故任意の$\nu:V → D$に対し，$\left\langle D, I\right\rangle,\nu\models\qty(E)_{c\forall}$である．補題48の証明より$\left\langle D, I^\prime\right\rangle,\nu\models\qty(\qty(E)_{c\forall})_{s\forall}$である．
 
@@ -2228,135 +2228,128 @@ $\beta$を等号を持つ理論とし，$\left\langle D, I\right\rangle$をそ�
 \subsection{等号を持つ理論の例}
 以下では変数記号の可算無限集合$V_L$を一つ固定して必要がなければ変えないこととし，(等号を持つ)理論$\beta$達の例を挙げる．また$\beta$の各元の外側の全称量化子を省略する場合がある．つまり$\beta$の各元に自由変数があるように記述されている場合には，それの全称閉包に置き換えてほしい．また，文献によって公理の表現や選び方が異なったり扱わない場合がある．
 \paragraph{ペアノの自然数論}
+\begin{align}
+  K_{peano}&\dequal\qty{0},\notag\\
+  F_{peano}&\dequal\qty{s/1,+/2,\cdot/2},\notag\\
+  P_{peano}&\dequal\qty{=/2},\notag\\
+  \beta_{peano}&\dequal\{\notag\\
+      &x=x,\\
+      &x=y\to\qty(x=z\to y=z),\\
+      &x=y\to s\qty(x)=s\qty(y),\\
+      &\neg s\qty(x)=0,\\
+      &s\qty(x)=s\qty(y)\to x=y,\\
+      &x+0=x,\\
+      &x+s\qty(y)=s\qty(x+y),\\
+      &x\cdot 0=0,\\
+      &x\cdot s\qty(y)=x\cdot y+x,\\
+      &E\qty[0/x]\wedge\forall x\;\qty(E\to E\qty[s\qty(x)/x])\to\forall x\;E\label{eq:peano-induct}\\
+  \}&\notag
+\end{align}
+(\ref{eq:peano-induct})は数学的帰納法であり，これのみがスキーマで，$E$は任意の論理式である．$+,\cdot$についての等号の公理は帰納法により示す．
+\paragraph{モノイド}
+\begin{align}
+  K_{monoid}&\dequal\qty{e},\notag\\
+  F_{monoid}&\dequal\qty{\cdot/2},\notag\\
+  P_{monoid}&\dequal\qty{=/2},\notag\\
+  \beta_{monoid}&\dequal\{\notag\\
+  &x=x,\label{eq:monoid1}\\
+  &x=y\to\qty(x=z\to y=z),\\
+  &x=y\to x\cdot z=y\cdot z,\\
+  &x=y\to z\cdot x=z\cdot y,\label{eq:monoid4}\\
+  &x\cdot\qty(y\cdot z)=\qty(x\cdot y)\cdot z,\\
+  &x\cdot e=x,\\
+  &e\cdot x=x\\
+  \}&\notag
+\end{align}
+\paragraph{群}
+$K_{group}, P_{group}$は上と同じ，$F_{group}$は$-^{-1} /1$を追加．
+\begin{align}
+  \beta_{group}&\dequal\beta_{monoid}\cup\{\notag\\
+  &x=y\to x^{-1}=y^{-1},\\
+  &x\cdot x^{-1}=e,\\
+  &x^{-1}\cdot x=e\\
+  \}&\notag
+\end{align}
+モノイドや群の場合のように，述語が$=/2$のみで$\beta$の元が等号を持つ理論となるための最小限の公理に加え，$s$と$t$を任意の項として等式$s=t$の全称閉包達のみから成るような理論を\red{代数的理論}(algebraic theory)と言う．今の例の場合，(\ref{eq:monoid1})-(\ref{eq:monoid4})が等号を持つ理論となるための公理で，他の公理は全て$\forall x_1\cdots\forall x_n\;s = t$という閉論理式である．代数的理論で他によく見るのは半環(はんかん，semiring)，環(かん，ring)，半群(はんぐん，semigroup)などである．体(たい，(s)filed)はこの範疇に入らない(なぜか?)．
 
+\paragraph{圏}\ \red{圏}(category)の場合には射の合成$\circ$が部分函数(引数によって未定義の場合がある函数)なので，ここでは3引数の述語cpとして扱っている．また，射と対象を別の集まりとして分けない方式，即ち各idを対象の代わりとして用いる方式を採っている．
+\begin{align}
+  K_{category}&\dequal\emptyset,\notag\\
+  F_{category}&\dequal\qty{\dom/1,\codom/1},\notag\\
+  P_{category}&\dequal\qty{=/2,\text{cp}/3}.\notag\\
+  \beta_{category}&\dequal\{\notag\\
+    &x=x,\label{}\\
+    &x=y\to\qty(x=z\to y=z),\\
+    &x=y\to\dom\qty(x)=\dom\qty(y),\\
+    &x=y\to\codom\qty(x)=\codom\qty(y),\\
+    &x=y\to\qty(\ccp\qty(x,x_1,x_2)\to\ccp\qty(y,x_1,x_2)),\\
+    &x=y\to\qty(\ccp\qty(x_1,x,x_2)\to\ccp\qty(x_1,y,x_2)),\\
+    &x=y\to\qty(\ccp\qty(x_1,x_2,x)\to\ccp\qty(x_1,x_2,y)),\\
+    &\ccp\qty(x,y,z)\to\dom\qty(z)=\dom\qty(y),\label{eq:category8}\\
+    &\ccp\qty(x,y,z)\to\codom\qty(z)=\codom\qty(x),\label{eq:category9}\\
+    &\dom\qty(x)=\codom\qty(y)\leftrightarrow\exists z\;\ccp\qty(x,y,z),\label{eq:category10}\\
+    &\ccp\qty(x,\dom\qty(x),x),\label{eq:category11}\\
+    &\ccp\qty(\codom\qty(x),x,x),\label{eq:category12}\\
+    &\ccp\qty(x,y,z_1)\to\qty(\ccp\qty(x,y,z_2)\to z_1=z_2),\\
+    &\ccp\qty(x,y,z_1)\to\qty(\ccp\qty(x_1,z,x_2)\to\qty(\ccp\qty(x,y_1,y_2)\to\qty(\ccp\qty(y,z,y_1)\to x_2=y_2)))\\
+  \}&\notag
+\end{align}
+以下の等式は $\beta_{category}$から演繹される．
+\begin{align}
+  \dom\qty(x)&=\dom\qty(\dom\qty(x)),&\text{by (\ref{eq:category11},\ref{eq:category8})}\\
+  \dom\qty(x)&=\codom\qty(\dom\qty(x)),&\text{by (\ref{eq:category11},\ref{eq:category10})}\\
+  \dom\qty(\codom\qty(x))&=\codom\qty(x),&\text{by (\ref{eq:category12},\ref{eq:category10})}\\
+  \codom\qty(x)&=\codom\qty(\codom\qty(x)),&\text{by (\ref{eq:category12},\ref{eq:category9})}
+\end{align}
+\paragraph{集合論ZF}
+\begin{align}
+  K_{set}&\dequal\emptyset,\notag\\
+  F_{set}&\dequal\emptyset,\notag\\
+  P_{set}&\dequal\qty{=/2,\in/2}.\notag\\
+  \beta_{set}&\dequal\{\notag\\
+    &x=x,\\
+    &x=y\to\qty(x=z\to y=z),\\
+    &x=y\to\qty(x\in z\to y\in z),\\
+    &x=y\to\qty(z\in x\to z\in y),\\
+    &\forall z\;\qty(z\in x\leftrightarrow z\in y)\to x=y,\label{eq:ZF5}\\
+    &\exists x\forall y\;\neg y\in x,\\
+    &\exists z\forall x_1\qty(x_1\in z\leftrightarrow\qty(x_1=x\vee x_1=y)),\\
+    &\exists y\forall z\qty(z\in y\leftrightarrow\exists y\; z\in y\wedge y\in x),\\
+    &\exists x\qty(\exists y\qty(\forall x\;\neg x\in y)\wedge y\in x)\wedge\forall y\qty(y\in x\to\qty(\exists z\;z\in x\wedge\forall x\qty(x\in z\leftrightarrow x\in y\vee x=y))),\\
+    &\exists y\forall z\qty(z\in y\leftrightarrow\forall y\qty(y\in z\to y\in x)),\\
+    &\forall x,y,z\qty(E\qty[x,y]\wedge E\qty[x,z]\to y=z)\to\forall x\exists y\forall z\qty(z\in y\leftrightarrow\exists y\;y\in x\wedge E\qty[y,z]),\label{eq:ZF11}\\
+    &\exists y\;y\in x\to\exists y\;y\in x\wedge\forall z\qty(z\in x\to\neg z\in y)\\
+  \}&\notag
+\end{align}
+  (\ref{eq:ZF5})から順に，外延性の公理，空集合の公理，対の公理，和集合の公理，無限公理，幕集合公理，置換公理，正則性公理と言う．置換公理(\ref{eq:ZF11})は公理スキーマである．分出公理$\exists y\forall z\qty(z\in y\leftrightarrow\qty(z\in x\wedge E\qty[z]))$は置換公理から$E[]_2\dequiv E[[]_1]\wedge []_1 = []_2$(つまり$E[x, y]\dequiv E[x]\wedge x = y$)などとして導かれる．交集合$x\cap x^\prime$は分出公理から$E[]_1\dequiv []_1\in x^\prime$(つまり$E[z]\equiv z\in x^\prime$)として得られる．
+\paragraph{集合論ZF(函数記号版)}
+\begin{align}
+  K_{set}&\dequiv\qty{\emptyset,\omega},\notag\\
+  F_{set}&\dequiv\qty{\cup/1,2^-/1,\qty{-,-}/2},\notag\\
+  P_{set}&\dequal\qty{=/2,\in/2}.\\
+  \beta_{set}&\dequal\{\notag\\
+    &x=x,\\
+    &x=y\to\qty(x=z\to y=z),\\
+    &x=y\to\qty(x\in z\to y\in z),\\
+    &x=y\to\qty(z\in x\to z\in y),\\
+    &x=y\to\cup x=\cup y,\\
+    &x=y\to 2^x=2^y,\\
+    &x=y\to\qty{x,z}=\qty{y,z},\\
+    &x=y\to\qty{z,x}=\qty{z,y},\\
+    &\forall z\qty(z\in x\leftrightarrow z\in y)\to x=y,\\
+    &\neg\in\emptyset,\\
+    &z\in\qty{x,y}\leftrightarrow\qty(z=x\vee z=y),\\
+    &z\in\cup x\leftrightarrow\exists y\;z\in y\wedge y\in x,\\
+    &\emptyset\in\omega,\\
+    &x\in\omega\to\cup\qty{x,\qty{x,x}}\in\omega,\\
+    &z\in 2^x\leftrightarrow\forall y\qty(y\in z\to y\in x),\\
+    &\forall x,y,z\qty(E\qty[x,y]\wedge E\qty[x,z]\to y=z)\to\forall x\exists y\forall z\qty(z\in y\leftrightarrow\exists y\;y\in x\wedge E\qty[y,z]),\\
+    &x=\emptyset\vee\exists y\;y\in x\wedge\forall z\qty(z\in x\to\neg z\in y)\\
+  \}&\notag
+\end{align}
+こちらは($\omega$以外は一意的に)存在する集合の一部を函数で表した版である．和集合は$x\cup y\dequiv \cup\qty{x,y}$と定義される．比較してこちらの方が人間には読みやすいものになっている．ただし置換公理と正則性公理はすっきりしたものにはなっていない．
 
-
-\begin{comment}
-  326
-  peano
-  cano
-  peano
-  Kpeano def {0},
-  Fpeano def {s/1, +/2, /2}, Ppeano def {=/2}, Bpeano def {
-  x = x, x = y + (x = 2 + y = z), x = y + s(x) = s(y),
-  ano
-  (27) (28)
-  (29)
-  327
-  as(x) = 0,
-  (30) s(ax) = s(y) → X = y,
-  (31) 0+0= 0,
-  (32) x + s(y) = s (x + y), 0.0 = 0,
-  s(y) = T.+ x,
-  (35) E[0/a] ^ va(E → E[s(x)/x]) → VCE (36)
-  (33) (34)
-  (36) は数学的帰納法であり，これのみがスキーマで，
-  328
-  Eは任意の論理式である．+, ・についての等号の公理
-  は帰納法により示す．
-  ■モノイド
-  mo
-  mo
-  Kmonoid def {e}, Fmonora { /2}, Promoid { =/2},
-  mo
-  d
-  Pmonoid =
-  329
-  (37)
-  Bmonoid te {
-  X = X, x = y + (x = 2 + y = z), x = y + x· z =y: 2,
-  = y + 2 • X = z•Y,
-  · (yoz) = (x - y) • Z, Ze= 0, e x = x
-  (38) (39) (40)
-  (41)
-  (43)
-  330
-  Karoup, Paroupは上と同じ，Faroupは -- /1 を追加．
-  Bgroup del Bmonoid U {
-  22 = 1 → 2-1 = y', (44) 2.-1 = e,
-  (45) ac-1.x = e
-  (46)
-  モノイドや群の場合のように，述語が=/2のみでBの 元が等号を持つ理論となるための最小限の公理に加
-  331
-  え，sとtを任意の項として等式s=tの全称閉包達の みから成るような理論を代数的理論 (algebraic theory) と言う．今の例の場合， (37)-(40) が等号を持
-  つ理論となるための公理で，他の公理は全て Var'1... Vans = tという閉論理式である．代数的理論 で他によく見るのは半環(はんかん，semiring)，環(か ん，ring)，半群(はんぐん，semigroup)などである． 体(たい，(s)filed) はこの範疇に入らない(なぜか?)．
-  332
-  圏(category) の場合には射の合成．が部分函数(引数 によって未定義の場合がある函数)なので，ここでは3 引数の述語cpとして扱っている．また，射と対象を別 の集まりとして分けない方式，即ち各idを対象の代わ りとして用いる方式を採っている．
-  def
-  Kcategory def Ø,
-  Fcategory def {dom/1, codom/1}, Peategory f" { = / 2, cp/3}.
-  333
-  det
-  (47)
-  (48)
-  (49)
-  Bcategory det {
-  X = X,
-  = y + (x = 2 + y = z), = y + dom(x) = dom(y),
-  = y + codom(x) = codom(y), x = y + (cp(x, X1, X2) + cp(y, X1, X2)), x = y + (cp(x1, X, X2) + cp(x1, y, x2)), x = y + (cp(x1, X2, X) + cp(X1, X2, y)), cp(x, y, z) → dom(z) = dom(y), cp(x, y, z) → codom(z) = codom(x),
-  (50) (51) (52) (53)
-  (54)
-  (55)
-  334
-  dom(x) = codom(y) # Iz cp(x, y, z), (56) cp(x, dom(x), x),
-  (57) cp(codom(x), x,x),
-  (58) cp(x, y, z1) + (cp(x, y, z2) + 2 = 22), (59) cp(x, y, Xi) + (cp(x1, 2, X2) + (cp(x, y1, y2)
-  + (cp(y, z, y1) + X2 = y2)))
-  (60)
-  335
-  以下の等式は Beategoryから演繹される．
-  dom(x) = dom(dom(x)),
-  by (57,54)
-  12
-  (61)
-  dom(x) = codom(dom(c)), by (57,56)
-  (62) dom(codom(x)) = codom(x), by (58,56)
-  (63) codom(x) = codom(codom(x)), by (58,55)
-  (64)
-  336
-  ISAAZE
-  Kset def ,
-  Set
-  Set
-  Fset def Ø, Pset def {=/2, E/2}
-  337
-  (65) (66)
-  (67)
-  Bset def { X = X, x = y + (x = 2 + y = z), x = y + (x Ez + y Ez), x = y + (z Ex + z Ey), Vz(z E x + z E y) + x = y, FxVy ny Ex, 3zVx1(x1 E z H (x1 = x V x1 = y)), ByVz(z Ey 4 Jy z E y Ay E x),
-  (68)
-  (69)
-  (70) (71) (72)
-  338
-  ヨx(ヨy(Vac 20 E )) ^ y E ) ^ Vy(y Ex →
-  (ヨzz E va(x E z + X EyVx = y))),
-  (73) ByVz(z Ey Vy(y E z → y Ec)), (74) va, y, 2(E[x,y] ^ E[2, 2] → y = z)
-  → Grayvz(z Ey + By y Ex ^ E[y, z]), (75) ヨyyEx → ヨyyEx AVZ(ZE x → E y) (76)
-  (69) から順に，外延性の公理，空集合の公理，対の公
-  理，和集合の公理，無限公理，幕集合公理，置換公理，
-  339
-  正則性公理と言う．置換公理(75) は公理スキーマであ る．分出公理ヨyVz(z E y (z E e ^ E[z])) は置換 公理からE[12 E[01] ^ In = []2 (つまり E[, y = E[2] ^ x = y)などとして導かれる．交集合 end'は分出公理からE[] E ad' (つまり E[x] = > E ')として得られる．
-  340
-  |||
-  口集合論ZF(函数記号版)
-  ITTTTT
-  Keel of {0,}, Feet {U/1, 2/1,{-,-}/2}, Pet {=/2, 6/2}.
-  (77)
-  341
-  (78) (79) (80)
-  Bset det { X = X, x = y + (x = 2 + y = z),
-  = y + (x Ez + y ez), x = y + (z E x +zEy), x = y + Ux = Uy,
-  = y + 24 = 29 x = y + {x,z} = {y, z}, x = y + {z, x} = {z,y}, Vz(z Ex H z Ey) + x = y,
-  (82)
-  (83) (84) (85) (86)
-  342
-  (88) (89)
-  -X EO, z € {x, y} # (z = x V z = y), z E Ux + Jy z Ey Ay Ex, 0 EW, X EW → U{x, {x, x}} Ew, z E 24 H Vyly E z → y Ex),
-  (90)
-  (91) (92)
-  +Vx=ytz(z E Y H By Y E x 1 Esy, z]), (93) x = Ø V ZY y E x 1 Vz(z E x + 12 Ey) (94)
-  343
-  def
-  こちらは(山以外は一意的に)存在する集合の一部を函 数で表した版である．和集合はxUyfuf2, y} と定 義される．比較してこちらの方が人間には読みやすい ものになっている．ただし置換公理と正則性公理は すっきりしたものにはなっていない．
+  \begin{comment}
   3.9 LKの弱い意味での健全性
   一階述語論理の場合にも，弱い意味での健全性，完全 性は命題論理の場合と同じように定義される．
   344

@@ -2348,22 +2348,30 @@ $K_{group}, P_{group}$は上と同じ，$F_{group}$は$-^{-1} /1$を追加．
   \}&\notag
 \end{align}
 こちらは($\omega$以外は一意的に)存在する集合の一部を函数で表した版である．和集合は$x\cup y\dequiv \cup\qty{x,y}$と定義される．比較してこちらの方が人間には読みやすいものになっている．ただし置換公理と正則性公理はすっきりしたものにはなっていない．
+\subsection{LKの弱い意味での健全性}
+一階述語論理の場合にも，弱い意味での健全性，完全性は命題論理の場合と同じように定義される．
+\begin{thm}[一階述語論理の場合のLKの(弱い意味での)健全性]
+  LKの公理は恒真である．LKの各推論規則の上の段のシーケントがすべて恒真であれば，下の段のシーケントも恒真である．つまり一階述語論理の場合にもLKは健全である．
+\end{thm}
+\begin{proof}
+  LKの公理の恒真性は自明である．
+
+  命題論理の場合と同じ推論規則の場合には，証明もほぼ同じである．
+
+  ($\forall$-left)\ $\left\langle D,I\right\rangle,\nu\models P\qty[t/x],\Gamma\vdash\Delta$であるのは$\left\langle D,I\right\rangle,\nu\not\models P\qty[t/x]$，$\left\langle D,I\right\rangle,\nu\not\models\Gamma_\wedge$，$\left\langle D,I\right\rangle,\nu\models\Delta_\vee$の3つの場合である．最初の場合には$\left\langle D,I\right\rangle,\nu\not\models\forall x\;P$であり，残りの場合にも$\left\langle D,I\right\rangle,\nu\models\forall x\;P,\Gamma\vdash\Delta$となる．
+
+  ($\forall$-right)\ $\left\langle D,I\right\rangle,\nu\models\Gamma\vdash\Delta,P\qty[y/x]$であるのは$\left\langle D,I\right\rangle,\nu\not\models\Gamma_\wedge$，$\left\langle D,I\right\rangle,\nu\models\Delta_\vee$，$\left\langle D,I\right\rangle,\nu\models P\qty[y/x]$，の3つの場合である．$y$が固有変数であって$D\neq\emptyset$なので任意の$d\in D$について最初の2つは$\left\langle D,I\right\rangle,\nu\qty[d/y]\not\models\Gamma_\wedge$，$\left\langle D,I\right\rangle,\nu\qty[d/y]\models\Delta_\vee$と同値である．つまり$D, I$を固定した場合，最初の2つが成り立つかどうかは$d\in D$の選び方に依らない．上段が恒真の場合，任意の$D, I$を固定すると，最初の2つのうちどちらかが成り立っている場合と，そうではない場合に場合分けできる．後者の場合にも3つ目が$d\in D$に依らずに成り立っている．最初の2つの場合，$\left\langle D,I\right\rangle,\nu\models\Gamma\vdash\Delta,\forall x\;P$であり，残りの場合にも$\left\langle D,I\right\rangle,\nu$がやはり同じシーケントを充足する．
+
+  ($\exists$-left) ($\exists$-right)\ 同様にして示すことができる．
+\end{proof}
+\subsubsection*{演習問題}
+\begin{enumerate}
+  \setcounter{enumi}{116}
+  \item 推論規則$\exists$-leftについて，上段が恒真のときに下段の恒真性を示せ．
+  \item 推論規則$\exists$-rightについて，上段が恒真のときに下段の恒真性を示せ．
+\end{enumerate}
 
   \begin{comment}
-  3.9 LKの弱い意味での健全性
-  一階述語論理の場合にも，弱い意味での健全性，完全 性は命題論理の場合と同じように定義される．
-  344
-  定理 33 (一階述語論理の場合のLKの(弱い意味での) 健全性). LKの公理は恒真である．LKの各推論規則の 上の段のシーケントがすべて恒真であれば，下の段の シーケントも恒真である．つまり一階述語論理の場合 にもLKは健全である．
-  証明: LKの公理の恒真性は自明である． 命題論理の場合と同じ推論規則の場合には，証明もほ ぼ同じである． (V-left) {D,I),v P[t/ar], T F A であるのは 〈D,I), v = P[t/2z]，〈D,I),v，
-  345
-  〈D,I), v = Av の3つの場合である．最初の場合には 〈D,I), v = ViPであり，残りの場合にも 〈D,I), v = FacP,△ となる． (V-right) 〈D,I),v = TF A, Ply/2z]であるのは 〈D,I),v LTA，〈D,I), v = Av， 〈D,I), v = P[y/]，の3つの場合である．yが固有変 数であって D チ)なので任意のdE Dについて最初の 2つは〈D, I),v[d/y] FTへ，D, I),v[d/y] = Av と
-  同値である．つまり D, I を固定した場合，最初の2つ が成り立つかどうかはdEDの選び方に依らない．上 段が恒真の場合，任意の D, Iを固定すると，最初の2
-  346
-  つのうちどちらかが成り立っている場合と，そうでは ない場合に場合分けできる．後者の場合にも3つ目が dEDに依らずに成り立っている．最初の2つの場合， <D,I),vAVuPであり，残りの場合にも 〈D,I) , レがやはり同じシーケントを充足する． (3-left) (3-right) 同様にして示すことができる． ロ
-  演習問題 117. 推論規則 ヨ-left について，上段が恒真のときに
-  下段の恒真性を示せ． 118. 推論規則 ヨ-right について，上段が恒真のとき
-  347
-  に下段の恒真性を示せ．
   3.10 命題論理のコンパクト性
   ここで命題論理の場合のコンパクト性を示しておく． これは無限かもしれない命題論理式の集合GC Pro
   が，その有限部分集合ごとに一つの付値によって要素 すべてが充足可能であれば，Gの要素すべてが一つの 付値によって充足可能になるという性質である．これ は後で出てくる一階述語論理についての定理であるエ ルブランの定理を示すのに使うことができる．エルブ

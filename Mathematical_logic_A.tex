@@ -2021,9 +2021,9 @@ $D$が高々可算無限集合であるようなモデル$\left\langle D,I\right
   $\Gamma$が空列以外の時，$\Gamma\models E$ iff $\models\Gamma_\wedge\to E$である．
 \end{lem}
 ここで$\Gamma_\wedge$は$\Gamma$の各論理式を$\wedge$で結んだ論理式である．$\Gamma$が一つの論理式から成る時に制限すると，$\models$は$\bPre_L$上の二項関係となる．
-\begin{proof}
+\begin{lem}
   二項関係$\models$は前半順序である．即ち反射律と推移律を満たす．
-\end{proof}
+\end{lem}
 二項関係$\models$の右側に来る方が大きいと見ると，すべての恒真式が最大元であり，すべての恒偽式が最小元である．次の論理的同値$\lequiv$は前半順序$\models$から定義される同値関係であり，$\lequiv$で同値類を作ると$\neg,\wedge,\vee$がwell-definedとなり，これらの演算により$\bPre_L/\lequiv$はブール代数となる．
 \paragraph{論理的同値}
 $E,F\in\bPre_L$の充足性が等しいとき，即ちすべての$L$構造$\left\langle D, I\right\rangle$と付値$\nu$に対し$\left\langle D,I\right\rangle,\nu\models E$と$\left\langle D,I\right\rangle,\nu\models F$が同値であるとき，$E$と$F$は\red{論理的同値}(logically equivalent)，あるいは意味論的同値であると言う．ここでは$E\lequiv F$と表記することにする．
@@ -2511,74 +2511,125 @@ Thrmすなわち証明可能な(あるいは完全性定理により恒真なと
   $\beta$を言語$L$の理論であるとする．$\beta$が無矛盾かつ完全でwitnessedであれば$\beta$は$D = HU_L$であるようなモデルを持つ．
 \end{lem}
 以上の準備の下に強い形の完全性の証明を行う．
+\subsection{一階述語論理の場合のLKの強い形の完全性の証明}
+\noindent\textbf{定理56(強い形の完全性)の証明:} $\beta$を言語$L$の無矛盾な理論とする．補題64より，言語$L$を拡大して$L^\prime$とし，$\beta$を拡大して$\beta^\prime$として，無矛盾でwitnessedな理論を得られる．$\beta^\prime$は$L^\prime$の理論である．これに補題65を適用して無矛盾かつ完全な理論$\beta^{\prime\prime}$を得る．$\beta^{\prime\prime}$は$L^\prime$の理論であり，$\delta\subseteq\beta^{\prime\prime}$なので補題64より$\beta^{\prime\prime}$もwitnessedな理論である．すると補題66より$\beta^{\prime\prime}$は$D = HU_{L^\prime}$であるようなモデルを持つ．\ $\square$
+
+\noindent\textbf{補題64の証明:} $J\qty(=\qty{b_1,b_2,b_3,\ldots})$を新しい定数記号の可算無限集合とする．$K_L\cap J = \emptyset$である．言語$L$を拡大して$K_{L^\prime} = K_L\cup J$とし，他の記号は変えないものを言語$L^\prime$とする．$K_L$は高々可算無限集合なので，$K_{L^\prime}$も可算無限集合となる．言語$L^\prime$の論理式でちょうど一つの変数が自由に一回以上出現し，他の変数は自由に出現しないようなものを$E$とする．ここでは$V_{L^\prime}, K_{L^\prime}, F_{L^\prime}, P_{L^\prime}$いずれもが高々可算無限集合なので$E$のような論理式は可算無限個存在する．それらを$E_1, E_2, E_3,\ldots\in\bPre_{L^\prime}$とし，それぞれに自由に出現する変数を$x_1,x_2,x_3,\ldots\in V$とする．ここで，$n_1$を，$b_n$が$E$に現れないような最小の$n$とする．以下，$n_{k-1}$まで定められているとして，$b_n$が$E_1, E_2, E_3,\ldots,E_k$に現れないような最小の$n$を$n_k$とする．
+
+$F_i\dequiv\exists x_iE_i\to E_i\qty[b_{n_i}/x_i]$として$L^\prime$の閉論理式$F_i$を定義する．$\delta=\qty{F_1,F_2,F_3,\ldots}$とする．$\qty{E_i\mid i = 1,2,3,\ldots}$は，ちょうど一つの変数のみが自由に一回以上出現する$L^\prime$の論理式を全て尽くしているので，$L^\prime$の理論$\beta^\prime$が$\delta$の拡大であれば$\beta^\prime$がwitnessedであるのは明らかである．
+
+$\vdash\exists x\;E$であるような1自由変数の$E$はある$i$により$E\equiv E_i$で，$t\equiv b_{n_i}$とすればよい．則ち(2)が成り立つ．
+
+$\beta$を$L$の無矛盾な理論とするとき，$\delta$の元はすべて閉論理式なので$\beta\cup\delta$が$L^\prime$の理論であることは明らかである．したがって$\beta\cup\delta$が無矛盾であることを示せば(1)を示したことになる．$\beta_0\dequal\beta$とし，$\beta_k\dequal\beta_{k-1}\cup\qty{F_k}$とおくと，各$\beta_k$は理論であり，$\beta\cup\delta=\bigcup_k\beta_k$となる．$\bigcup_k\beta_k$が矛盾していれば，ある有限の$k$で$\beta_k$が矛盾しているので，すべての$k$について$\beta_k$が無矛盾であることを示せば$\beta\cup\delta$が無矛盾であることがいえる．これを帰納法で示す．まず，$\beta_0=\beta$なのでこれは無矛盾である．次に，$\beta_{i-1}$が無矛盾であるとして$B_i$が無矛盾であることを背理法で示す．
+
+$\beta_i\vdash$であると仮定する．帰納法の仮定より$B_{i-1}\vdash$ではないので，$\Gamma\subseteq\beta_{i-1}$であるような論理式の有限列$\Gamma$があって$F_i,\Gamma\vdash$が証明できるはずである．
+
+従って以下のような証明図を作ることができる．ここで$S_1, S_2$はシーケントを表すメタ変数で，大きい証明図を分割表示するために導入した．
+\begin{prooftree}
+  \AxiomC{$E_i\qty[b_{n_i}/x_i]\vdash E_i\qty[b_{n_i}/x_i]$}
+  \RightLabel{\scriptsize ($\neg$-right)}
+  \doubleLine
+  \UnaryInfC{$\vdash\neg E_i\qty[b_{n_i}/x_i],E_i\qty[b_{n_i}/x_i]$}
+  \RightLabel{\scriptsize (weakening)}
+  \UnaryInfC{$S_1\dequiv\exists x_i\;E_i\vdash\neg E_i\qty[b_{n_i}/x_i],E_i\qty[b_{n_i}/x_i]$}
+  \noLine
+  \UnaryInfC{$\cdots$}
+  \UnaryInfC{$S_2\dequiv\exists x_i\;E_i\to E_i\qty[b_{n_i}/x_i],\Gamma\vdash$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$E_i\qty[z/x_i]\vdash E_i\qty[z/x_i]$}
+  \RightLabel{\scriptsize ($\neg$-left)}
+  \UnaryInfC{$\neg E_i\qty[z/x_i],E_i\qty[z/x_i]\vdash$}
+  \RightLabel{\scriptsize ($\forall$-left)}
+  \UnaryInfC{$\forall x_i\;\neg E_i,E_i\qty[z/x_i]\vdash$}
+  \doubleLine
+  \RightLabel{\scriptsize ($\exists$-left)}
+  \UnaryInfC{$\forall x_i\;\neg E_i,\exists x_i\;E_i\vdash$}
+  \RightLabel{\scriptsize ($\neg$-left)}
+  \UnaryInfC{$\exists x_i\;E_i\vdash\ne\forall x_i\;\neg E_i$}
+  \RightLabel{\scriptsize (weakening)}
+  \UnaryInfC{$\exists x_i\;E_i\vdash\neg\forall x_i\;\neg E_i,E_i\qty[b_{n_i}/x_i]$}
+  \AxiomC{$S_1$}
+  \RightLabel{\scriptsize ($\wedge$-right)}
+  \BinaryInfC{$\exists x_i\;E_i\vdash\neg\forall x_i\;\neg E_i\wedge\neg E_i\qty[b_{n_i}/x_i],E_i\qty[b_{n_i}/x_i]$}
+  \RightLabel{\scriptsize ($\to$-right)}
+  \UnaryInfC{$\vdash\neg\forall x_i\;\neg E_i\wedge\neg E_i\qty[b_{n_i}/x_i],\exists x_i\;E_i\to E_i\qty[b_{n_i}/x_i]$}
+  \AxiomC{$S_2$}
+  \LeftLabel{\scriptsize (cut)}
+  \BinaryInfC{$\Gamma\vdash\neg\forall x_i\neg E_i\wedge\neg E_i\qty[b_{n_i}/x_i]$}
+\end{prooftree}
+この証明図に現れない変数記号を$x$とし，証明図の$b_{n_i}$を全て$x$に置換する．$n_i$の与え方から$b_{n_i}$は$\Gamma$に現れないため，$\Gamma\vdash\neg\forall x_i\neg E_i\wedge\neg E_i\qty[x/x_i]$の証明図となる．これを一般に以下が証明図の一部となることと併せる．
+\begin{prooftree}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Gamma\vdash E\wedge E_1$}
+  \AxiomC{$E\vdash E$}
+  \RightLabel{\scriptsize ($\wedge$-left1)}
+  \UnaryInfC{$E\wedge E_1\vdash E$}
+  \RightLabel{\scriptsize (cut)}
+  \BinaryInfC{$\Gamma\vdash E$}
+\end{prooftree}
+$\Gamma\vdash\neg\forall x_i\neg E_i$と$\Gamma\vdash\neg E\qty[x/x_i]$を証明できる．
+\begin{prooftree}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Gamma\vdash\neg E_i\qty[x/x_i]$}
+  \RightLabel{\scriptsize ($\forall$-right)}
+  \UnaryInfC{$\Gamma\vdash\forall x_i\neg E_i$}
+\end{prooftree}
+となるので，$\Gamma\vdash\neg\forall x_i\neg E_i$と併せて$\beta_{i-1}$が無矛盾であることに反する．\ $\square$
+
+\textbf{リンデンバウムの補題(補題65)の証明:}
+まず準備として，$\alpha\subseteq\bPre_L^c$が無矛盾かつ$\alpha$より真に大きい$\bPre_L^c$の部分集合が全て矛盾している時，$\alpha$は\red{極大無矛盾}であると言う．これは命題論理の場合と同様の定義である．
+
+(極大)無矛盾な閉論理式の集合に対し，命題論理の場合の補題20から補題23までと同様の補題が成立する．但し$G$を$\alpha$，$\bPro$を$\bPre_L^c$に置き替えたものである．証明はほとんど並行して記述できる．但し補題23の証明の後に書いてある，元の論理式$G$を極大化した$G^\prime$の決定可能性については成り立たない．証明中の$G_i\vdash X$が決定可能ではないためである．
+
+与えられた無矛盾な理論$\alpha$に対し補題23(の$\bPre_L^c$版)を適用すると極大無矛盾な理論$\alpha^\prime$を得る．補題21(同前)により$\alpha^\prime$は完全である．\ $\square$
+
+\textbf{補題66の証明:}
+$\beta\subseteq\bPre_L^c$なので$D = HU_L$とおいて$\left\langle D, I\right\rangle\models\beta$となる$I$を与えられればよい．
+\begin{align}
+  I\qty(c)&\dequal c,\\
+  I\qty(f)\qty(t_1,\ldots,t_k)&\dequal f\qty(t_1,\ldots,t_k).
+\end{align}
+として定数記号と函数の意味を定める(エルブラン解釈)．ここに$I\qty(c)$の$c$は$K$の元としての$c$であり，右辺の$c$は$HU_L$の元としての$c$である．同様に$I\qty(f)$の$f$は$F$の元であり，$t_1,\ldots,t_k$と右辺の$f\qty(t_1,\ldots,t_k)$は$HU_L$の元である．また，
+\begin{equation}
+  I\qty(p)\qty(t_1,\ldots,t_k)=\bT\darrow\beta\vdash p\qty(t_1,\ldots,t_k)\ \qty(t_1,\ldots,t_k\in HU_L).
+\end{equation}
+として$I(p)$を定める．すると$\left\langle D, I\right\rangle\models p\qty(t_1,\ldots,t_k)$ iff $\beta\vdash p\qty(t_1,\ldots,t_k)$となる．以下では，閉論理式$^\prime\in\bPre_L^c$について$\left\langle D, I\right\rangle\models E^\prime$ iff $\beta\vdash E^\prime$であることを$E^\prime$に現れる$\wedge\vee\to\neg\forall\exists$の数の合計$\text{no}\qty(E^\prime)$による帰納法により証明する．これが証明できれば，任意の$F\in\beta$について，$\beta\vdash F$であることから$\left\langle D, I\right\rangle\models F$となり，$\left\langle D, I\right\rangle$が$\beta$のモデルになっていることが示される．
+
+\noindent 1. $\text{no}\qty(E^\prime) = 0$，すなわち$E^\prime\in AA_L$のとき$E = p\qty(t_1,\ldots, t_k)$の形である．$t_1,\ldots,t_k$は閉項なので，先に見た通り$\models I\qty(p)\qty(t_1,\ldots, t_k)$ iff $\beta\vdash p\qty(t_1,\ldots, t_k)$であり，帰納法のベースは満たされている．\\
+2a. $E^\prime = E\wedge F$の形の時，$E$も$F$も閉論理式である．$\text{no}\qty(E) < \text{no}\qty(E^\prime)$，$\text{no}\qty(F) < \text{no}\qty(E^\prime)$となるので，帰納法の仮定により$\left\langle D, I\right\rangle\models E$ iff $\beta\vdash E$であり，$\left\langle D,I\right\rangle\models F$ iff $\beta\vdash F$である．
+
+ここで$\left\langle D, I\right\rangle\models E\wedge F$を仮定すると$\left\langle D, I\right\rangle\models E$かつ$\left\langle D, I\right\rangle\models F$なので，帰納法の仮定より$\beta\vdash E$かつ$\beta\vdash F$である．したがって$\Gamma_s\subseteq\beta$であるような有限列$\Gamma$があって$\Gamma\vdash E$がLKで証明でき，$\Delta_s\subseteq\beta,\Delta\vdash F$について同様のことが成り立つ．すると以下のようにして$\Gamma,\Delta\vdash E\wedge F$が証明できるため，$\beta\vdash E\wedge F$となる．
+\begin{prooftree}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Gamma\vdash E$}
+  \doubleLine
+  \RightLabel{\scriptsize (weakening,exchange)}
+  \UnaryInfC{$\Gamma,\Delta\vdash E$}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Delta\vdash F$}
+  \doubleLine
+  \RightLabel{\scriptsize (weakening)}
+  \UnaryInfC{$\Gamma,\Delta\vdash F$}
+  \RightLabel{\scriptsize ($\wedge$-right)}
+  \BinaryInfC{$\Gamma,\Delta\vdash E\wedge F$}
+\end{prooftree}
+逆に$\Gamma_sa\subseteq\beta,\Gamma\vdash E\wedge F$であれば，以下のようにして$\Gamma\vdash E$となり，同様にして$\Gamma\vdash F$となる．
+\begin{prooftree}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Gamma\vdash E\wedge F$}
+  \AxiomC{$E\vdash E$}
+  \RightLabel{\scriptsize ($\wedge$-left2)}
+  \UnaryInfC{$E\wedge F\vdash E$}
+  \RightLabel{\scriptsize (cut)}
+  \BinaryInfC{$\Gamma\vdash E$}
+\end{prooftree}
+したがって$\beta\vdash E$かつ$\beta\vdash F$である．すると帰納法の仮定より$\left\langle D, I\right\rangle\models E$かつ$\left\langle D, I\right\rangle\models F$となり，$\left\langle D, I\right\rangle\models E\wedge F$となる．
+
+$E^\prime$が$E\vee F,E\to F,\neg E$の形のときも同様の議論により$\left\langle D, I\right\rangle\models E^\prime$ iff $\beta\vdash E^\prime$となる．なお$E\wedge F$の形の時には使わなかった事実として以下が成り立つことに注意すること:$\beta$は無矛盾かつ完全な理論なので，$\beta\not\vdash E$ iff $B\vdash\neg E$である．\\
 
 \begin{comment}
-3.12 一階述語論理の場合のLKの強い
-形の完全性の証明
-443
-定理 56 強い形の完全性の証明:Bを言語Lの無 矛盾な理論とする．補題64より，言語Lを拡大 してL' とし，Bを拡大して B' として，無矛盾で witnessedな理論を得られる．B'はL' の理論であ る．これに補題65を適用して無矛盾かつ完全な 理論 3" を得る．B"はL' の理論であり，SCB" なので補題64より B" も witnessedな理論である． すると補題66より 3"はD = HUL であるような モデルを持つ． 補題64の証明: J( = {0}, 62, 63, ...})を新しい定
-444
-数記号の可算無限集合とする．KLN J = 0であ る．言語Lを拡大してKLY = KLUJとし，他の 記号は変えないものを言語 L' とする．KLは高々 可算無限集合なので，KLも可算無限集合とな る．言語 L' の論理式でちょうど一つの変数が自 由に一回以上出現し，他の変数は自由に出現しな
-いようなものをEとする．ここでは VL, KL, FL, PLいずれもが高々可算無限集合 なのでE のような論理式は可算無限個存在する． それらをE1, E2, E3,... E Pres とし，それぞれ に自由に出現する変数を 11, 12,03, ... EVとす
-445
-る．ここで，n」を，bnがEに現れないような最 小のnとする．以下，nk-1 まで定められている として，bnがE1, E2, E3,.., E,に現れないよう な最小のnを n とする． F " 3x;E; → E[bn, /axi ] としてL' の閉論理式 Fiを定義する．= {F1, F2,Fe,... } とする． {Ex | i = 1, 2,3,.}は，ちょうど一つの変数のみ が自由に一回以上出現する L' の論理式を全て尽 くしているので，L' の理論 3' が8の拡大であれば B' が witnessedであるのは明らかである．
-446
-- 3x Eであるような1自由変数のEはあるiによ りE = Erで，tabn, とすればよい．則ち(2)が 成り立つ． BをLの無矛盾な理論とするとき，♂の元はすべ て閉論理式なのでBUSがL' の理論であることは 明らかである．したがって BUSが無矛盾である ことを示せば(1) を示したことになる． 30 3 とし，BA Bk-1 U {Fx} とおくと，各 Bk は理論 であり，BUS = U. BK となる． U.. Bk が矛盾し ていれば，ある有限のkで BK が矛盾しているの
-447
-で，すべてのkについて B, が無矛盾であること を示せばBUS が無矛盾であることがいえる．こ れを帰納法で示す．まず，Bo = Bなのでこれは 無矛盾である．次に，Bi-1が無矛盾であるとし
-て B;が無矛盾であることを背理法で示す． Bi 上であると仮定する．帰納法の仮定より Bi-1トではないので，TC Bi-1であるような論 理式の有限列FがあってF,Tトが証明できるは ずである． 従って以下のような証明図を作ることができる． ここで S1, S2はシーケントを表すメタ変数で，大
-448
-きい証明図を分割表示するために導入した．
-E;[bn/x; ] Er[bnr/xi]
-= (--right) F -Er[On /vi], E, [on: /]
-(weakening) S1 "" 12c;E; -E;[br /avi], E;[bn; //x; ]
-S, "3x; E; → E;[br /z; }, T
-449
-Ei[z/gi] - Ei[z/gi]
-ー(--left) - Ei [z/xi], Ei[z/ri] ト
-(V-left) Fri - Ei, Eile/xi] F
-=(ヨ-left) Vi-Eị, dai E, F.
-ー (--left) 3x;E; E-Vxi-Ei
--- (weakening) 3riEx - Vei-Ei, Eilon; /vi]
-3riEi -VaiE^ -Ei[bnt/xi], Ei[bnt/gi]
-ト -Vei Ei - Ei[bn; /xi], ヨxi Ei → Ei[bnj/xi] (cut)
--Vai Ei ^ - Ei[on; /ii]
-S1
-- (^-right) (→-right) ．
-この証明図に現れない変数記号をxとし，証明図 のbn, を全て公に置換する． n; の与え方から6n, はTに現れないため，TE -VI-E; -Erfac/xi] の証明図となる．これを一般に以下が証明図の一
-450
-部となることと併せる．
-EFE ΓΕΕΛΕΙ ΕΛΕΕΕ
-- (^-left1)
-(cut) THE TF -vr;E; とTF -E[x/x; ] を証明できる．
-TE-E; [x /ti] (H-right)
-TE Vxi-Ei となるので，TE --E; と併せて Bi-1が無矛 盾であることに反する．
-451
-リンデンバウムの補題(補題65)の証明: まず準備として，a C Pret が無矛盾かつa より 真に大きいPres の部分集合が全て矛盾している 時，aは極大無矛盾であると言う．これは命題論 理の場合と同様の定義である． (極大)無矛盾な閉論理式の集合に対し，命題論理 の場合の補題20から補題23までと同様の補題が 成立する．但しGをa，ProをPrefに置き替え たものである．証明はほとんど並行して記述でき る．但し補題23の証明の後に書いてある，元の 論理式Gを極大化したG'の決定可能性について
-452
-は成り立たない．証明中のG - X が決定可能で はないためである． 与えられた無矛盾な理論 a に対し補題23(の Pres 版)を適用すると極大無矛盾な理論 a' を得
-る．補題21(同前)によりa'は完全である． ロ 補題66の証明: BC Pret なのでD = HULとお いて〈D, I> BとなるIを与えられればよい．
-I(c) ", I(f)(t1,.., ta) " f(t1,.., th).
-(99) (100)
-453
-として定数記号と函数の意味を定める(エルブラ ン解釈)．ここにI(C)のcはKの元としてのcで あり，右辺のcは HULの元としてのcである．同 様にI(f)の f は F の元であり，t1,..., tと右辺の f(t1,.., th)はHUL の元である．また，
-I(p)(t1,.., th) =TH BF p(t1,...,ts)
-(t1,...,tr E HUL). (101)
-としてI(p)を定める．すると 〈D, I〉 = p(t1, ...,ts) iff B pt1,...,ts)となる．
-454
-以下では，閉論理式E' Prefについて 〈D, I> E' iff BF E'であることをE'に現れる AV → - V3の数の合計 no(E')による帰納法によ り証明する．これが証明できれば，任意のFEB について，BFFであることから〈D, I〉 F と なり，《D, I〉がBのモデルになっていることが示 される． 1. no(E') = 0，すなわちE' EAALのとき E = p(t1,.... th)の形である．t1,.... tyは閉項な ので，先に見た通りI(p)(t1,..., th) iff BE pt1,.... tw)であり，帰納法のベースは満たさ
-455
-れている． 2a. E' = EAFの形の時，EもFも閉論理式で ある．no(E) < no(E')，no(F) < no(E') となる ので，帰納法の仮定により 〈D, I> Eiff BF E であり，《D, I> Fiff BF F である． ここで〈D, I〉 EAFを仮定すると〈D, I〉 E かつ(D, I〉 — Fなので，帰納法の仮定より BEEかつBFFである．したがってT.CBで あるような有限列TがあってTEEがLKで証明 でき，△, C B, AFFについて同様のことが成 り立つ．すると以下のようにしてT, AF EAF
-456
-が証明できるため，BE EAFとなる．
-TEE (weakening, AFF con TAFE exchange) TALE (Weakening)
-Γ, ΔΕΕΛF
-- (1-right) 逆にTsa C B, TF EAFであれば，以下のよう にしてTFEとなり，同様にしてTIFとなる．
-EEE
-- (^-left2) ΓΕ ΕΛF ΕΛFEE
-THE
-457
-したがって BEEかつ BFFである．すると帰納 法の仮定より 〈D,IF E かつ(D,I) F とな り，〈D,I) - EAFとなる． E'がEVF,E → F,-Eの形のときも同様の議論 により〈D, I> > E' iff BF E'となる．なお EAFの形の時には使わなかった事実として以下 が成り立つことに注意すること:Bは無矛盾かつ 完全な理論なので，B4 Eiff BF -Eである． 2b. E' = VIEの形の時，Eが閉論理式の時と自 由変数としてのみが出現している時に分けられ る(この部分は，2つに分ずに以下の「後者の場
+2b. E' = VIEの形の時，Eが閉論理式の時と自 由変数としてのみが出現している時に分けられ る(この部分は，2つに分ずに以下の「後者の場
 458
 合」のみを考えて，後でEが閉の場合にはt= としてもよい)．
 ■前者の場合 no(E) < no(E')なので，帰納法の仮定より 〈D, I> > Eiff BF Eが成り立つ．また，その場 合には〈D, I> VrEiff 〈D, I〉 E であり，以 下の証明図からBF Eiff BF VEなので (D, I) E VxE iff B E VxE 43.

@@ -1,4 +1,4 @@
-\documentclass{ltjsarticle}
+\documentclass[autodetect-engine,dvipdfmx-if-dvi,ja=standard,a4j]{bxjsarticle}
 
 \usepackage{bm}
 \usepackage{array}
@@ -20,17 +20,21 @@
 \usepackage{braket}
 \usepackage{physics}
 \usepackage{listings,jvlisting}
-\usepackage{bussproofs}
 \usepackage{comment}
+\usepackage{bussproofs}
+\usepackage{pxrubrica} % ルビ
+\usepackage{ulem} % 取り消し線
 \usepackage[stable]{footmisc}
 
 \lstset{
   %	\begin{lstlisting}[caption=hoge,label=fuga]
   %		ソースコード
   %	\end{lstlisting}
+  %language = {C++},
+  %backgroundcolor={\color[gray]{.85}},
   basicstyle={\ttfamily},
   identifierstyle={\small},
-  commentstyle={\smallitshape},
+  commentstyle={\small\ttfamily},
   keywordstyle={\small\bfseries},
   ndkeywordstyle={\small},
   stringstyle={\small\ttfamily},
@@ -38,13 +42,14 @@
   breaklines=true,
   columns=[l]{fullflexible},
   numbers=left,
-  xrightmargin=0zw,
-  xleftmargin=3zw,
+  xrightmargin=0\zw,
+  xleftmargin=3\zw,
   numberstyle={\scriptsize},
   stepnumber=1,
-  numbersep=1zw,
+  numbersep=1\zw,
   lineskip=-0.5ex
 }
+%\renewcommand{\lstlistingname}{Program}
 
 \newtheoremstyle{mystyle1}% スタイル名
   {}% 上部スペース
@@ -101,14 +106,14 @@
 \makeatletter
 \renewenvironment{proof}[1][\proofname]{\par
   \pushQED{\qed}%
-  \normalfont
-  \topsep6\p@\@plus6\p@ \trivlist
-  \item[\hskip\labelsep{\bfseries\sffamily #1}]\ignorespaces
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \trivlist
+  \item\relax
+  {\bfseries % ここを変えた
+  #1\@addpunct{.}}\hspace\labelsep\ignorespaces
 }{%
   \popQED\endtrivlist\@endpefalse
 }
-\renewcommand\proofname{証明:}
-\renewcommand{\qedsymbol}{\ensuremath{\square}}
 \makeatother
 
 \makeatletter

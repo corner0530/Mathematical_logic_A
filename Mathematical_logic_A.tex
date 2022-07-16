@@ -2627,44 +2627,57 @@ $\beta\subseteq\bPre_L^c$なので$D = HU_L$とおいて$\left\langle D, I\right
 したがって$\beta\vdash E$かつ$\beta\vdash F$である．すると帰納法の仮定より$\left\langle D, I\right\rangle\models E$かつ$\left\langle D, I\right\rangle\models F$となり，$\left\langle D, I\right\rangle\models E\wedge F$となる．
 
 $E^\prime$が$E\vee F,E\to F,\neg E$の形のときも同様の議論により$\left\langle D, I\right\rangle\models E^\prime$ iff $\beta\vdash E^\prime$となる．なお$E\wedge F$の形の時には使わなかった事実として以下が成り立つことに注意すること:$\beta$は無矛盾かつ完全な理論なので，$\beta\not\vdash E$ iff $B\vdash\neg E$である．\\
+2b. $E^\prime =\forall x\;E$の形の時，$E$が閉論理式の時と自由変数としてのみが出現している時に分けられる(この部分は，2つに分ずに以下の「後者の場合」のみを考えて，後で$E$が閉の場合には$t\equiv b_1$としてもよい)．
+\paragraph{前者の場合}
+$\text{no}\qty(E) < \text{no}\qty(E^\prime)$なので，帰納法の仮定より$\left\langle D, I\right\rangle\models E$ iff $\beta\vdash E$が成り立つ．また，その場合には$\left\langle D, I\right\rangle\models\forall x\;E$ iff $\left\langle D, I\right\rangle\models E$であり，以下の証明図から$\beta\vdash E$ iff $\beta\vdash\forall x\;E$なので$\left\langle D, I\right\rangle\models\forall x\;E$ iff $\beta\vdash\forall x\;E$となる.
+\begin{prooftree}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Gamma\vdash E$}
+  \RightLabel{\scriptsize ($\forall$-right)}
+  \UnaryInfC{$\Gamma\vdash\forall x\;E$}
+\end{prooftree}
+\begin{prooftree}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Gamma\vdash\forall x\;E$}
+  \AxiomC{$E\vdash E$}
+  \RightLabel{\scriptsize ($\forall$-left)}
+  \UnaryInfC{$\forall x\;E\vdash E$}
+  \RightLabel{\scriptsize (cut)}
+  \BinaryInfC{$\Gamma\vdash E$}
+\end{prooftree}
+\paragraph{後者の場合}
+$E$に$x$の自由な出現が1回以上ある場合である．
 
-\begin{comment}
-2b. E' = VIEの形の時，Eが閉論理式の時と自 由変数としてのみが出現している時に分けられ る(この部分は，2つに分ずに以下の「後者の場
-458
-合」のみを考えて，後でEが閉の場合にはt= としてもよい)．
-■前者の場合 no(E) < no(E')なので，帰納法の仮定より 〈D, I> > Eiff BF Eが成り立つ．また，その場 合には〈D, I> VrEiff 〈D, I〉 E であり，以 下の証明図からBF Eiff BF VEなので (D, I) E VxE iff B E VxE 43.
-459
-TEE
-TEHF (V-right)
-EFE_ (H-left)
-TE HE HxEEE
-THE
-(cut)
-■後者の場合
-Eにxの自由な出現が1回以上ある場合である．
-((D, I) E VxE + BE VxE) BH VxEYE らば〈D, I〉 - VuEを示す．Bは完全なので
-460
-BH VxE2532ZD BE VxET. 23bIs CB, TE VxE27 Tubo
-Ez/x] E E[z/x]
-- (--right) + E[z/x], -E[z/x]
-- (3-right) E E[z/x], 3x-E EVxE, 3x-E
-= (V-right, *28)
-"
--(--left) TE VxE VxE F 3x-E
-(cut) TE 3x-E
-461
-上の証明図より BF 3x-Eが証明できる．Bは witnessedなので，基礎項tがあって BE -E[t/a] である．補題の仮定よりBは無矛盾なので， By E[t/]である．すると， no(E[t/x]) = no(E) < no(VxE) = no(E') TDS ることと，tが基礎項でE[t/ar] Pref なので帰 納法の仮定を使って〈D, I> LE[t/x] となる．同 じ理由でどんなに対しても〈D, I> E[t/ac] iff 〈D,I), vE[t/ar]である故，どんなルに対して
-*28 zは下の行に現れない新しい変数．
-462
-も〈D,I), v = E[t/a] となる．D = HULなの で，任意の基礎項SE D，(99) ・ (100)等で定義 したI，任意のに対し〈D,I),v[s/x] = Eiff 〈D,I),v E[s/] が成り立つため，どんなに 対しても〈D, I),v[t/ac] ¥ E となる．上の定義よ り，〈D,I),v = VuEiff 全てのdEDについて 〈D, I),v[d/x] Eだからどんなに対しても (D, I), v E VxE76 3. VxE E Pre Ents vrt LT (D, I) E VxE iff (D, I), v E VxE なので結局〈D, I> VIEが言える． (B+VxE = (D,I) E VxE) ČR, BEVE)
-463
-{ $k (D, I) EVET . (D, I) E VxE iff (D, I), V = VxE iff A TOLED = HULKXit L (D, I), v[t/x] E E iff & Tote DKML (D, I), v E Est/x) iff È TOE E Drittu <D,I) > E[t/ac] 故，全てのtE D = HULに対
-し〈D, I> > E[t/a] を示せばよい． まず，BF VEより，TCBである「と TF VIE の証明があるので，任意のtE Dに対し て以下の証明図のように BE E[t/z]である． E[t/z]は閉論理式なので，帰納法の仮定より 〈D, I> E[t/a]が成り立つ．
-464
-E[t/ar] - E[t/ar] |
-- (V-left) TEVE VxEF E[t/x]
-!? (cut) TE E[t/x] 2c. E' = 3CEの形の時については省略する．2b の場合と似た道筋で証明できる(Vの場合と逆に， BE3xEDP 5 (D,I) = 3xEXTR
-witnessed という性質を用いる)．
-465
-\end{comment}
+$\qty(\left\langle D, I\right\rangle\models\forall x\;E\Rightarrow\beta\vdash\forall x\;E)$\ まず，$\beta\not\vdash\forall x\;E$ならば$\left\langle D, I\right\rangle\not\models\forall x\;E$を示す．$\beta$は完全なので$\beta\not\vdash\forall x\;E$とすると定義より$\beta\vdash\neg\forall x\;E$である．つまり$\Gamma_x\subseteq\beta, \Gamma\vdash\neg\forall x\;E$となっている．
+\begin{prooftree}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Gamma\vdash\neg\forall x\;E$}
+  \AxiomC{$E\qty[z/x]\vdash E\qty[z/x]$}
+  \RightLabel{\scriptsize ($\neg$-right)}
+  \UnaryInfC{$\vdash E\qty[z/x],\neg E\qty[z/x]$}
+  \RightLabel{\scriptsize ($\exists$-right)}
+  \UnaryInfC{$\vdash E\qty[z/x],\exists x\;\neg E$}
+  \RightLabel{\scriptsize ($\forall$-right,\footnote{$z$は下の行に現れない新しい変数．})}
+  \UnaryInfC{$\vdash\forall x\;E,\exists x\;\neg E$}
+  \RightLabel{\scriptsize ($\neg$-left)}
+  \UnaryInfC{$\neg\forall x\;E\vdash\exists x\;\neg E$}
+  \RightLabel{\scriptsize (cut)}
+  \BinaryInfC{$\Gamma\vdash\exists x\;\neg E$}
+\end{prooftree}
+上の証明図より$\beta\vdash\exists x\neg E$が証明できる．$\beta$はwitnessedなので，基礎項$t$があって$\beta\vdash\neg E\qty[t/x]$である．補題の仮定より$\beta$は無矛盾なので，$\beta\not\vdash E\qty[t/x]$である．すると，$\text{no}\qty(E\qty[t/x])=\text{no}\qty(E)<\text{no}\qty(\forall x\;E)=\text{no}\qty(E^\prime)$であることと，$t$が基礎項で$E\qty[t/x]\in\bPre_L^c$なので帰納法の仮定を使って$\left\langle D, I\right\rangle\not\models E\qty[t/x]$となる．同じ理由でどんな$\nu$に対しても$\left\langle D, I\right\rangle\models E\qty[t/x]$ iff $\left\langle D, I\right\rangle,\nu\models E\qty[t/x]$である故，どんな$\nu$に対しても$\left\langle D, I\right\rangle,\nu\not\models E\qty[t/x]$となる．$D = HU_L$なので，任意の基礎項$s\in D$，(99)・(100)等で定義した$I$，任意の$\nu$に対し$\left\langle D, I\right\rangle,\nu\qty[s/x]\models E$ iff $\left\langle D, I\right\rangle,\nu\models E\qty[s/x]$が成り立つため，どんな$\nu$に対しても$\left\langle D, I\right\rangle,\nu\qty[t/x]\not\models E$となる．$\models$の定義より，$\left\langle D, I\right\rangle,\nu\models\forall x\;E$ iff 全ての$d\in D$について$\left\langle D, I\right\rangle,\nu\qty[d/x]\models E$だからどんな$\nu$に対しても$\left\langle D, I\right\rangle,\nu\not\models\forall x\;E$である．$\forall x\;E\in\bPre_L^c$故どんな$\nu$に対しても$\left\langle D, I\right\rangle\models\forall x\;E$ iff $\left\langle D, I\right\rangle,\nu\models\forall x\;E$なので結局$\left\langle D, I\right\rangle\not\models\forall x\;E$が言える．
+
+($\beta\vdash\forall x\;E\Rightarrow\left\langle D,I\right\rangle\models\forall x\;E$)\ 逆に，$\beta\vdash\forall x\;E$のときに$\left\langle D,I\right\rangle\models\forall x\;E$を示す．$\left\langle D,I\right\rangle\models\forall x\;E$ iff $\left\langle D,I\right\rangle,\nu\models\forall x\;E$ iff 全ての$t\in D=HU_L$に対し$\left\langle D,I\right\rangle,\nu\qty[t/x]\models E$ iff 全ての$t\in D$に対し$\left\langle D,I\right\rangle,\nu\models E\qty[t/x]$ iff $\left\langle D,I\right\rangle\models E\qty[t/x]$故，全ての$t\in D = HU_L$に対し$\left\langle D,I\right\rangle\models E\qty[t/x]$を示せばよい．
+
+まず，$\beta\vdash\forall x\;E$より，$\Gamma_s\subseteq\beta$である$\Gamma$と$\Gamma\vdash\forall x\;E$の証明があるので，任意の$t\in D$に対して以下の証明図のように$\beta\vdash E\qty[t/x]$である．$E\qty[t/x]$は閉論理式なので，帰納法の仮定より$\left\langle D,I\right\rangle\models E\qty[t/x]$が成り立つ．
+\begin{prooftree}
+  \AxiomC{$\cdots$}
+  \UnaryInfC{$\Gamma\vdash\forall x\;E$}
+  \AxiomC{$E\qty[t/x]\vdash E\qty[t/x]$}
+  \RightLabel{\scriptsize ($\forall$-left)}
+  \UnaryInfC{$\forall x\;E\vdash E\qty[t/x]$}
+  \RightLabel{\scriptsize (cut)}
+  \BinaryInfC{$\Gamma\vdash E\qty[t/x]$}
+\end{prooftree}
+
+\noindent 2c. $E^\prime =\exists x\;E$の形の時については省略する．2bの場合と似た道筋で証明できる($\forall$の場合と逆に，$\beta\vdash\exists x\;E$から$\left\langle D,I\right\rangle\models\exists x\;E$を示す時にwitnessedという性質を用いる)．\ $\square$
 \end{document}

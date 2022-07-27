@@ -714,7 +714,7 @@ $X'[]\dequiv\uA\to[]\in\bPro_{[]},Y \dequiv\uB\in\bPro$のとき，$X'[Y] \equiv
 \red{論理積標準形}(conjunctive normal form, CNF)というのは，1レベル目がすべて論理積$\wedge$で結ばれていて，2レベル目がすべて論理和$\vee$で結ばれ，3レベル目が命題変数か，あるいはそれに否定$\neg$が一つだけ付いた形になっているものである．
 
 $\wedge, \vee$は意味論的にはそれぞれ結合法則と交換法則を満たしているので，意味論的な取り扱いの際には$\wedge$同士，$\vee$同士の括弧を外しても問題ない\footnote{厳密に言えば意味論的な同値で割る(同値類を作る)と結合法則と交換法則を満たす．}．従ってこのような扱い方をする場合がある\footnote{後述のように完全性定理が成り立つので証明論的にも問題ない．}．
-\subsubsection*{■例:}
+\paragraph{例:}
 $(\uA\vee\neg\uB)\wedge(\neg\uC\vee\neg\uB\vee\uD)\wedge\uB,\neg\uA\wedge(\uC\vee\neg\uB\vee\uE)\wedge(\uB\vee\uE)$
 
 論理式として論理定数TやFが許されている場合には，ここではT,Fを1レベル目の式として付け加えておくことにする．つまりT, Fそのものも標準形ということである．論理定数を導入していない場合には，トートロジーである標準形の論理式は$\uA\vee\neg\uA$などである．一応，一番上のレベルも1つ以上必要だからである．またここでは$\wedge$と$\vee$が列を引数に取るように書いている．これは先に出てきたように意味的には結合法則が成り立つからで，多項式の場合の$\cdot$や$+$と同様である．ただし正式にはどちらかに結合するとしておく必要がある．ここでは例えば$P\vee Q\vee R\vee S$は$P\wedge(Q\wedge(R\wedge S))$を表すとしておく．
@@ -737,10 +737,10 @@ CNFにはこのままでは冗長性がある場合がある．CNF$X$に2つの�
 \subsubsection{真理値表から論理積標準形を求める}
 任意に真理値表を与えられたときに，その真理値表を持つようなCNFの論理式を与える手続きがある．これにより\red{二値論理の場合，命題論理の論理式ですべての真理函数を表せる}ことがわかる．また，論理式$X$の真理値表を求めればそれから$X$のCNFを求めることができる．
 
-入力の命題変数を$A_1,\ldots,A_n$として，真理値表が与えられているとする．結果の真偽値が$\bF$となる各行$l = 1, \ldots, m$について，次のような節Cを一つずつ用意する．
+入力の命題変数を$A_1,\ldots,A_n$として，真理値表が与えられているとする．結果の真偽値が$\bF$となる各行$l = 1, \ldots, m$について，次のような節$C_l$を一つずつ用意する．
 \[C_l\dequal (\neg)A_1\vee\ldots\vee(\neg)A_n\]
 ここで$\neg$を付ける場合と付けない場合がある．その行の$A_i$の真偽値が$\bT$であれば$\neg$を付け，$\bF$であれば付けない．するとその行が表している命題変数の真偽値の状態の場合のみに$C_l$は$\bF$となる．従って次のCNFの論理式$Y$の真理値表は元の真理値表と一致する．
-\[Y \dequal C_1\wedge\cdots\vee C_m\]
+\[Y \dequal C_1\wedge\cdots\wedge C_m\]
 ただし$m=0$のとき，即ち$X$がトートロジーの時には$Y\dequiv A_1\vee\neg A_1$(あるいは論理定数Tがある場合にはT)などとする．
 
 このようにして求めたCNFには上の意味での冗長性はない．しかしさらに小さなCNFに置き換えられる場合がある．例えば$(P\vee A)\wedge(P\vee\neg A)$は$P$に置き換えることができる．
@@ -781,9 +781,9 @@ CNFにはこのままでは冗長性がある場合がある．CNF$X$に2つの�
 \end{enumerate}
 \subsubsection{論理和標準形}
 \red{論理和標準形}(disjunctive normal form, DNF)は論理積標準形の双対である．即ち，1レベル目がすべて論理和$\vee$で結ばれていて，2レベル目がすべて論理積$\wedge$で結ばれ，3レベル目がリテラルになっているものである．
-\subsubsection*{■例:}
-$(\uA\wedge\neg\uB)\vee(\neg\uC\wedge\neg\uB\wedge\uD)\vee\uB,(\neg\uB\uA)\vee\neg\uD\vee(\uA\wedge\uB)$
-\subsubsection*{■}
+\paragraph{例:}
+$(\uA\wedge\neg\uB)\vee(\neg\uC\wedge\neg\uB\wedge\uD)\vee\uB,(\neg\uB\wedge\uA)\vee\neg\uD\vee(\uA\wedge\uB)$
+\paragraph{}
 CNFのときと双対的に，論理定数を導入していない場合には，常に$\bF$を表すDNFの論理式は$\uA\wedge\neg\uA$などである．
 
 論理和標準形の場合にも，対応する論理式(を表す集合)を節と呼ぶ場合がある．
@@ -1379,7 +1379,7 @@ $\nu\qty(P)=\bT, \nu\qty(Q)=\bF$とすると，$\nu\models P\wedge Q\to \neg P\v
   \item $T$のいずれの葉のシーケントにも論理演算子が現れていなければ，手続きWを停止し，$T$を結果とする．
   \item そうでない場合，一つ以上の論理演算子が現れている葉のシーケントを選び，$s^\prime$とする(例えば一番左側のものを選んでもよい)．$s^\prime\equiv\Gamma\vdash\Delta$として，演算子が$\Gamma$または$\Delta$のどれかの論理式に現れている．それらから一つ選ぶ(やはり例えば一番左側のものとしてもよい)．
   \item $\Gamma$から選んだ場合，その論理式が一番左になければexchange-left'で一番左に移動する．論理演算子に応じて$\neg$-left, $\wedge$-left', $\vee$-left, $\to$-left'のうちいずれか一つを適用し，それらのインスタンスを選んだシーケントの上に繋いで$T$を延長する．
-  \item $\Delta$の場合には同様にexchange-right'で一番右に移動する．その後は$\Delta$の場合と同様にして$T$を延長する．
+  \item $\Delta$の場合には同様にexchange-right'で一番右に移動する．その後は$\Gamma$の場合と同様にして$T$を延長する．
   \item 1に戻る．
 \end{enumerate}
 \paragraph{停止性}
@@ -1787,9 +1787,8 @@ $\forall x_1\forall x_2\ldots\forall x_n$を省略して$\forall x_1, x_2,\ldots
 ()の使用を減らすため，論理記号の間に優先順位をつける．本稿では$\neg,\wedge,\vee,\to$についてはお互いの優先順位は命題論理の場合(2.1節の最後の部分を参照)と 同じで，量化子，即ち$\forall x,\exists x$の優先順位は$\wedge,\vee$と$\to$の間であるとする．即ち本稿では以下の2つの論理式は同等である．
 \begin{align*}
   \forall x\;p\qty(x)\wedge q\qty(x)&\to\neg\exists y\neg p\qty(y)\vee q\qty(y)\\
-  \qty(\forall x\qty(p\qty(x)\wedge q\qty(x)))&\to\neg\exists y\qty(\qty(\neg p\qty(y))\vee q\qty(y))\\
+  \qty(\forall x\qty(p\qty(x)\wedge q\qty(x)))&\to\neg\exists y\qty(\qty(\neg p\qty(y))\vee q\qty(y))
 \end{align*}
-
 量化子の優先順位を$\neg$と同じとする流儀もあるし，$\to$が連なった場合に右側の$\to$の式が括弧で囲まれていなくてもそちらが優先される流儀もあるので，注意してほしい．
 
 $K_L, F_L, P_L$が高々可算無限集合のとき，$\bPre_L$は可算無限集合，$TT_L,AA_L$は高々可算無限集合となる．このような言語$L$を\red{可算な言語}(countable language)という．
@@ -1997,8 +1996,8 @@ $D$が高々可算無限集合であるようなモデル$\left\langle D,I\right
   \item $\qty(\exists x\;F\to E)\leftrightarrow\forall x\;\qty(F\to E)$
   \item $\neg\forall x\;E\leftrightarrow\exists x\neg E$
   \item $\neg\exists x\;E\leftrightarrow\forall x\neg E$
-  \item $\forall x\;yE\leftrightarrow\forall y,xE$
-  \item $\exists x\;yE\leftrightarrow\exists y,xE$
+  \item $\forall x,y\;E\leftrightarrow\forall y,x\;E$
+  \item $\exists x,y\;E\leftrightarrow\exists y,x\;E$
   \item $\forall x\;E\wedge F\leftrightarrow\qty(\forall x\;E)\wedge\forall x\;F$
   \item $\exists x\;E\vee F\leftrightarrow\qty(\exists x\;E)\vee\exists x\;F$
   \item $\exists x\qty(E\to F)\leftrightarrow\qty(\forall x\;E\to\exists x\;F)$
